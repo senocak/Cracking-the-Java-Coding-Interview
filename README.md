@@ -106,3 +106,18 @@ Java virtual machine
 
 The piece of software that can run your Java code. The JVM does many things for you besides running your application among many other things. It handles the memory of your application with an element called the `Garbage Collector` or `GC`. It optimizes the code that you're running with another element called the `Just In Time` compiler or `JIT` and it handles the security of your application making sure that no undesired code can sneak in and be executed on your behalf. One last word if someone talks to you about hotspot that's the name of the open sourced jvm developed by defaults at the Open JDK.
 </details>
+
+## 7. How can you sort an array?
+<details>
+  <summary>Short Answer</summary>
+
+There is a method for that called `Arrays.sort(tab)` that's all. Pass your retreat and that's it.
+</details>
+
+<details>
+  <summary>Less Short Answer</summary>
+
+When you need to sort something, forget about writing a sort algorithm yourself. What about the best sorting algorithm that's actually a tough question but you don't need to worry about that because a `Arrays.sort(...)` does the job for you. Now if you really want to shine during an interview, you can cite three algorithms, `QuickSort`, `HeapSort` and `TimSort`.
+
+The one used in a `Arrays.sort(...)` is called `dual pivot quicksort`. One last word never cite `BubbleSort` unless you want to say that it's a terrible algorithm
+</details>
