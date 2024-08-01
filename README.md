@@ -194,3 +194,18 @@ You have a clone method on Arrays `array.clone()` internally it returns an objec
   
   StringBuilder is a modifiable class so the letters are reversed internally. One last word to get the reversed string, you just need to call `toString()` on your StringBuilder object
 </details>
+
+## 13. What is the functional interface?
+<details>
+  <summary>Short Answer</summary>
+
+An interface with only one abstract method
+</details>
+
+<details>
+  <summary>Less Short Answer</summary>
+
+Functional interfaces can be implemented with `Lambda Expressions`. Java is a statically typed language so all your variables have a type and all these types are known at compile time. The type of a Lambda is always a functional interface, no exception. A functional interface can contain any number of default all static methods it can have any method from the object class as abstract methods and only one abstract method that is the one that your Lambda has to implement.
+
+One last word you can add the `@FunctionalInterface` annotation on your interface the compiler will then tell you if you got it right or not
+</details>
