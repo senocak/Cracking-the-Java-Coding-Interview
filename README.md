@@ -136,3 +136,20 @@ There is no way to modify an instance of the string class that one it has been c
 
 One last word, you use a plus(`+`) to concatenate strings, forget about using the old string builder pattern, it's useless well most of the time
 </details>
+
+## 9. What is the difference between equally call(==) and equals
+<details>
+  <summary>Short Answer</summary>
+
+Equally called(==) compare the references and equals calls a method
+</details>
+
+<details>
+  <summary>Less Short Answer</summary>
+
+If you compare strings with equal equal(==) you may get the answer false even if the strings have the same value. In a nutshell equal equal(==) is good to compare things that are not objects, int, long and alike.
+
+You should never compare floats or double with equal equal(==) when you need to compare Floats or Double, what you should be doing is compute the absolute value of their differences and check if it is lesser than a very small value.
+
+One last thing everything is a reference in Java so most of the time calling equal equal(==)  on object is wrong
+</details>
