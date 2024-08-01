@@ -121,3 +121,18 @@ When you need to sort something, forget about writing a sort algorithm yourself.
 
 The one used in a `Arrays.sort(...)` is called `dual pivot quicksort`. One last word never cite `BubbleSort` unless you want to say that it's a terrible algorithm
 </details>
+
+## 8. What is the main characteristic of the String class?
+<details>
+  <summary>Short Answer</summary>
+
+This class(String) is non-modifiable
+</details>
+
+<details>
+  <summary>Less Short Answer</summary>
+
+There is no way to modify an instance of the string class that one it has been created so if you call `.toUpperCase()`, it does not change a string, it creates a new strings that holds the results. If you really want a string of characters that you can modify then you can use a specific class called `StringBuilder`. It's not a string it actually wraps an array of chars or bytes you can modify the content of this array and you can create a string from it by calling `toString()` on it.
+
+One last word, you use a plus(`+`) to concatenate strings, forget about using the old string builder pattern, it's useless well most of the time
+</details>
