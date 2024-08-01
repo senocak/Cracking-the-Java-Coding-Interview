@@ -153,3 +153,16 @@ You should never compare floats or double with equal equal(==) when you need to 
 
 One last thing everything is a reference in Java so most of the time calling equal equal(==)  on object is wrong
 </details>
+
+## 10. What is the relationship between equals() and hashCode()
+<details>
+  <summary>Short Answer</summary>
+
+Java specification says, if two objects are equals then they should have the same `hashCode`
+</details>
+
+<details>
+  <summary>Less Short Answer</summary>
+
+It means that when you override `equals()` then you should always override `hashCode()` as well. The Java spec says two objects that are equals must have the same hash code but the contrary is not true, you can have two objects with the same hash code but that are different. One last thing always use your IDE to write these methods, first your IDE, do not forget to override both methods and second it will give you a better implementation than the one you will write well most of the time
+</details>
