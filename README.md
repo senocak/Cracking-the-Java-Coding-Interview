@@ -166,3 +166,16 @@ Java specification says, if two objects are equals then they should have the sam
 
 It means that when you override `equals()` then you should always override `hashCode()` as well. The Java spec says two objects that are equals must have the same hash code but the contrary is not true, you can have two objects with the same hash code but that are different. One last thing always use your IDE to write these methods, first your IDE, do not forget to override both methods and second it will give you a better implementation than the one you will write well most of the time
 </details>
+
+## 11. How can you duplicate an array?
+<details>
+  <summary>Short Answer</summary>
+
+You have two solutions `Arrays.copyOf()` and `System.arrayCopy()`
+</details>
+
+<details>
+  <summary>Less Short Answer</summary>
+
+You have a clone method on Arrays `array.clone()` internally it returns an object that is cast to the right type so performance wise it's not ideal. Both `Arrays.copyOf()` and `System.arrayCopy()` need a destination array in which they copy your source array. `Arrays.copyOf()` of can truncate your source array if it's bigger than the destination array or can add it if it's smaller. `System.arrayCopy()` has a richer API. It can copy a portion of your source array in the destination array. One last word, `Arrays.copyOf()` calls `System.arrayCopy()` internally, so you can use the one you prefer
+</details>
