@@ -179,3 +179,18 @@ You have two solutions `Arrays.copyOf()` and `System.arrayCopy()`
 
 You have a clone method on Arrays `array.clone()` internally it returns an object that is cast to the right type so performance wise it's not ideal. Both `Arrays.copyOf()` and `System.arrayCopy()` need a destination array in which they copy your source array. `Arrays.copyOf()` of can truncate your source array if it's bigger than the destination array or can add it if it's smaller. `System.arrayCopy()` has a richer API. It can copy a portion of your source array in the destination array. One last word, `Arrays.copyOf()` calls `System.arrayCopy()` internally, so you can use the one you prefer
 </details>
+
+## 12. how can you reverse a String?
+<details>
+  <summary>Short Answer</summary>
+
+  Wrap it in a `StringBuilder` and call `reverse()`
+</details>
+
+<details>
+  <summary>Less Short Answer</summary>
+
+  The string class is non-modifiable, so you cannot change what the string is. All you can do is create another string and that is the reverse of the first one. Looping over the letters of your string to reverse it is actually what the reverse method from `StringBuilder` is doing so don't bother re-inventing the wheel it's there for you to use it. 
+  
+  StringBuilder is a modifiable class so the letters are reversed internally. One last word to get the reversed string, you just need to call `toString()` on your StringBuilder object
+</details>
