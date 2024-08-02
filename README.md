@@ -250,3 +250,32 @@ An implementation of the list interface backed by an array
 
 ArrayList is sometimes called the dynamic array because when the internal array of an ArrayList becomes full, it is transparently copied in a larger array. Be careful though because this array can only grow, it never shrinks so when all the ArrayList can become really fat in your application and eat up a lot of memory. One last thing ArrayList is your best choice for list implementation forget about linked list. LinkedLists are good for Stacks, we'll talk more on that another time
 </details>
+
+## 17. What is Finally? & Explain Finally?
+<details>
+  <summary>Short Answer</summary>
+
+`Finally` marks a block after a try block that is always executed when the try block exits
+</details>
+
+<details>
+  <summary>Less Short Answer</summary>
+
+Always means even if there is a return, a continue, a break or an exception that causes the try block to exit. The finally block is the key tool to properly clean up resources that are not `Auto Closable` your best choice to open an auto closable resource is the try with resources statement because it takes care of the closing of this resource for you. Resources that are not Auto closable should be released in a finally block that's the case for `ReentrantLock` for instance or for `Semaphores`. One last word in case of a return in the try block the finally block is evaluated after the return
+
+```java
+class Scratch {
+    public static void main(String[] args) {
+        System.out.println("average = " + age());
+    }
+    private static int age() {
+        try {
+            return 1;
+        } finally {
+            return 2;
+        }
+    }
+}
+// average = 2
+```
+</details>
