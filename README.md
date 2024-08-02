@@ -309,3 +309,18 @@ Should you use string Builder to concatenate strings? Most of the time no if you
 
 One last word if you are joining string elements from a list or an array consider using `String.join()` the `StringJoiner` class and the `Collectors.joining()` character
 </details>
+
+## 20. How to make a Singleton?
+<details>
+  <summary>Short Answer</summary>
+
+One pattern, you use an `enum` with a single value
+</details>
+
+<details>
+  <summary>Less Short Answer</summary>
+
+The pattern that uses a class with a private Constructor, a private static field and a factory method that tests if the private field is new or not is more complex either non-thread safe or buggy or both, making it thread safe using a double check locking is also buggy. Just look for this bug on your favorite search engine. Using anonym is super simple, thread safe, guaranteed bug free at the jvm level and recommended by the best experts.
+
+One last word this any based pattern is used in many places in the jdk, you can check the source code of the `Comparator.naturalOrder()` factory method for example
+</details>
