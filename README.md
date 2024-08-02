@@ -209,3 +209,16 @@ Functional interfaces can be implemented with `Lambda Expressions`. Java is a st
 
 One last word you can add the `@FunctionalInterface` annotation on your interface the compiler will then tell you if you got it right or not
 </details>
+
+## 14. What is the difference between overriding and overloading
+<details>
+  <summary>Short Answer</summary>
+
+`overriding` has to do with inheritance, `overloading` does not
+</details>
+
+<details>
+  <summary>Less Short Answer</summary>
+
+`Overloading` is the same method with different parameters, `overriding` is the redefinition of a method from a superclass in a subclass. When your code calls a method with different overloads, the compiler decides which method to call so overloading is result at compile time. This is called early binding and Overriding is not. The compiler cannot resolve the call, it is result at runtime this is called late binding. One last word you can prevent a method from being overridden by declaring it final with the `final` keyword, you cannot prevent the method from having different overloads
+</details>
