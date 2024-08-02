@@ -279,3 +279,16 @@ class Scratch {
 // average = 2
 ```
 </details>
+
+## 18. How to make a class immutable?
+<details>
+  <summary>Short Answer</summary>
+
+Use `records` if you can
+</details>
+
+<details>
+  <summary>Less Short Answer</summary>
+
+If you cannot use record, make all the fields of this class `final` and don't forget to make this class `final` also because if you don't someone could add some mutable state to this class using inner returns and pass it around using polymorphism. Do not forget to make defensive copies of the modifiable objects you get as arguments in your Constructor like lists, maps and the alike and the same for your accessors make sure they do not leak references to your internal state that could be modifiable, use a defensive copy where you need it. One last thing String, Integer, Long and all the wrapper classes of the jdk are non-modifiable you can check them to see how they work
+</details>
