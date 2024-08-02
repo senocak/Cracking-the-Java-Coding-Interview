@@ -292,3 +292,20 @@ Use `records` if you can
 
 If you cannot use record, make all the fields of this class `final` and don't forget to make this class `final` also because if you don't someone could add some mutable state to this class using inner returns and pass it around using polymorphism. Do not forget to make defensive copies of the modifiable objects you get as arguments in your Constructor like lists, maps and the alike and the same for your accessors make sure they do not leak references to your internal state that could be modifiable, use a defensive copy where you need it. One last thing String, Integer, Long and all the wrapper classes of the jdk are non-modifiable you can check them to see how they work
 </details>
+
+## 19. What is the difference between String and StringBuffer and StringBuilder?
+<details>
+  <summary>Short Answer</summary>
+
+`String`is non-modifiable, `StringBuilder` is modifiable and `StringBuffer` is thread safe
+</details>
+
+<details>
+  <summary>Less Short Answer</summary>
+
+`StringBuffer` is rarely used. `StringBuilder` is nice for certain string manipulations like reversing a string or inserting a character.
+
+Should you use string Builder to concatenate strings? Most of the time no if you're using Java 9 and later, string concatenation with plus has been optimized. If you're using Java 8 then in many cases concatenation with plus is in fact compiled with `StringBuilder`
+
+One last word if you are joining string elements from a list or an array consider using `String.join()` the `StringJoiner` class and the `Collectors.joining()` character
+</details>
