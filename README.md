@@ -210,7 +210,7 @@ Functional interfaces can be implemented with `Lambda Expressions`. Java is a st
 One last word you can add the `@FunctionalInterface` annotation on your interface the compiler will then tell you if you got it right or not
 </details>
 
-## 14. What is the difference between overriding and overloading
+## 14. What is the difference between overriding and overloading?
 <details>
   <summary>Short Answer</summary>
 
@@ -223,7 +223,7 @@ One last word you can add the `@FunctionalInterface` annotation on your interfac
 `Overloading` is the same method with different parameters, `overriding` is the redefinition of a method from a superclass in a subclass. When your code calls a method with different overloads, the compiler decides which method to call so overloading is result at compile time. This is called early binding and Overriding is not. The compiler cannot resolve the call, it is result at runtime this is called late binding. One last word you can prevent a method from being overridden by declaring it final with the `final` keyword, you cannot prevent the method from having different overloads
 </details>
 
-## 15. What is a map
+## 15. What is a map?
 <details>
   <summary>Short Answer</summary>
 
@@ -236,4 +236,17 @@ An object that maps keys to values
   <summary>Less Short Answer</summary>
 
 Map is an interface from the `collections` framework, it's canonical implementation is a `HashMap`. You cannot have duplicates among the keys of a map and a given key can map a single value. There is no concept of multi-map in the `collections` framework where a key can be bound to several value, but you can map a key to a list of values. Only use non-modifiable objects for your keys small strings a few characters are enough or longer prefer them over integers even for small values. One last word the `HashMap` class supports null keys and null values but please don't do that, it will put you in trouble
+</details>
+
+## 16. What is an ArrayList?
+<details>
+  <summary>Short Answer</summary>
+
+An implementation of the list interface backed by an array
+</details>
+
+<details>
+  <summary>Less Short Answer</summary>
+
+ArrayList is sometimes called the dynamic array because when the internal array of an ArrayList becomes full, it is transparently copied in a larger array. Be careful though because this array can only grow, it never shrinks so when all the ArrayList can become really fat in your application and eat up a lot of memory. One last thing ArrayList is your best choice for list implementation forget about linked list. LinkedLists are good for Stacks, we'll talk more on that another time
 </details>
