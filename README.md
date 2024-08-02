@@ -222,3 +222,18 @@ One last word you can add the `@FunctionalInterface` annotation on your interfac
 
 `Overloading` is the same method with different parameters, `overriding` is the redefinition of a method from a superclass in a subclass. When your code calls a method with different overloads, the compiler decides which method to call so overloading is result at compile time. This is called early binding and Overriding is not. The compiler cannot resolve the call, it is result at runtime this is called late binding. One last word you can prevent a method from being overridden by declaring it final with the `final` keyword, you cannot prevent the method from having different overloads
 </details>
+
+## 15. What is a map
+<details>
+  <summary>Short Answer</summary>
+
+`Map is an interface`
+
+An object that maps keys to values
+</details>
+
+<details>
+  <summary>Less Short Answer</summary>
+
+Map is an interface from the `collections` framework, it's canonical implementation is a `HashMap`. You cannot have duplicates among the keys of a map and a given key can map a single value. There is no concept of multi-map in the `collections` framework where a key can be bound to several value, but you can map a key to a list of values. Only use non-modifiable objects for your keys small strings a few characters are enough or longer prefer them over integers even for small values. One last word the `HashMap` class supports null keys and null values but please don't do that, it will put you in trouble
+</details>
