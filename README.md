@@ -324,3 +324,18 @@ The pattern that uses a class with a private Constructor, a private static field
 
 One last word this any based pattern is used in many places in the jdk, you can check the source code of the `Comparator.naturalOrder()` factory method for example
 </details>
+
+## 21. What is a static method?
+<details>
+  <summary>Short Answer</summary>
+
+A method declared with the `static` keyword
+</details>
+
+<details>
+  <summary>Less Short Answer</summary>
+
+A method that you can invoke without creating any object. You can invoke a static method with a class name, you can even invoke a static method through a null object. A static method cannot call a `non-static` method from the same class. Static methods are useful to implement processors or computations some classes only have static methods like Math, Arrays or Collections.
+
+One last word, static methods are sometimes called Factory methods because they can be used to create objects in a certain way like `List.of()` that creates an empty list. Classes with only static methods are sometimes called Factory classes
+</details>
