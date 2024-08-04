@@ -387,3 +387,23 @@ There are four kinds of method references;
     ```
 One last word to translate a method reference to Lambda, you need to know its exact type. One very last word method references are there to improve the readability of your code so if you feel your code is actually less readable with them don't use them
 </details>
+
+## 24. What is the default method?
+<details>
+  <summary>Short Answer</summary>
+
+It's a regular method written in an interface
+
+`Default method = Concrete methods in an interface`
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Default methods have been added to the language in Java 8.
+
+`Java 7: no default methods`
+
+Prior to that all the methods in an interface had to be `abstract` so the abstract keyword for abstract methods is not mandatory in interfaces, for regular concrete methods you need to add the default keyword thus their name default method. Apart from that default methods are just regular methods. A default method from an interface can be used by any object that implements that interface, and they can be overridden in any concrete class.
+
+One last word in Java 8 default methods can only be `public` starting with Java 9 they can also be `private`
+</details>
