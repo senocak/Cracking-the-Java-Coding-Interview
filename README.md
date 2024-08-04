@@ -407,3 +407,17 @@ Prior to that all the methods in an interface had to be `abstract` so the abstra
 
 One last word in Java 8 default methods can only be `public` starting with Java 9 they can also be `private`
 </details>
+
+## 25. What does JIT mean?
+<details>
+  <summary>Short Answer</summary>
+
+JIT stands for `Just In Time Compiler`
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+What you have in a class file is the byte code of your class, this bytecode is first interpreted by your Java virtual machine. Running your Java code in that way is super slow so a first JIT compiler called `C1` compares it to machine language. The C1 compiler does a nice job but your compiled code can be optimized even further. That's the job of a second JIT compiler `C2`. C2 carefully analyzes the way your code is running and compiles it again to leverage some more optimization.
+
+One last word, if at some point C2 sees that it can do better it will de-optimize your code and optimize it again
+</details>
