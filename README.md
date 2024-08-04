@@ -339,3 +339,19 @@ A method that you can invoke without creating any object. You can invoke a stati
 
 One last word, static methods are sometimes called Factory methods because they can be used to create objects in a certain way like `List.of()` that creates an empty list. Classes with only static methods are sometimes called Factory classes
 </details>
+
+## 22. How can you find a character in a String?
+<details>
+  <summary>Short Answer</summary>
+
+There is a method for that called `indexOf()`
+</details>
+
+<details>
+  <summary>Less Short Answer</summary>
+
+The `string.indexOf()` method has several overloads, one just take a character in the form of an int, another char and int because Java supports Unicode and some characters cannot be encoded on a single char, another one takes a string because index of can also find small strings in bigger strings. Both can also take an index used to start the search from, indexOf returns the index or the first occurrence of the character or the string so if you want to find all the occurrences of a single letter you can loop in that way.
+
+One last word is the character or the string is not found index of returns -1
+
+</details>
