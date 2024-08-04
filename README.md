@@ -421,3 +421,19 @@ What you have in a class file is the byte code of your class, this bytecode is f
 
 One last word, if at some point C2 sees that it can do better it will de-optimize your code and optimize it again
 </details>
+
+## 26. What kind of method can you override?
+<details>
+  <summary>Short Answer</summary>
+
+Instance methods
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+`static` methods cannot be overridden because you call them using an explicit class name so even if a Class B extends a Class A and defines the same static method you can still call each of them. Instance method can be overridden as long as they are non-private, non-final and that their class can be extended. The obvious way to prevent a class from being extended is to make it `final`, but you can also declare it's NoArgConstructor private.
+
+`Safe way: copy the method declaration`
+
+One last word the safest way to override a method, just to copy its declaration in your extending class with the written type, the parameters and the exceptions, but you can be more certain than that and that will be for another time
+</details>
