@@ -353,5 +353,37 @@ There is a method for that called `indexOf()`
 The `string.indexOf()` method has several overloads, one just take a character in the form of an int, another char and int because Java supports Unicode and some characters cannot be encoded on a single char, another one takes a string because index of can also find small strings in bigger strings. Both can also take an index used to start the search from, indexOf returns the index or the first occurrence of the character or the string so if you want to find all the occurrences of a single letter you can loop in that way.
 
 One last word is the character or the string is not found index of returns -1
+</details>
 
+## 23. What is a method reference?
+<details>
+  <summary>Short Answer</summary>
+
+Another way of writing a Lambda expression
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+There are four kinds of method references;
+- `static method references`, this operator can be written in that way, and it also works with other types
+  - ```java
+    DoubleUnaryOperator op = d -> Math.sqrt(d);
+    DoubleUnaryOperator op = d -> Math::sqrt;
+    ```
+- `bound method references`, the classical `System.out::println` is a bound method reference
+  - ```java
+    Consumer<String> c = s -> System.out.println(s);
+    Consumer<String> c = System.out::println;
+    ```
+- `unbound method references`, are they may look like static calls like this one, but they are not so be careful
+  - ```java
+    ToIntFunction<String> f = s -> s.length();
+    ToIntFunction<String> f = String::length;
+    ```
+- `constructor method references` like this one
+  - ```java
+    Supplier<List<String>> sup = () -> new ArrayList<>();
+    Supplier<List<String>> sup = () -> ArrayList::new;
+    ```
+One last word to translate a method reference to Lambda, you need to know its exact type. One very last word method references are there to improve the readability of your code so if you feel your code is actually less readable with them don't use them
 </details>
