@@ -437,3 +437,17 @@ Instance methods
 
 One last word the safest way to override a method, just to copy its declaration in your extending class with the written type, the parameters and the exceptions, but you can be more certain than that and that will be for another time
 </details>
+
+## 27. What is the signature of a method?
+<details>
+  <summary>Short Answer</summary>
+
+Its name and its parameters
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Neither the return type of a method nor its declared exceptions are part of its signature because all the methods of a given class must have different signatures, you can have several methods with the same name as long as they have different parameters and these methods can have different written types, but it is not legal to have two methods with the same name, same parameters and just a different return type because they would have the same signature.
+
+One last word, this rule holds even if one of this method is abstract because it would force the implementation to break this rule
+</details>
