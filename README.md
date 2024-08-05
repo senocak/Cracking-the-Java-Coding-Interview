@@ -705,3 +705,23 @@ It has to do with how you can iterate over the elements of your collection. The 
 
 One last word, ordered collections are modeled by the lists in the collection framework, your favorite implementation is a `ArrayList` and sorted collections are modeled by navigable set implemented by `TreeSet`
 </details>
+
+## 42. How can you open a file for reading binary data?
+<details>
+  <summary>Short Answer</summary>
+
+There is a factory method for that on the Files class
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+The all patterns from java 1.1 based on the decoration pattern are still there, but you should use the files Factory class to create your readers, writers, input stream and output stream.
+
+```java
+Files.newInputStream(path);
+```
+
+The implementations you will get are built on top of java and IO (`java.io`) and they are going to give you better performances. You can still use The Decorator pattern if you need to build data input stream or data output streamed, gzip streams or streams that mixed text and data. 
+
+One last word, using the patterns from the files Factory class also give you final control on the opening of files on the `CharSet` you can use to read your text files and they are built to use the path object instead of file objects which is better
+</details>
