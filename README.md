@@ -852,3 +852,17 @@ Synchronization has to do with concurrent programming, this block of code can be
 
 One last word, never expose your key or your locks. It will help you prevent `Deadlocks` a situation that you absolutely want to avoid
 </details>
+
+## 50. What is the difference between a Collection and a Stream?
+<details>
+  <summary>Short Answer</summary>
+
+A collection contains an object, a stream is empty
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+A collection is meant to carry objects around with methods to handle them, most of the time your stream is an empty object that you can connect to a source of objects to process them this source can be a collection, an array and many other things. You can even connect a stream to your own source of data if you need it. It will then process your elements one by one lazily. Some methods like `findAny()` or `allMatch()` can interrupt the processing of these objects.
+
+One last word, there are actually two methods that need to remember the processed object; `distinct` and `sorted` so if you're using them then your stream will not be empty anymore
+</details>
