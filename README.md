@@ -652,3 +652,17 @@ var userComparatorWithNullsFirst = Comparator.nullsFirst(userComparator);
 var userComparatorWithNullsLast = Comparator.nullsLast(userComparator);
 ```
 </details>
+
+## 39. Can you cite functional interfaces that existed before Java 8?
+<details>
+  <summary>Short Answer</summary>
+
+`Runnable`, `Comparator`, `Iterable`
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+They are actually more, the definition of a functional interface is such that some existing interfacers became functional with Java 8. Because you can Implement a functional interface with a Lambda, it means that if you have old interfaces in your application that qualify for functional interfaces and then you can use lambdas to implement them without having to recompile them. That's why the `@FunctionalInterface` annotation is not mandatory on the functional interface.
+
+One last word, you want more sure `Executor` even `Comparable` is a functional interface though I'm not sure that you want to implement this one with another expression
+</details>
