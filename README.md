@@ -519,7 +519,14 @@ Yes and no, they do have one method that is called the same and take the same pa
 <details>
   <summary>Less Short Answer</summary>
 
-This method is called `foreach`, it takes a consumer and you have it on both the stream interface and the iterable interface that being said even if they are basically doing the same thing, these methods are not implemented in the same way. Most of the time you can call directly `collections.foreach(...)` instead of calling `collections.stream().foreach()` that makes you save the creation of the stream object if you don't use it why would you want to create it. 
+This method is called `foreach`, it takes a consumer and you have it on both the stream interface and the iterable interface that being said even if they are basically doing the same thing, these methods are not implemented in the same way. Most of the time you can call directly `collections.foreach(...)` instead of calling `collections.stream().foreach()` that makes you save the creation of the stream object if you don't use it why would you want to create it.
+
+```java
+List<String> letters = List.of("h","e","l","l","o");
+letters.forEach(System.out::println);
+
+letters.stream().forEach(System.out::println);
+```
 
 One last word, even if collections and streams are there to process data there are many differences between them but that's for another time
 </details>
