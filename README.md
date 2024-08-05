@@ -894,3 +894,17 @@ All your exceptions extend the `Exception.class` if an exception actually extend
 
 One last word, all these classes extend themselves the `Throwable.class` also extended by the `Error.class`. Errors are also unchecked exceptions but reserved for serious problems like Out Of Memory(OOM) error or Stack Overflow error
 </details>
+
+## 53. What is a Stream?
+<details>
+  <summary>Short Answer</summary>
+
+An object that implements the `map`, `filter`, `reduce` pattern
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+The stream consumes elements from a source and can do several operations these operations are organized in a pipeline where each element is passed from one step of the pipeline to the next one. Mapping an element consists in transforming it, filtering consists in deciding if this element should be transmitted or not based on a predicate and what you seeing may consist in many things summing the elements, extracting a min or a max or adding them to a list or a map.
+
+One last word, the stream API allows you to conduct these computations in parallel, still you need to be careful with that as always when it comes to optimizations measure don't guess
+</details>
