@@ -866,3 +866,17 @@ A collection is meant to carry objects around with methods to handle them, most 
 
 One last word, there are actually two methods that need to remember the processed object; `distinct` and `sorted` so if you're using them then your stream will not be empty anymore
 </details>
+
+## 51. What is the difference between a File and a Path?
+<details>
+  <summary>Short Answer</summary>
+
+A file is a class and the path is an interface
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+The file class is from java 1.0 but is from java and IO released with Java 7. An instance of file is the same no matter what file system you're using because path is an interface the instance you build depends on the file system. You can get attributes that are specific to these file systems like security attributes as of now you should favor the use of path objects over file objects.
+
+One last word, creating an instance of file all path does not create the corresponding file or directory on your disk, you need to call create new file on the file class or the `Files.createFile()` Factory method that takes a path as an argument to do that
+</details>
