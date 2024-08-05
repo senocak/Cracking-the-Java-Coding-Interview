@@ -1285,3 +1285,27 @@ This key is called the monitor when a thread reaches a synchronized block or a m
 
 One last word, try avoid synchronizing on objects that are public. That's a good rule to prevent Deadlocks a situation you absolutely want to avoid
 </details>
+
+## 74. What is a generic type?
+<details>
+  <summary>Short Answer</summary>
+
+A type that is parameterized over times
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Once defined along with the class, you can use this parameter in the class itself to define instance fields or instance methods. A single type can be parameterized over several types. Generics are massively used in a jdk, all the collection framework, the stream API are using generics so you can check these classes to see how you can use them and how they were created.
+
+```java
+class Box<T> {
+    void process() {
+        Class c = T.class;  // NO !!
+        T t = new T();      // NO !!
+        T[] ts = new T[10]; // NO !!
+    }
+}
+```
+
+One last word, the type `T` is actually erased it is replaced by object at runtime so there is a number of things you cannot do in your code. You cannot try to get the class of T because it will just return object you cannot call `new T()` or `new Array<T>` neither
+</details>
