@@ -1100,3 +1100,17 @@ System.out.println("i = " + v.index());
 
 One last word, you can use your IDE to see the type in further by the compiler and sometimes the result is unexpected
 </details>
+
+## 64. How can you create an Unmodifiable List?
+<details>
+  <summary>Short Answer</summary>
+
+With the factory method `List.of()`
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+There are actually several ways to do that but `List.of()` is the preferred one, be careful with the behavior of `Collections.unmodifiableList()` what it gives you is an unmodifiable view of a list but the list you give as an argument is not defensive copied so if you modify it then this modification will be seen through the view, on the other hand you can pass an array to `List.of()` that will be copied so no funny behavior there.
+
+One last word, be careful because `List.of()` does not accept null values. Why would you put null values in a list? You will get an exception at runtime if you pass an array with a null value in it
+</details>
