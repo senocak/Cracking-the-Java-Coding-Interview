@@ -608,3 +608,21 @@ There are two interfaces in the jdk to model these, queue, that models the fifo 
 
 One last word, there is a stack class in a jdk that is an extension of the vector class both `Stack` and `Vector` have been deprecated a long time ago, so you should not use them anymore
 </details>
+
+## 37. What is the GOF?
+<details>
+  <summary>Short Answer</summary>
+
+The nickname of the fundamental book on design patterns
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+The full title of this book is `Design patterns; Elements Of Reusable Object-Oriented Software`. it was published in 1994. The four authors are `Erich Gamma`, `Richard Helm`, `Ralph Johnson` and `John Vlissides`. This book contains a 23 design patterns in three categories; 
+
+- Creational: with the Builder, the Factory of the Singleton
+- Structural; with the Adapter, the Decorator of the Proxy
+- Behavioral; with the Iterator the Strategy of the Visitor.
+
+One last word, this book is a must read. The examples are written in C++ but it's easy enough to convert them to Java or to your favorite language
+</details>
