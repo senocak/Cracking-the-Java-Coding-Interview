@@ -626,3 +626,29 @@ The full title of this book is `Design patterns; Elements Of Reusable Object-Ori
 
 One last word, this book is a must read. The examples are written in C++ but it's easy enough to convert them to Java or to your favorite language
 </details>
+
+## 38. How can you create a Comparator?
+<details>
+  <summary>Short Answer</summary>
+
+Just use the factory methods of the comparator interface
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+This interface has a bunch of factory methods to create comparators that compare objects using one of their fields, it also has default methods to modify the behavior of a given comparator for instance you can compare people using their last name and in case you have people with the same last name you can then compare them using their first name. In case you want to use this comparator to sort a list of people but need to sort them in the reverse order and then you can call reversed on an existing comparator.
+
+```java
+var userComparator = Comparator
+        .comparing(User::lastName)
+        .thenComparing(User::firstName)
+        .reversed();
+```
+
+One last thing, null values are always painful to handle when you want to sort a list. The comparator interface has also a `nullsFirst` and `nullsLast`
+
+```java
+var userComparatorWithNullsFirst = Comparator.nullsFirst(userComparator);
+var userComparatorWithNullsLast = Comparator.nullsLast(userComparator);
+```
+</details>
