@@ -1021,3 +1021,17 @@ First, that would be a very long string indeed and second the number of characte
 
 One last word, the `String.class` changed in 2017 with Java9. The internal array used to be an array of chars 16 bits, it is now an array of bytes 8 bits. This optimization is called `Compact Strings` and can tremendously reduce the memory footprint of your application. One more reason to upgrade to the latest versions of the jdk
 </details>
+
+## 60. How does a Set know that it already contains an element?
+<details>
+  <summary>Short Answer</summary>
+
+It uses the `hashCode()` of the object, if it finds something then it calls the `equals()` method
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+A HashSet stalls its objects in the cells of an array. The index of the cell for a given object is computed from the `hashCode()` of this object. This process is very fast because it does not depend on the amount of elements you have in your set. Of course there is a mechanism to handle collisions that is if two different objects happen to have the same hash code.
+
+One last word, because of that HashSet will not work if you override `equals()` for your object without overriding `hashCode()` and one very last word, do not mutate an object once it has been added to a set because you will not be able to find it again
+</details>
