@@ -764,3 +764,17 @@ First point, it's a set so it doesn't have any duplicates if you add two element
 
 One last word, the default implementation is `TreeSet` which implements a red black tree
 </details>
+
+## 45. What pattern has been used to create the Java I/O API?
+<details>
+  <summary>Short Answer</summary>
+
+The Decorator pattern
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+The Decorator pattern is a `Structural Pattern` from the `Gang of Four` (GoF) book. A decorator is in fact a wrapper on an object that extends the class of that object, it may add more methods or change the way the existing methods are working. Wrapping an existing object means that it's Constructor takes an object of the superclass as a parameter so it is both `an extension` and `a composition` for instance `BufferedReader` extends reader and as the readline method, plus the reading works with a buffer.
+
+One last word, you should use the `Files` factory class to build the base objects you need to read and write content to files, but you can still decorate them to add features to the base objects you get
+</details>
