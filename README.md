@@ -573,3 +573,22 @@ Collections of course this is the most common way but the jdk offers much more t
 
 One last word, be careful that the processing of a stream should not modify its source while it is consuming it. If you do that then the result you will get is unpredictable
 </details>
+
+## 35. What is the groupingBy()?
+<details>
+  <summary>Short Answer</summary>
+
+A collector, you can use to build maps that are in fact histograms from the elements of a stream
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+The pattern is `stream().collect(...)` and pass `Collectors.groupingBy(...)` and then you need to pass a function to this groupingBy() this function maps each element of your stream to a key that is then added to your map. The corresponding element is itself added to a list bound to this key so if several elements of your streams are mapped to the same key you will find them together in this list.
+
+```java
+List<String> letters = List.of("h", "e", "l", "l", "o");
+letters.stream().collect(Collectors.groupingBy(City::state))
+```
+
+One last word, you can post process this list with another character, pass as a second argument to this grouping by, this other character is called the downstream character
+</details>
