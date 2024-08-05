@@ -1,4 +1,4 @@
-# Java Coding Tips
+# Cracking the Java Coding Interview
 
 ## 1. What is Java?
 <details>
@@ -631,7 +631,7 @@ One last word, this book is a must read. The examples are written in C++ but it'
 <details>
   <summary>Short Answer</summary>
 
-Just use the factory methods of the comparator interface
+Just use the factory methods of the `Comparator` interface
 </details>
 <details>
   <summary>Less Short Answer</summary>
@@ -671,7 +671,7 @@ One last word, you want more sure `Executor` even `Comparable` is a functional i
 <details>
   <summary>Short Answer</summary>
 
-There is a factory method for that in the Files class
+There is a factory method for that in the `Files` class
 </details>
 <details>
   <summary>Less Short Answer</summary>
@@ -710,7 +710,7 @@ One last word, ordered collections are modeled by the lists in the collection fr
 <details>
   <summary>Short Answer</summary>
 
-There is a factory method for that on the Files class
+There is a factory method for that on the `Files` class
 </details>
 <details>
   <summary>Less Short Answer</summary>
@@ -724,4 +724,29 @@ Files.newInputStream(path);
 The implementations you will get are built on top of java and IO (`java.io`) and they are going to give you better performances. You can still use The Decorator pattern if you need to build data input stream or data output streamed, gzip streams or streams that mixed text and data. 
 
 One last word, using the patterns from the files Factory class also give you final control on the opening of files on the `CharSet` you can use to read your text files and they are built to use the path object instead of file objects which is better
+</details>
+
+## 43. How can you print an array on the console?
+<details>
+  <summary>Short Answer</summary>
+
+Use the factory method from the `Arrays` class
+
+```java
+Arrays.toString(array);
+```
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+An Array is an object but with a default to string method that you cannot override so printing it on the console directly gives you something that you do not want. You can call `Arrays.toString()` and pass your array it will print the content of your array on called toString() on each element of this array if it is an object. If you are not happy with the formatting you then need to iterate on the elements of this array or create a stream on it and create the strings of characters you need.
+
+```java
+var result = Arrays.stream(new String[]{"one", "two"})
+        .map(Object::toString)
+        .collect(Collectors.joining(",", "{", "}"));
+System.out.println(result); // {one,two}
+```
+
+One last word, you can use arrays in the foreach pattern, this pattern works for any object that implements the `iterable` interface, now interval declares a foreach method, but you cannot call it on arrays
 </details>
