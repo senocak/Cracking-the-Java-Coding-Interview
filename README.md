@@ -965,3 +965,17 @@ public class RangeIterator implements Iterator<Integer> {
 
 One last word, the iterator pattern is actually a pattern from the `Gang of Four` (GoF) book. Did I already mentioned that this book is a must read?
 </details>
+
+## 57. What are the four Java I/O based classes?
+<details>
+  <summary>Short Answer</summary>
+
+`Reader`, `Writer`, `InputStream` and `OutputStream`
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+These are the four abstract classes that define the basic operations for reading and writing characters and binary data. They have been designed in the mid 90s and you should not use them directly anymore. The preferred patterns that you should use are the factory methods from the `Files.class` these are a `new BufferedReader()` and `new BufferedWriter()` for the reading and writing of characters and `new InputStream()` and `new OutputStream()` for the reading and writing of binary data. These factory methods give you instances built on top of `java.nio`
+
+One last word, you can still decorate the instances you get following the general pattern of the `java.io` API
+</details>
