@@ -1271,3 +1271,17 @@ List<City> cities = countries.stream()
 ```
 One last word, a mapping does not change the number of objects your stream processors, where a flat map does. It can even produce zero elements
 </details>
+
+## 73. How is synchronization working?
+<details>
+  <summary>Short Answer</summary>
+
+It works with the key held by the object you synchronize your block of code with
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+This key is called the monitor when a thread reaches a synchronized block or a method it asks this object for its key, if the key is available it takes it and run the code, if not it will have to wait until the key comes back. You absolutely want to avoid situations where the key never comes back usually because of `Deadlocks` but not only. In the case of an instance method the object that holds the key is simply this and in the case of a static method, the object is the class.
+
+One last word, try avoid synchronizing on objects that are public. That's a good rule to prevent Deadlocks a situation you absolutely want to avoid
+</details>
