@@ -1114,3 +1114,21 @@ There are actually several ways to do that but `List.of()` is the preferred one,
 
 One last word, be careful because `List.of()` does not accept null values. Why would you put null values in a list? You will get an exception at runtime if you pass an array with a null value in it
 </details>
+
+## 66. How can you create a file on the disk with Java I/O?
+<details>
+  <summary>Short Answer</summary>
+
+Use the create file factory method from the `Files.class`
+
+```java
+Files.createFile(...)
+```
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+There is also a create new file on the file class that is the legacy way of creating files. Creating a writer on output stream on a file can also create this file for you, once again the preferred pattern are in the Files factory class, you can check the new BufferWriter or new OutputStream factory methods they both take an open option arguments standard open options include read, write, append, create or create new among others.
+
+One last word, depending on your file system you can also pass a five attributes to a file creation to handle security for instance
+</details>
