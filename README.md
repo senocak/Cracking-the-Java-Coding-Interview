@@ -479,3 +479,19 @@ There are no duplicate elements in the set
 
 One last word, if you need both the iterability property of arraylist and the fast container implementation you may take a look at the `LinkedHashSet` class which unfortunately is not released
 </details>
+
+## 30. How does finalize work?
+<details>
+  <summary>Short Answer</summary>
+
+It does not work
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+`finalize` has been deprecated in Java 9 and deprecated for removal in Java 18, so stop using it. `finalize` is supposed to be a method called by some undefined elements when the garbage collector detects that an object is not reachable anymore.
+
+Here are two of the major issues with finalizer; first, the thread running finalized is not specified those are that you can get race conditions in this method. Second, it may take a lot of time for this method to be called, the correctness of your code should never rely on the fact that finalize is called.
+
+One last word, there is a replacement pattern called `The Cleaner Pattern` you can check the cleaner class for more information
+</details>
