@@ -908,3 +908,17 @@ The stream consumes elements from a source and can do several operations these o
 
 One last word, the stream API allows you to conduct these computations in parallel, still you need to be careful with that as always when it comes to optimizations measure don't guess
 </details>
+
+## 54. What is the hash code of an object?
+<details>
+  <summary>Short Answer</summary>
+
+A mapping of an object to an integer
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+The idea behind the HashCode is to represent any object within it so that you can quickly tell if two objects are different by just comparing their Hash Code indeed the specification says that two objects that are equal must have the same as code but it turns out that two different objects may also have the same hash code so if two objects have different hash code then they cannot be equal but if they have the same hash code then you need to compare them to see if they are equal.
+
+One last word, there are many ways of computing hash codes some are better than others if you're not sure on what you need relying on your IDE to generate the hash code method is probably your safest choice
+</details>
