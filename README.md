@@ -824,3 +824,17 @@ public void countStream(String sentence, int letter) {
 }
 ```
 </details>
+
+## 48. What is a bucket in a Map?
+<details>
+  <summary>Short Answer</summary>
+
+A cell in an array
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+The HashMap class from the collections framework is backed by an array, when you add a key to a hashmap a special HashCode is evaluated for that key to choose which cell of the Array will receive the key value pair. It has already a different key value pair in this cell, this is called the `collision` and then a `LinkedList` is created to add this second pair and if there are too many, this LinkedList is actually replaced by your `Red Black Tree` to minimize collisions when the amount of key value pairs reaches `75%` of the size of the array then it is copied in a new larger array.
+
+One last word, this copying incurs the re-hashing of all the keys present in a map which may be costly so be careful about that and try to create maps with the right size
+</details>
