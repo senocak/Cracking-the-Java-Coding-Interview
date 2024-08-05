@@ -979,3 +979,17 @@ These are the four abstract classes that define the basic operations for reading
 
 One last word, you can still decorate the instances you get following the general pattern of the `java.io` API
 </details>
+
+## 58. How many objects can you put in a collection?
+<details>
+  <summary>Short Answer</summary>
+
+It depends on the implementation you have
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+`Arraylist` is backed by an array so the limit would be `Integer.MAX_VALUE`, you may be thinking that LinkedList would allow you to store more objects but in fact many things will fail for a LinkedList with more objects than `Integer.MAX_VALUE`. LinkedList counts its element with a field called `size` that is an int and bad things will happen if size reaches `Integer.MAX_VALUE`. The two error method from linked list will not work super well neither since arrays are also indexed by int.
+
+One last word, the same limit also exists from Maps but don't worry there is little chance that you can reach that limit without reaching other limitations in your application
+</details>
