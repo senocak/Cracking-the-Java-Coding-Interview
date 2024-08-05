@@ -495,3 +495,17 @@ Here are two of the major issues with finalizer; first, the thread running final
 
 One last word, there is a replacement pattern called `The Cleaner Pattern` you can check the cleaner class for more information
 </details>
+
+## 31. What are the main features of java 8?
+<details>
+  <summary>Short Answer</summary>
+
+Lambda Expressions
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+This version so Lambda expression added to the language but there are many other things that have been added to Java 8. The collections frameworks has been rewritten with many new features and methods. The stream API is a very clean implementation of map, filter, reduce that you can use in parallel. The completable future API is an asynchronous programming model added to the jdk and many many small things here and there to make your developer life better. 
+
+One last word, Java 8 was released in March 2014 as of this recording that was 9 years ago if you're still working on this version, you should really consider moving to a more recent one
+</details>
