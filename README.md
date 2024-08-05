@@ -792,3 +792,35 @@ It refers to the `Gang of Four` (GoF) book a must read for every developer. Some
 
 One last word, there are many patterns that are so widely used that you use them even if you don't know them. That's the case for the iterative pattern or the factory pattern
 </details>
+
+## 47. How can you count how many times a letter appears in a String?
+<details>
+  <summary>Short Answer</summary>
+
+You need to iterate over the string in one way or another
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Two ways; first, you can look for your letter in a string with `indexOf()` until you don't find it anymore. `indexOf()` may take an index where it will start its search that's a quick and efficient pattern. Second pattern, you can stream on the letters of the stream removing the letters that do not match and count the result, efficient, more functional, more readable, this is the one I prefer.
+
+One last word, the `count` method return the long that you can safely cast to an end. A string of character is backed by an array so there is no way you can have more than `Integer.MAX_VALUE` letters
+
+```java
+public void countLoop(String sentence, int letter) {
+  int count = 0;
+  int index = sentence.indexOf(letter);
+  while (index >= 0) {
+      count++;
+      index = sentence.indexOf(letter, index + 1);
+  }
+  System.out.println(count);
+}
+public void countStream(String sentence, int letter) {
+  long count = sentence.chars()
+          .filter(c -> c == letter)
+          .count();
+  System.out.println(count);
+}
+```
+</details>
