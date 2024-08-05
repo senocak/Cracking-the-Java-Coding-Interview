@@ -1215,3 +1215,30 @@ You can use it with a vararg to create a pre-filled list but you can also pass a
 
 One last word, you can also create sets with `Set.of()` that works in the same way as `List.of()` and modifiable defensive copy and null values not allowed
 </details>
+
+## 71. What is the difference between Runnable and Thread?
+<details>
+  <summary>Short Answer</summary>
+
+`Runnable` is an interface and `Thread` is a class
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+The runnable is a model for a task you can implement it with Lambda that does not take anything and returns nothing. You can execute this lambda by calling its run method. You can then create a thread object passing your runnable as an argument and then execute this runnable in this thread by calling the `start()` method of that thread object. Be careful not to use the `thread.run()` method, it will execute your runnable but in the current thread.
+
+```java
+Runnable task = () -> System.out.println(Thread.currentThread().getName());
+
+// or
+Thread t = new Thread(task);
+t.start();
+t.run() // NO !!
+
+// or
+ExecutorService service = ...;
+service.submit(task);
+```
+
+One last word, this pattern is okay for playing with threads and understanding how they work. In a real application you should use the `ExecutorService` pattern instead of this one
+</details>
