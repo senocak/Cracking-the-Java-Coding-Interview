@@ -936,3 +936,32 @@ ExecutorService is an interface part of the `java.util.concurrent` API added to 
 
 One last word, an executive service is sometimes called the `Pool Threads` and most of the time it is but it can also create threads on demand which is what it is doing for virtual threads for instance
 </details>
+
+## 56. What is an Iterator?
+<details>
+  <summary>Short Answer</summary>
+
+An object used to iterate over the elements of a collection
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Iterator is an interface with three method; `hasNext()` that tells you if there are more objects to iterate over we should call this method first then if it returns, true you can call `next()` to get the next object and move the iterator one step it also has a `remove()` method that can throw an `UnsupportedOperationException` you need that if your collection is immutable. Most of the time you use iterators for collections but iterators can actually be created without them for instance you can create a `RangeIterator` that can iterate over a range of integers.
+
+```java
+import java.util.Iterator;
+
+public class RangeIterator implements Iterator<Integer> {
+    private int index = 0;
+    
+    public boolean hasNext() {
+        return index < end;
+    }
+    public Integer next() {
+        return index++;
+    }
+}
+```
+
+One last word, the iterator pattern is actually a pattern from the `Gang of Four` (GoF) book. Did I already mentioned that this book is a must read?
+</details>
