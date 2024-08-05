@@ -750,3 +750,17 @@ System.out.println(result); // {one,two}
 
 One last word, you can use arrays in the foreach pattern, this pattern works for any object that implements the `iterable` interface, now interval declares a foreach method, but you cannot call it on arrays
 </details>
+
+## 44. How does a SortedSet work?
+<details>
+  <summary>Short Answer</summary>
+
+It is a set that keeps its elements sorted
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+First point, it's a set so it doesn't have any duplicates if you add two elements that are equal then the second one will not be added. Second point the elements you add must be comparable or if they are not you must provide a comparator when you create your SortedSet. If you provide a comparator, it will be used even if your elements are comparable and when you iterate over them they will be sorted in the increasing order as of java 6 you should favor `NavigableSet` instead of SortedSet that gives you more method than total sets.
+
+One last word, the default implementation is `TreeSet` which implements a red black tree
+</details>
