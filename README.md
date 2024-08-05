@@ -666,3 +666,28 @@ They are actually more, the definition of a functional interface is such that so
 
 One last word, you want more sure `Executor` even `Comparable` is a functional interface though I'm not sure that you want to implement this one with another expression
 </details>
+
+## 40. How can you open a file for writing some text?
+<details>
+  <summary>Short Answer</summary>
+
+There is a factory method for that in the Files class
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+There are actually two patterns; one from the old days of `java.io` and the less old one from java and IO and this is the one you should prefer. The exact pattern is the `Files.newBufferedWriter(...)` that takes a path as an argument, it has several overloads.
+
+```java
+var writer = Files.newBufferedWriter(
+        path,
+        StandardCharsets.ISO_8859_1,
+        StandardOpenOption.CREATE,
+        StandardOpenOption.APPEND
+);
+```
+
+You can specify the Charsets used by your text file, the default value being utf-8 and you can specify some open options. Do you want to create the file if it does not exist and if it does do you want to erase its content or append to it.
+
+One last word, what you get is still a buffered writer that you can still decorate if you need
+</details>
