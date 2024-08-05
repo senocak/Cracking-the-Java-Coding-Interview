@@ -1035,3 +1035,14 @@ A HashSet stalls its objects in the cells of an array. The index of the cell for
 
 One last word, because of that HashSet will not work if you override `equals()` for your object without overriding `hashCode()` and one very last word, do not mutate an object once it has been added to a set because you will not be able to find it again
 </details>
+
+## 60a. Ad Episode
+<details>
+  <summary>Answer</summary>
+
+Question number wait I actually did 60 questions that's one hour and one hour is probably longer than most Java coding interviews at least for the technical parts so that's great don't worry there are so many possible questions to be asked that yes there is still plenty of content to cover.
+
+I just would like to take a small break to let you know that I absolutely value your feedback and read all the comments you make so please keep them coming questions, suggestions, anything. Some questions in the comments actually became episodes so that's great thank you for that.
+
+One last word, I created a playlist with all the episodes you can find a link in the descriptions and one very last word, next question 61 will be a real question so stay tuned for more
+</details>
