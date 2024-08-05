@@ -509,3 +509,17 @@ This version so Lambda expression added to the language but there are many other
 
 One last word, Java 8 was released in March 2014 as of this recording that was 9 years ago if you're still working on this version, you should really consider moving to a more recent one
 </details>
+
+## 32. Do streams and collections have common methods?
+<details>
+  <summary>Short Answer</summary>
+
+Yes and no, they do have one method that is called the same and take the same parameter
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+This method is called `foreach`, it takes a consumer and you have it on both the stream interface and the iterable interface that being said even if they are basically doing the same thing, these methods are not implemented in the same way. Most of the time you can call directly `collections.foreach(...)` instead of calling `collections.stream().foreach()` that makes you save the creation of the stream object if you don't use it why would you want to create it. 
+
+One last word, even if collections and streams are there to process data there are many differences between them but that's for another time
+</details>
