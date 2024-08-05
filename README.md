@@ -1046,3 +1046,19 @@ I just would like to take a small break to let you know that I absolutely value 
 
 One last word, I created a playlist with all the episodes you can find a link in the descriptions and one very last word, next question 61 will be a real question so stay tuned for more
 </details>
+
+## 61. How is `Arrays.asList()` working?
+<details>
+  <summary>Short Answer</summary>
+
+`Arrays.asList()` wraps an array and exposes it as a list
+
+- It does not copy it
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+First, you can `Arrays.asList()` with a vararg but you can also pass an array. Avoid passing an array of primitive types because what you will get is a list with a single element being the array itself. If you modify the array your path then it will modify the list itself because as I said there is no defensive copy of this array. You can modify the elements of this list but you cannot `add` or `remove` elements from it because you know it's actually an array.
+
+One last word, so what you get with the `Arrays.asList()` is not an unmodifiable list because you can still change its elements, if what you need is an unmodifiable list you may consider using `List.of()`
+</details>
