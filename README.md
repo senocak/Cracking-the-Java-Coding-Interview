@@ -922,3 +922,17 @@ The idea behind the HashCode is to represent any object within it so that you ca
 
 One last word, there are many ways of computing hash codes some are better than others if you're not sure on what you need relying on your IDE to generate the hash code method is probably your safest choice
 </details>
+
+## 55. What is an ExecutorService?
+<details>
+  <summary>Short Answer</summary>
+
+An object to which you can submit tasks to be executed in another thread
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+ExecutorService is an interface part of the `java.util.concurrent` API added to the `JDK 5` in 2004. It's the preferred way to run tasks in another thread in fact you shouldn't be creating threads by calling `new Thread()` anymore. A task can be either a `runnable` or `callable` that you can implement with a lambda expression submitting a task gives you a future object that you can use to get a result. An exception if something goes wrong all that you can use to interrupt the running of this task.
+
+One last word, an executive service is sometimes called the `Pool Threads` and most of the time it is but it can also create threads on demand which is what it is doing for virtual threads for instance
+</details>
