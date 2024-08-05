@@ -451,3 +451,17 @@ Neither the return type of a method nor its declared exceptions are part of its 
 
 One last word, this rule holds even if one of this method is abstract because it would force the implementation to break this rule
 </details>
+
+## 28. What is a marker interface?
+<details>
+  <summary>Short Answer</summary>
+
+An interface with no method that is just here to Mark a class
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Being a marker interface is not really a language or an API notion, it's just a way of describing the nature of some interfaces. There are several examples in the jdk of such interfaces serializable of course that allows the instance of a class to be serialized and the cloneable that allows instances of a class to be cloned.
+
+One last thing, because there is no method in these interfaces you need to check if the object you have is an instance of this interface. It can be done with `instanceOf` or directly at the class level with the method is assignable from defined on the class of class
+</details>
