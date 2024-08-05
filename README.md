@@ -691,3 +691,17 @@ You can specify the Charsets used by your text file, the default value being utf
 
 One last word, what you get is still a buffered writer that you can still decorate if you need
 </details>
+
+## 41. What is the difference between a Sorted and an Ordered Collection?
+<details>
+  <summary>Short Answer</summary>
+
+So that means that you can compare your elements, ordered means that you can access them using an index
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+It has to do with how you can iterate over the elements of your collection. The sorted collection gives you the smallest element first up to the largest one. If you add an element to a sorted collection you may change the iteration order. An ordered collection on the other hand respects the order in which you add your elements so the first element is the first that has been added up to the last one.
+
+One last word, ordered collections are modeled by the lists in the collection framework, your favorite implementation is a `ArrayList` and sorted collections are modeled by navigable set implemented by `TreeSet`
+</details>
