@@ -465,3 +465,17 @@ Being a marker interface is not really a language or an API notion, it's just a 
 
 One last thing, because there is no method in these interfaces you need to check if the object you have is an instance of this interface. It can be done with `instanceOf` or directly at the class level with the method is assignable from defined on the class of class
 </details>
+
+## 29. What is the difference between Collection and Set?
+<details>
+  <summary>Short Answer</summary>
+
+There are no duplicate elements in the set
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+`Collection` and `Set` are interfaces from the collections framework. `Set` extends collection all the instance method defined in the set interface override method from collection and are redefined to modify the semantic. They do not work in the same way. The set interface is implemented by `HashSet` which has another very interesting property, its implementation of the contain method is super fast, much faster than the one from arraylist.
+
+One last word, if you need both the iterability property of arraylist and the fast container implementation you may take a look at the `LinkedHashSet` class which unfortunately is not released
+</details>
