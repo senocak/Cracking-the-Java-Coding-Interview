@@ -552,3 +552,24 @@ ACT- -> 2*5*71 = 710
 
 One last word, be careful not to overflow when you're doing the multiplication it can happen for long strings of characters
 </details>
+
+## 34. On what kind of source can you build a streamer?
+<details>
+  <summary>Short Answer</summary>
+
+There is no short answer, there are many sources
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+You can create streams on the following;
+
+Collections of course this is the most common way but the jdk offers much more than that because you can also create a stream on the lines of a text file on the characters of a string of characters. On the elements of a string you split using a regular expression and several others plus. The stream API gives you what you need to connect the stream on your own source of data.
+
+- Collections and array
+- Lines of a text files
+- Regular expressions
+- You can build your own
+
+One last word, be careful that the processing of a stream should not modify its source while it is consuming it. If you do that then the result you will get is unpredictable
+</details>
