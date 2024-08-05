@@ -1115,6 +1115,22 @@ There are actually several ways to do that but `List.of()` is the preferred one,
 One last word, be careful because `List.of()` does not accept null values. Why would you put null values in a list? You will get an exception at runtime if you pass an array with a null value in it
 </details>
 
+## 65. How can you start a thread?
+<details>
+  <summary>Short Answer</summary>
+
+There is a start method on a `Thread.class`
+
+`Call start(), not run()`
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Two things a thread is either built on a runnable or is a runnable itself, in both cases a common mistake is to call the run method instead of start. `run` will execute your runnable but in the current thread not in a new thread. Second, calling start() is okay for testing, learning and exploring how threads are working. In a production environment, you should not launch your threads by hand. You should use instead the ExecutorService pattern.
+
+One last word, JDK 21 adds new factory methods on the thread class to create both platform threads and virtual threads, but that would be for another time
+</details>
+
 ## 66. How can you create a file on the disk with Java I/O?
 <details>
   <summary>Short Answer</summary>
