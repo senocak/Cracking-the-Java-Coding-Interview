@@ -1201,3 +1201,17 @@ It can be any type interface, class or abstract class. You need to declare it wi
 
 One last word, seal types are enforced both at compile time and at runtime
 </details>
+
+## 70. How is `List.of()` working?
+<details>
+  <summary>Short Answer</summary>
+
+It takes an array or a vararg and makes a defensive copy to create an unmodifiable list
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+You can use it with a vararg to create a pre-filled list but you can also pass an array, in that case remember that if it is an array of primitive types what you get is a list with one element which is your array probably not what you want. This list implementation does not accept null values sometimes your IDE can warn you about that but in certain cases it cannot and you will get an exception at runtime.
+
+One last word, you can also create sets with `Set.of()` that works in the same way as `List.of()` and modifiable defensive copy and null values not allowed
+</details>
