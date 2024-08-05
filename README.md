@@ -592,3 +592,19 @@ letters.stream().collect(Collectors.groupingBy(City::state))
 
 One last word, you can post process this list with another character, pass as a second argument to this grouping by, this other character is called the downstream character
 </details>
+
+## 36. What is the difference between fifo and lifo?
+<details>
+  <summary>Short Answer</summary>
+
+`FIFO` is a queue, `LIFO` is a stack
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+`FIFO` stands for `F`irst `I`n `F`irst `O`ut and `LIFO` stands for `L`ast `I`n `F`irst `O`ut.
+
+There are two interfaces in the jdk to model these, queue, that models the fifo that is extended by `deque` and that's the second interface that models will live for. The preferred implementation for both of these interfaces is `ArrayDeque` but it's not thread safe. If you need a thread safe implementation you can use a `ConcurrentLinkedQueue` for queue or `ConcurrentLinkedDeque` for deque.
+
+One last word, there is a stack class in a jdk that is an extension of the vector class both `Stack` and `Vector` have been deprecated a long time ago, so you should not use them anymore
+</details>
