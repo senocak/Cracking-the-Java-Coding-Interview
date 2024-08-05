@@ -1076,3 +1076,27 @@ Those are that you will not use reduce match because you have many specialized m
 
 One last word, you can also reduce your stream with the collector API, there are a bunch of available characters in the `Collectors` factory class and you can even create your own
 </details>
+
+## 63. What is the `var` keyword in Java?
+<details>
+  <summary>Short Answer</summary>
+
+A keyword you can use in methods to avoid having to specify the type of a local variable
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+`var` is for local variables only, you cannot use it for fields for instance. You may use it for `Anonymous Classes and in that case you will have access to the method you add in your Anonymous class that are not defined in the original type. The type of an anonymous class is called the non-denotable type, you can add fields and method to it and access them if you declare your variable with the `var` keyword.
+
+```java
+var v = new Object() {
+  private int i = 0;
+  public int index() {
+      return i;
+  }
+};
+System.out.println("i = " + v.index());
+```
+
+One last word, you can use your IDE to see the type in further by the compiler and sometimes the result is unexpected
+</details>
