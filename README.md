@@ -1167,3 +1167,23 @@ System.out.println("Name: " + myClass.getName());
 
 One last word, the class Class is the entry point of the reflection API which gives you a way to manipulate objects reflectively a technique that is used by many Frameworks
 </details>
+
+## 68. How can you find duplicates in a List?
+<details>
+  <summary>Short Answer</summary>
+
+It really depends on what you need
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+You can check if your list has duplicates by putting this list in a set and comparing the size of the set with the size of the list. You could also use a stream calling `distinct()` and count method on it which also builds the set internally. If you need to find the duplicate elements themselves then you need to build an histogram of these elements create a stream on the list and group the elements by themselves counting them with the counting character.
+
+```java
+List<T> list = ...;
+
+Map<T, Long> histo = list.stream().collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
+```
+
+One last word, these techniques are all using maps. A set is in fact a map. With maps you can solve this problem in one pass over your data but you consume more memory. As usual there is a trade-off between computing time and memory conception
+</details>
