@@ -838,3 +838,17 @@ The HashMap class from the collections framework is backed by an array, when you
 
 One last word, this copying incurs the re-hashing of all the keys present in a map which may be costly so be careful about that and try to create maps with the right size
 </details>
+
+## 49. What does Synchronized mean?
+<details>
+  <summary>Short Answer</summary>
+
+It is a keyword that prevents more than one thread to execute a given block of code at the same time
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Synchronization has to do with concurrent programming, this block of code can be a delimited block inside the method or it can be the wall method static or not. All synchronized blocks need an object that they use as a key you can use the same key for more than one synchronized block. In the case of a synchronized method then the key is the object itself or the class if the method is static. There are limitations with synchronized block that you don't have with `ReentrantLock` so we can use these objects instead.
+
+One last word, never expose your key or your locks. It will help you prevent `Deadlocks` a situation that you absolutely want to avoid
+</details>
