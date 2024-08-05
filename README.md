@@ -1062,3 +1062,17 @@ First, you can `Arrays.asList()` with a vararg but you can also pass an array. A
 
 One last word, so what you get with the `Arrays.asList()` is not an unmodifiable list because you can still change its elements, if what you need is an unmodifiable list you may consider using `List.of()`
 </details>
+
+## 62. Can you cite some methods from the Stream API?
+<details>
+  <summary>Short Answer</summary>
+
+The three basic methods are `map()`, `filter()` and `reduce()`
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Those are that you will not use reduce match because you have many specialized method to reduce the elements of your stream like `toList()`, `forEach()`, `findFirst()` or `findAny()`. Other intermediate methods you can cite `flatMap()` of course `distinct()`, `sorted()` . Two things you absolutely need to avoid. Avoid using `pick()` unless you need to debug your stream. `pick` is useless in production, second don't do any side effect in any method of the stream API. It will put you in trouble.
+
+One last word, you can also reduce your stream with the collector API, there are a bunch of available characters in the `Collectors` factory class and you can even create your own
+</details>
