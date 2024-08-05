@@ -530,3 +530,25 @@ letters.stream().forEach(System.out::println);
 
 One last word, even if collections and streams are there to process data there are many differences between them but that's for another time
 </details>
+
+## 33. How can you tell that a string is an anagram of another string?
+<details>
+  <summary>Short Answer</summary>
+
+The easy way sort the letters of the strings and just compare them
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+There is actually a much smarter way of doing that you can map each letter to prime number, for instance map A to 2, B to 3, C to 5 etc, then multiply all these numbers either two numbers you get are the same these strings are anagrams. It comes from the fact that the decomposition of an integer in a product of prime number is unique. The first method has a complexity of `n*log(n)` the second one is just `n` which is faster.
+
+```
+C -> 5
+A -> 2
+T -> 71
+CAT -> 5*2*71 = 710
+ACT- -> 2*5*71 = 710
+```
+
+One last word, be careful not to overflow when you're doing the multiplication it can happen for long strings of characters
+</details>
