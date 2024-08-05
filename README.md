@@ -1309,3 +1309,17 @@ class Box<T> {
 
 One last word, the type `T` is actually erased it is replaced by object at runtime so there is a number of things you cannot do in your code. You cannot try to get the class of T because it will just return object you cannot call `new T()` or `new Array<T>` neither
 </details>
+
+## 75. How can you stop a thread?
+<details>
+  <summary>Short Answer</summary>
+
+You can't and you should not
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+There are two methods on the thread class; `stop` and `suspend` that have been deprecated in Java 2 1998 that is more than 25 years ago. Now throw an `UnsupportedOperationException` so don't even think about using them. Why? the answer is actually not that simple in short they have been deprecated mainly for security reasons. Being able to stop a thread could put your application in an unpredictable state something you absolutely want to avoid.
+
+One last word, you are not supposed to start no stop your threads by end anyway. The pattern you should be using is the `ExecutorService` pattern that takes care of your thread life cycle for you
+</details>
