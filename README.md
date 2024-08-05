@@ -1242,3 +1242,32 @@ service.submit(task);
 
 One last word, this pattern is okay for playing with threads and understanding how they work. In a real application you should use the `ExecutorService` pattern instead of this one
 </details>
+
+## 72. What is the difference between `map()` and `flatMap()`?
+<details>
+  <summary>Short Answer</summary>
+
+These are two methods from the stream API to map objects of a given type to objects of another type
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+`Map` is super simple, it takes a function like `String::length` that maps strings of characters to their name.
+
+```java
+var lengthOfStrings = Stream.of("one", "two", "three")
+        .map(String::length)
+        .toList();
+```
+`flatMap()` works differently, it maps one-to-many relationships. The mapping functional should itself return a stream of something and these streams are flattened by the flatMap method for instance given a stream of countries you can flat map this stream to a stream of cities.
+
+```java
+record Country(List<City> cities) { }
+
+List<Country> countries = ...;
+List<City> cities = countries.stream()
+        .flatMap(country -> country.cities().stream())
+        .toList();
+```
+One last word, a mapping does not change the number of objects your stream processors, where a flat map does. It can even produce zero elements
+</details>
