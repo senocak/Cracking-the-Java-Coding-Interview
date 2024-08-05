@@ -880,3 +880,17 @@ The file class is from java 1.0 but is from java and IO released with Java 7. An
 
 One last word, creating an instance of file all path does not create the corresponding file or directory on your disk, you need to call create new file on the file class or the `Files.createFile()` Factory method that takes a path as an argument to do that
 </details>
+
+## 52. What is the difference between a Checked and an Unchecked Exception?
+<details>
+  <summary>Short Answer</summary>
+
+You need to write special code to handle the checked exception not for unchecked exceptions
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+All your exceptions extend the `Exception.class` if an exception actually extends `Runtime` exception then it is an unchecked exception if it does not then it is checked exceptions. You need to handle your checked exceptions either by catching them or by declaring them in the `throws` clause of your methods and constructors. You do not need to do that for unchecked exceptions.
+
+One last word, all these classes extend themselves the `Throwable.class` also extended by the `Error.class`. Errors are also unchecked exceptions but reserved for serious problems like Out Of Memory(OOM) error or Stack Overflow error
+</details>
