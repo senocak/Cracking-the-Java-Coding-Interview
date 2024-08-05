@@ -1187,3 +1187,17 @@ Map<T, Long> histo = list.stream().collect(Collectors.groupingBy(Function.identi
 
 One last word, these techniques are all using maps. A set is in fact a map. With maps you can solve this problem in one pass over your data but you consume more memory. As usual there is a trade-off between computing time and memory conception
 </details>
+
+## 69. What is a Sealed type?
+<details>
+  <summary>Short Answer</summary>
+
+A type that knows all of its extensions
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+It can be any type interface, class or abstract class. You need to declare it with the `sealed` keyword and then declare the permitted types with the `permits` closer. Now there are constraints on these permitted types; first, they need to be declared in the same package or in the same module. Second they need to be either `final`, `sealed` or declared non-sealed enum and records are actually final types so you cannot create an open hierarchy by accident, the non-sealed declaration is there for that.
+
+One last word, seal types are enforced both at compile time and at runtime
+</details>
