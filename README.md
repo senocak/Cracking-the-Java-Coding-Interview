@@ -1148,3 +1148,22 @@ There is also a create new file on the file class that is the legacy way of crea
 
 One last word, depending on your file system you can also pass a five attributes to a file creation to handle security for instance
 </details>
+
+## 67. What is the class named Class?
+<details>
+  <summary>Short Answer</summary>
+
+The class that models classes
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+The jvm creates an instance of this class for each class it loads. The simplest ways to get a reference on the class objects is to call `getClass()` on any object but you can also use the class itself directly like `String.class` or call the `Class.forName("...")` method passing the name of the class as a string. In any case you always get the same reference to a given class there is only one instance of the class Class that models the string class for instance.
+
+```java
+Class<?> myClass = String.class;
+System.out.println("Name: " + myClass.getName());
+```
+
+One last word, the class Class is the entry point of the reflection API which gives you a way to manipulate objects reflectively a technique that is used by many Frameworks
+</details>
