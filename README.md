@@ -778,3 +778,17 @@ The Decorator pattern is a `Structural Pattern` from the `Gang of Four` (GoF) bo
 
 One last word, you should use the `Files` factory class to build the base objects you need to read and write content to files, but you can still decorate them to add features to the base objects you get
 </details>
+
+## 46. What are the different categories of design patterns?
+<details>
+  <summary>Short Answer</summary>
+
+Three categories; `Creational`, `Structural`, `Behavioral`
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+It refers to the `Gang of Four` (GoF) book a must read for every developer. Some creational patterns; `Factory`, `Builder` and `Singleton`, some structural patterns; `Decorator`, `Facade`, `Proxy`, some behavioral patterns; `Iterator`, `Template Method` and a well-known `Visitor`. The GoF gives you C++ implementations, some of them are updated but the ideas are still excellent.
+
+One last word, there are many patterns that are so widely used that you use them even if you don't know them. That's the case for the iterative pattern or the factory pattern
+</details>
