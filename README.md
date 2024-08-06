@@ -1724,3 +1724,17 @@ These method may interrupt the conceptions of the elements of your source. There
 
 One last word, doing side effects in a stream intermediate or terminal operations is always a bad idea. Don't do it
 </details>
+
+## 94. What is an Atomic variable?
+<details>
+  <summary>Short Answer</summary>
+
+A wrapper on a primitive type or a reference with methods to mutate it in a thread safe and efficient way
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+The atomic variables are actually mappings of CPU operations also called `CASing` operations. CASing means `C`ompare `A`nd `S`wap. For instance, on atomic integer you can call `increment` and `get` that will increment the internal value and return it atomically. This operation is thread safe it does not rely on synchronization which prevents thread contention.
+
+One last word, atomic references are used to implement two thread safe structures from the collection framework `ConcurrentSkipListMap` which is a map and `ConcurrentSkipListSet` which is a set, all these without any synchronization
+</details>
