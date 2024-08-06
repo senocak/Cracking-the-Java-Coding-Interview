@@ -1644,3 +1644,55 @@ You can define your own annotations easily with methods that may return default 
 
 One last word, at Runtime you need to use the reflection API to get the annotations added to an element of your code a technique used by many frameworks Hibernate or SpringBoot just to name a few
 </details>
+
+## 91. What is a `? extends T`?
+<details>
+  <summary>Short Answer</summary>
+
+It is a type called the wild card that has been created to extend a parameter's type by itself with an extension of its parameter
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Suppose you have two types `T` and `U` and `U extends T`, a class parameterized on U does not extend the same class parameterized on T.
+
+```java
+import java.util.List;
+
+static List<Long> convert(List<Number> numbers) {
+    return numbers.stream()
+            .map(Number::longValue)
+            .toList();
+}
+
+public static void main(String[] args) {
+  List<Double> doubles = List.of();
+  
+  // DOES NOT COMPILE !!!
+  var longs = convert(doubles);
+  // Required type: List<Number>
+  // Provided: List<Double>
+}
+```
+
+Look at this convert method, it could accept a list of double. We can fix that with a list of question mark extends number because list of double extends a list of question mark extend number.
+
+```java
+import java.util.List;
+
+static List<Long> convert(List<? extends Number> numbers) {
+    return numbers.stream()
+            .map(Number::longValue)
+            .toList();
+}
+
+public static void main(String[] args) {
+  List<Double> doubles = List.of();
+  
+  // OK
+  var longs = convert(doubles);
+}
+```
+
+One last word, this technique is extensively used in a collection framework and in along the world, comparators, consumers, predicates functions their old use wild cards
+</details>
