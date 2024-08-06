@@ -1710,3 +1710,17 @@ Be careful, because the `Constructor` is not a method. It does not have a writte
 
 One last word, you can write compact Constructors in Records which is a very nice and very simple syntax to write Constructors that only do some validation, one more reason to use Records wherever you want
 </details>
+
+## 93. What is a short-circuit method?
+<details>
+  <summary>Short Answer</summary>
+
+Several methods from the stream API are called short-circuit methods
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+These method may interrupt the conceptions of the elements of your source. There are 2 intermediate operations `limit()` and `takeWhile()` and 5 terminal operations of `allMatch()`, `anyMatch()` and `noneMatch()` plus `findFirst()` and `findAny()` because elements are processed lazily and one by one by the stream API, short-circuit operations can prevent some elements to be read from your source which may be really bad if you are doing some side effects in your intermediate operations.
+
+One last word, doing side effects in a stream intermediate or terminal operations is always a bad idea. Don't do it
+</details>
