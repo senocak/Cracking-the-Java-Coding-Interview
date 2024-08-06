@@ -1323,3 +1323,26 @@ There are two methods on the thread class; `stop` and `suspend` that have been d
 
 One last word, you are not supposed to start no stop your threads by end anyway. The pattern you should be using is the `ExecutorService` pattern that takes care of your thread life cycle for you
 </details>
+
+## 76. How can you remove elements from a Stream?
+<details>
+  <summary>Short Answer</summary>
+
+Use the filter method
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Be careful though because the stream does not contain any object, it consumes objects from a source so saying removing objects from a stream is actually not correct what you're really doing is telling your stream do not process certain elements. Filtering uses a predicate that tests certain properties of the object and decide if it should be further processed or not. On this example, you only want to process the non-empty strings.
+
+```java
+Predicate<String> isEmpty = String::isEmpty;
+Predicate<String> isNonEmpty = isEmpty.negate();
+List<String> strings = List.of();
+List<String> nonEmptyStrings = strings.stream()
+        .filter(isNonEmpty)
+        .toList();
+```
+
+One last word, there are actually two other patterns that you can use to do that. `flatMap()` and `mapMulti()`. They are not really meant for that but in certain cases they can work better than filter
+</details>
