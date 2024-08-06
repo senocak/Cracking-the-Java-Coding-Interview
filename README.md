@@ -1544,3 +1544,17 @@ public static void main(String[] args) {
 
 One last word, you can also get a reference on the other Constructors of your class by passing the parameters they take as classes to `getDeclaredConstructor()` method
 </details>
+
+## 86. What is the difference between a Collection and a List?
+<details>
+  <summary>Short Answer</summary>
+
+A List is ordered, a Collection is not
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Ordered means that the order in which you iterate over the elements is stable from one iteration to the other and corresponds to the order in which you added the elements to your list. It is the case for all this because that's the specification but it's not the case for `HashSet` for instance and because the HashSet is a collection not all collections have this behavior. Adding elements to a HashSet may change the iteration order all the other elements so it's not even stable from one iteration to the other.
+
+One last word, the consequence is that you can access the elements of your list using an index that wouldn't make sense for our sets
+</details>
