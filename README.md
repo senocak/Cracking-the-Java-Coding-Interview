@@ -1586,3 +1586,33 @@ This is fine because what you are defining is a method that takes two parameters
 
 One last word, don't make your comparator a `Comparator<? extends Number>` because in that case you will not be able to call it with any other wrapper types. There is a good reason for that but that will be for another time
 </details>
+
+## 89. How can you model the Concurrent tasks in Java?
+<details>
+  <summary>Short Answer</summary>
+
+You have two interfaces for that `Runnable` and `Callable`
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Both have functional interfaces so you can implement them with lambdas, neither of them take any parameter.
+
+```java
+Runnable runnable = () -> {doSomething();};
+Callable<Integer> callable = () -> {return anInt();};
+```
+
+A runnable does not return anything and does not throw any exception. A callable on the other hand can return a value and throw an exception.
+
+Runnable is the only task you can pass to the Constructor all the builder of a thread. Callable and runnable can be passed through an `ExecutorService` or `StructuredTaskScope`.
+
+```java
+var thread = Thread.ofVirtual().start(runnable);
+ExecutorService service = ...;
+service.submit(runnable);
+service.submit(callable);
+```
+
+One last word, when you submit a task to an ExecutiveService, you get a Future object in return something we will talk more about in the future precisely
+</details>
