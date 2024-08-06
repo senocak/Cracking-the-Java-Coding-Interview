@@ -1616,3 +1616,31 @@ service.submit(callable);
 
 One last word, when you submit a task to an ExecutiveService, you get a Future object in return something we will talk more about in the future precisely
 </details>
+
+## 90. What is an Annotation?
+<details>
+  <summary>Short Answer</summary>
+
+An interface with methods on which you can define default values
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+```java
+@Retention(RetentionPolicy.RUNTIME)
+@Target({
+  ElementType.FIELD,
+  ElementType.METHOD,
+  ElementType.CONSTRUCTOR
+})
+@interface Range {
+  int begin() default 0;
+
+  int end();
+}
+```
+
+You can define your own annotations easily with methods that may return default values, along with your annotation you need to define two things where you can add this annotation in your code and when you want to access it. There are currently 12 places where you can add an annotation for instance Fields, Classes, Methods or Parameters are among them then you can declare that you will need to use your annotation at runtime or only when your class is loaded or at compile time.
+
+One last word, at Runtime you need to use the reflection API to get the annotations added to an element of your code a technique used by many frameworks Hibernate or SpringBoot just to name a few
+</details>
