@@ -1788,3 +1788,36 @@ public static void main(String[] args) {
 
 One last word, you also have another pattern to do that that uses the method and all class but that would be for another time oh
 </details>
+
+## 97. What is a ConcurrentModificationException?
+<details>
+  <summary>Short Answer</summary>
+
+An exception raised when you modify your collection while iterating over it
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Be careful because despite the name, it has nothing to do with concurrent programming. Removing elements from a collection while iterating over it is generally not a great idea. There is a `remove()` method on iterator that you can use just make sure that it is supported by your implementation if what you need is to remove elements using your predicate for instance you can use the `removeIf()` method that does exactly that.
+
+```java
+import java.util.ArrayList;
+import java.util.List;
+
+public static void main(String[] args) {
+    var list = List.<String>of("1", "2");
+    list = new ArrayList<>(list);
+    var iterator = list.iterator();
+    while (iterator.hasNext()) {
+        var s = iterator.next();
+        list.remove(s); // Exception in thread "main" java.util.ConcurrentModificationException
+        list.removeIf(String::isEmpty);
+        if (s.isEmpty()) {
+            iterator.remove();
+        }
+    }
+}
+```
+
+One last word, some implementations of collection can be okay with removing elements while iterating over them, especially the concurrent ones like `ArrayBlockingQueue` or `ConcurrentLinkedQueue` so be sure to check the javadoc on this one
+</details>
