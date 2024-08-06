@@ -1485,7 +1485,7 @@ List<Number> is certainly not List<Integer> even though Integer extends a Number
 <details>
   <summary>Less Short Answer</summary>
 
-Even if a Type U extends a type T, a List<U> does not extend the List<T>. The reason is that within the method that takes a list of numbers, you could add a float to that list but then if you pass a list of integers at runtime, you actually end up trying adding a float to a list of integers that would cause an exception.
+Even if a Type U extends a type T, a `List<U>` does not extend the List<T>. The reason is that within the method that takes a list of numbers, you could add a float to that list but then if you pass a list of integers at runtime, you actually end up trying adding a float to a list of integers that would cause an exception.
 ```java
 void process(List<Number> list) {
     list.add(3.14f); // Legal
@@ -1571,4 +1571,18 @@ Both are terminal operations of the stream API. `Collectors.toList()` producers 
 The fact that `Collectors.toList()` producers on ArrayList is actually not specified but it's the case. There are cases where `toList()` is actually more efficient in a case where you know how many elements your stream is going to process, `toList()` can create an array of the right size up front, where `Collectors.toList()` relies on the automatic growing of your ArrayList.
 
 One last word, the streamed `toList()` method produces a non-modifiable list that accepts null values not all non-modifiable lists except them `List.of()` doesn't for instance.
+</details>
+
+## 88. Can you compare Integers and Doubles with a Comparator of Numbers?
+<details>
+  <summary>Short Answer</summary>
+
+Yes
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+This is fine because what you are defining is a method that takes two parameters of type Number and it's fine to call it with any extension of number, actually you could use such a comparator to define the comparison between integers and floating point numbers for instance. Such a comparator is also okay to sort any list of integers of floating point numbers because all these types extended Number.
+
+One last word, don't make your comparator a `Comparator<? extends Number>` because in that case you will not be able to call it with any other wrapper types. There is a good reason for that but that will be for another time
 </details>
