@@ -1821,3 +1821,17 @@ public static void main(String[] args) {
 
 One last word, some implementations of collection can be okay with removing elements while iterating over them, especially the concurrent ones like `ArrayBlockingQueue` or `ConcurrentLinkedQueue` so be sure to check the javadoc on this one
 </details>
+
+## 98. What is the Collector?
+<details>
+  <summary>Short Answer</summary>
+
+An object provided by the Stream API that you can use to reduce streams using the collect method
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+A collector is an implementation of the `Collector` interface. You can implement this interface yourself. You also have a collector's factory class with plenty of pre-built collectors that should cover most of your needs. You can do many things with collectors; you can create any sort of collections or maps, you can group your stream elements using keys and gather them in maps or you can join them in strings of characters. You even have collectors that can map filter or flat map the elements of your stream.
+
+One last word, sometimes the stream API uses downstream collectors, this is a way to compose collectors but that will be for another time
+</details>
