@@ -1461,3 +1461,17 @@ The consequence is that if your method modify the argument it gets, the calling 
 
 One last word, Java passes by value always no exception
 </details>
+
+## 82. What is the difference between an intermediate and a terminal operation?
+<details>
+  <summary>Short Answer</summary>
+
+An intermediate operation returns a stream, the terminal operation returns something else including void
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+The stream processes the data from the source only when it executes its terminal operation. If you do not call the terminal operation no data is processed, you can only call one intermediate all terminal operation on the given stream object. It makes the storing of a stream in a local variable useless.
+
+One last word, some terminal operations do not need to call the intermediate operations of your stream. The reason why you should not do any side effect in an intermediate operations there are situations where they will not be executed
+</details>
