@@ -1849,3 +1849,17 @@ When you create a thread, you can decide to set its demon property to true the j
 
 One last word, you can set the daemon property of a platform thread but a virtual thread is always a daemon thread
 </details>
+
+## 100. What is a Race Condition?
+<details>
+  <summary>Short Answer</summary>
+
+A race condition occurs when two threads are writing and reading the same variable at the same time
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+This is a situation you need to take care of because it can put your application in an inconsistent state. Suppose that you are incrementing a simple counter, you first read its value increment it and write it back if two threads are doing that in two different calls of your CPU. They may be reading the same value and what you will see is one incrementation instead of two. To prevent race conditions, you need to guard your variables with synchronization or use atomic variables.
+
+One last word, in Java race conditions can only happen on the fields of your classes not on local variables. It can be different in other languages
+</details>
