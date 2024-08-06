@@ -1403,3 +1403,19 @@ var stringWithSepPrefxSuffx = strings.stream()
         .collect(Collectors.joining(",", "{", "}"));
 ```
 </details>
+
+## 79. How can you modify your field using the Reflection API?
+<details>
+  <summary>Short Answer</summary>
+
+You can use the set method of the field class to do that
+
+`Field.set(obj, value)`
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+This method takes the instance you want to operate on and the value you want to fix, if you do not have access to this field because it is private for instance you can still change it by calling its `Field.setAccessible(true)` passing through as an argument. It does not make the field public but suppresses the access controls made by the language.
+
+One last word, you can actually mutate final fields in regular classes which this pattern which is really annoying but records are protected against that you cannot mutate them, one more reason to use records wherever you can
+</details>
