@@ -1346,3 +1346,27 @@ List<String> nonEmptyStrings = strings.stream()
 
 One last word, there are actually two other patterns that you can use to do that. `flatMap()` and `mapMulti()`. They are not really meant for that but in certain cases they can work better than filter
 </details>
+
+## 77. How is `Set.of()` working?
+<details>
+  <summary>Short Answer</summary>
+
+It builds a set of its arguments if there are no duplicates among them
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+The arguments are added one by one to an array of the right size using the `hashCode()` to detect any duplicates, if a duplicate is detected an `IllegalArgumentException` is immediately thrown. This method only requires one pass over your data because duplicates are not allowed in your arguments, it can create an array of the right size upfront making the memory conception minimal so all this is pretty optimal.
+
+One last word, as usual be careful if you pass an array of primitive types because you will get a set with a single element to your array which is usually not what you want
+
+```java
+int[] ints = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
+sets.forEach(it -> System.out.println(it.toString()));
+// [I@72ea2f77
+
+Integer[] ints2 = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
+sets.forEach(it -> System.out.println(it.toString()));
+// [Ljava.lang.Integer;@5b2133b1
+```
+</details>
