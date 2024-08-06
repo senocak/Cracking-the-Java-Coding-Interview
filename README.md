@@ -1419,3 +1419,31 @@ This method takes the instance you want to operate on and the value you want to 
 
 One last word, you can actually mutate final fields in regular classes which this pattern which is really annoying but records are protected against that you cannot mutate them, one more reason to use records wherever you can
 </details>
+
+## 80. How can you declare a generic type on a Static Method?
+<details>
+  <summary>Short Answer</summary>
+
+You need to define the type parameter along with the method declaration
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+The type parameters you define on a class are only seen by the instance, fields and methods not by the static members.
+
+```java
+class Box<T> {
+    private T t;
+    Box(T t) {
+        this.t = t;
+    }
+    static <T> Box<T> copy(Box<T> box) {
+        return new Box<>(box.t);
+    }
+}
+```
+
+Suppose you have a Box<T> class and you want to define the static method copy(). To define the type parameter for this method you need to add it after the static keyword not also that if you have several static methods, each one needs to declare its own type parameter.
+
+One last word, you have many examples of that in the jdk, in the collections class for instance. They also use this word syntax question marks Super T and question marks extensity but that will be for another time
+</details>
