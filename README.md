@@ -1863,3 +1863,28 @@ This is a situation you need to take care of because it can put your application
 
 One last word, in Java race conditions can only happen on the fields of your classes not on local variables. It can be different in other languages
 </details>
+
+## 101. How can you check if a class is an extension of another?
+<details>
+  <summary>Short Answer</summary>
+
+There is a method for that in a `Class.class`
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+This method is called `isAssignableFrom()` you call it on a class instance which could represent an interface by the way and pass another class instance as an argument. `isAssignableFrom()` checked if an instance of the argument class you pass can be assigned to a variable of the type you are calling this method on, for instance you can check if you can assign a string object to a variable of type comparable with the following code.
+
+```java
+public static void main(String[] args) {
+    var v = Comparable.class;
+    var checked = String.class;
+    boolean b = v.isAssignableFrom(checked);
+    // the compiler knows b is true!
+    // use it for types unknown
+    // at compile time
+}
+```
+
+One last word, this is a method that you should use with types that you don't know at compile time, if you do then you probably don't need it
+</details>
