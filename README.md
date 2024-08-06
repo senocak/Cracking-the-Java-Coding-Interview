@@ -1942,3 +1942,17 @@ class Shape {
 
 One last word, you can also define static blocks in your class but please stay away from that this is an anti-pattern
 </details>
+
+## 104. What is a Downstream Collector?
+<details>
+  <summary>Short Answer</summary>
+
+A Collector!
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Most of the time, you will create your collectors with one of the factory methods of the `Collector`s class, some of these methods takes a collector as a last parameter called the downstream collector. This collector is used to further process your data for instance the `groupingBy()` collector groups your elements using a key. The downstream collector that you can provide is used to collect these groups so you can put them in a list, a set, you can join them or you can even create another map.
+
+One last word, some factory methods always take a downstream collector. This is the case for mapping, filtering or flatMapping methods. They actually defined intermediate operations that need this downstream collector to model the terminal operation that will process your stream
+</details>
