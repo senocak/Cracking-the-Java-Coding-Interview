@@ -1696,3 +1696,17 @@ public static void main(String[] args) {
 
 One last word, this technique is extensively used in a collection framework and in along the world, comparators, consumers, predicates functions their old use wild cards
 </details>
+
+## 92. What is a Constructor?
+<details>
+  <summary>Short Answer</summary>
+
+An element of a class that is called when an instance of this class is built
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Be careful, because the `Constructor` is not a method. It does not have a written type and is not compiled in the same way. You can have several overloads of a Constructor in a class, all they need is declare different parameters. Constructors can throw exceptions so if you want to do some validation to prevent corrected objects to be built, you can do that in your Constructor.
+
+One last word, you can write compact Constructors in Records which is a very nice and very simple syntax to write Constructors that only do some validation, one more reason to use Records wherever you want
+</details>
