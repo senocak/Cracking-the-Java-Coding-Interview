@@ -1835,3 +1835,17 @@ A collector is an implementation of the `Collector` interface. You can implement
 
 One last word, sometimes the stream API uses downstream collectors, this is a way to compose collectors but that will be for another time
 </details>
+
+## 99. What is a Daemon Thread?
+<details>
+  <summary>Short Answer</summary>
+
+A Thread
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+When you create a thread, you can decide to set its demon property to true the jvm will start its shutdown sequence if it does not have any more non-demon thread running. The thread main for instance that runs your main method is a non-demand thread so when you exit your main method the jvm shuts down. Non-Daeman thread keep your jvm alive that can be created in ExecutorServices for instance so don't forget to shut them down or your jvm will never shut down. 2 examples of the Daemon thread; the ones that are running your garbage collector or your Just In Time(`JIT`) compiler.
+
+One last word, you can set the daemon property of a platform thread but a virtual thread is always a daemon thread
+</details>
