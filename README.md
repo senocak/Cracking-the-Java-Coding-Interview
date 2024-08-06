@@ -1516,3 +1516,31 @@ This situation is really very bad, most of the time your solution would be to re
 
 One last word, one word of sound to avoid that never expose your locks as a public elements. Always use private fields to store your locks, it will help you most of the time but not always unfortunately.
 </details>
+
+## 85. How can you create an object instance of a given class using the Reflection API?
+<details>
+  <summary>Short Answer</summary>
+
+There is a pattern for that called `getDeclaredConstructor()` that gives you a reference on the empty Constructor of this class and called `newInstance()` on it
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+The pattern that consists including `newInstance()` directly on the class itself has been deprecated in Java 9 mostly because it does not handle all exceptions properly. If your class does not have an empty Constructor then this pattern throws a `NoSuchMethodException` exception.
+
+```java
+class Box {
+    Box(String s) {
+        // ...
+    }
+}
+
+public static void main(String[] args) {
+  var c = Box.class;
+  var ctor = c.getDeclaredConstructor(String.class);
+  Box box = ctor.newInstance("Hello");
+}
+```
+
+One last word, you can also get a reference on the other Constructors of your class by passing the parameters they take as classes to `getDeclaredConstructor()` method
+</details>
