@@ -1475,3 +1475,30 @@ The stream processes the data from the source only when it executes its terminal
 
 One last word, some terminal operations do not need to call the intermediate operations of your stream. The reason why you should not do any side effect in an intermediate operations there are situations where they will not be executed
 </details>
+
+## 83. What list can you pass to a method that takes a List of Number `List<Number>`?
+<details>
+  <summary>Short Answer</summary>
+
+List<Number> is certainly not List<Integer> even though Integer extends a Number
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Even if a Type U extends a type T, a List<U> does not extend the List<T>. The reason is that within the method that takes a list of numbers, you could add a float to that list but then if you pass a list of integers at runtime, you actually end up trying adding a float to a list of integers that would cause an exception.
+```java
+void process(List<Number> list) {
+    list.add(3.14f); // Legal
+}
+List<Integer> ints = ...;
+process(ints); // COMPILE ERROR
+```
+One last word, you could change your method and declare that it takes a list of question marks extends number(`List<? extends Number>`) and in that case you will be able to pass the list of integer double and the like
+```java
+void process(List<? extends Number> list) {
+  ...
+}
+List<Integer> ints = ...;
+process(ints); // ok
+```
+</details>
