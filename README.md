@@ -1447,3 +1447,17 @@ Suppose you have a Box<T> class and you want to define the static method copy().
 
 One last word, you have many examples of that in the jdk, in the collections class for instance. They also use this word syntax question marks Super T and question marks extensity but that will be for another time
 </details>
+
+## 81. What does Passing by Value mean?
+<details>
+  <summary>Short Answer</summary>
+
+It means that what you pass to a method is the value not a reference to this value
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+The consequence is that if your method modify the argument it gets, the calling code does not see this modification if what you pass is a primitive type changing it in your method does not change the value in a calling code. What you pass is a reference changing the reference itself does not change it in a calling coder but if you change the content of the object reference then this change is seen in a calling code.
+
+One last word, Java passes by value always no exception
+</details>
