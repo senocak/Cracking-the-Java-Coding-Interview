@@ -1558,3 +1558,17 @@ Ordered means that the order in which you iterate over the elements is stable fr
 
 One last word, the consequence is that you can access the elements of your list using an index that wouldn't make sense for our sets
 </details>
+
+## 87. What is the difference between the `toList()` and collect `Collectors.toList()`?
+<details>
+  <summary>Short Answer</summary>
+
+Both are terminal operations of the stream API. `Collectors.toList()` producers an Arraylist and `toList()` produces a non-modifiable list
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+The fact that `Collectors.toList()` producers on ArrayList is actually not specified but it's the case. There are cases where `toList()` is actually more efficient in a case where you know how many elements your stream is going to process, `toList()` can create an array of the right size up front, where `Collectors.toList()` relies on the automatic growing of your ArrayList.
+
+One last word, the streamed `toList()` method produces a non-modifiable list that accepts null values not all non-modifiable lists except them `List.of()` doesn't for instance.
+</details>
