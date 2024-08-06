@@ -1738,3 +1738,27 @@ The atomic variables are actually mappings of CPU operations also called `CASing
 
 One last word, atomic references are used to implement two thread safe structures from the collection framework `ConcurrentSkipListMap` which is a map and `ConcurrentSkipListSet` which is a set, all these without any synchronization
 </details>
+
+## 95. What is the Record?
+<details>
+  <summary>Short Answer</summary>
+
+Something you should use all the time
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+It is a class that carries some immutable state declared along with its declaration. This state is called the components of your record. A record cannot extend anything and cannot be extended but it can implement any interface. It cannot declare an instance field, static fields are okay and it can declare any method the compiler gives you a constructor accesses that you can rewrite yourself and `toString()`, `equals()` and `hashCode()` for free. You can do some validation and deserialization, calls this constructor so no corrupt record in your application.
+
+```java
+record Range(int begin, int end) {
+    Range {
+        if (begin > end) {
+            throw new IllegalArgumentException("...");
+        }
+    }
+}
+```
+
+One last word, use records wherever and whenever you can
+</details>
