@@ -1370,3 +1370,36 @@ sets.forEach(it -> System.out.println(it.toString()));
 // [Ljava.lang.Integer;@5b2133b1
 ```
 </details>
+
+## 78. How can you join Strings with a separator?
+<details>
+  <summary>Short Answer</summary>
+
+You have a join a factory method for that on the string class directly.
+
+```java
+List<String> strings = List.of();
+var stringWithSeperator = String.join(",", strings);
+```
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+There are two overloads of this method, they both take a delimiter as a first argument and then you can pass a varargs or an array that's the first overloader or an iterable typically a collection and that's the second overload. If you need to add a prefix or a postfix to your string of character and then you can check the `StringJoiner.class` you can also reuse this StringJoiner if you have many strings to process.
+
+```java
+
+List<String> strings = List.of();
+var joiner = new StringJoiner(",", "{", "}");
+strings.forEach(joiner::add);
+var stringWithSepPrefxSuffx = joiner.toString();
+```
+
+One last word, you can also check the collect `Collectors.joining()` pattern which does the same for the stream API. That's useful if you need to create this stream lazily without you having to buffer everything in a collection
+
+```java
+List<String> strings = List.of();
+var stringWithSepPrefxSuffx = strings.stream()
+        .collect(Collectors.joining(",", "{", "}"));
+```
+</details>
