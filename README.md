@@ -1502,3 +1502,17 @@ List<Integer> ints = ...;
 process(ints); // ok
 ```
 </details>
+
+## 84. What is a deadlock?
+<details>
+  <summary>Short Answer</summary>
+
+A situation where a first thread holds the lock and needs the second one to carry on its task and the second thread is holding that second lock and is waiting for the first one to carry on with its task
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+This situation is really very bad, most of the time your solution would be to reboot your application, so you absolutely want to avoid it. It can also occur with the second lock that is outside of your application like in your database for instance.
+
+One last word, one word of sound to avoid that never expose your locks as a public elements. Always use private fields to store your locks, it will help you most of the time but not always unfortunately.
+</details>
