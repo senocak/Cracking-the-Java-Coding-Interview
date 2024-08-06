@@ -1762,3 +1762,29 @@ record Range(int begin, int end) {
 
 One last word, use records wherever and whenever you can
 </details>
+
+## 96. How can you invoke a method using the Reflection API?
+<details>
+  <summary>Short Answer</summary>
+
+There is an invoke method in the `Method.class`
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+We can get a specific method of a class with the `getMethod()` or `getDeclaredMethod()` of the class named class. You need to pass the name of the method you want along with the types of its parameters. When you have a method object all you need to do is call the invoke method passing first the object on which you want to invoke this method and then the arguments needed by this method. We can invoke a private method from outside the class by first calling the `setAccessible(true)` which removes the visibility checks.
+
+```java
+import java.lang.reflect.Method;
+
+public static void main(String[] args) {
+    var c = String.class;
+    Method indexOf = c.getMethod("indexOf", String.class);
+    var message = "Hello world";
+    var index = indexOf.invoke(message, "world");
+    // output: 6
+}
+```
+
+One last word, you also have another pattern to do that that uses the method and all class but that would be for another time oh
+</details>
