@@ -1888,3 +1888,26 @@ public static void main(String[] args) {
 
 One last word, this is a method that you should use with types that you don't know at compile time, if you do then you probably don't need it
 </details>
+
+## 102. What is the type `? super T`?
+<details>
+  <summary>Short Answer</summary>
+
+This type represents all the types that are super types of T
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+This is the kind of type you need when you need to define the type of an object that you consume. Suppose that you have a list of polygon objects you know that all the objects of this list can be cast to the polygon type. Processing them with a consumer of shape will then be okay thus the forEach() method takes a consumer that can consume any type that is a super type of polygon and the same goes for methods that take functions, these functions are declared to take `? super T`
+
+```java
+interface Polygon extends Shape {}
+List<Polygon> list = ...;
+Consumer<Shape> consumer = ...;
+list.forEach(consumer); // OK
+
+void forEach(Consumer<? super Polygon>){...}
+```
+
+One last word, as this type can be any super type of T, the only type you can assign it to is the `Object` type
+</details>
