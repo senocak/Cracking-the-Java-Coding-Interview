@@ -1911,3 +1911,34 @@ void forEach(Consumer<? super Polygon>){...}
 
 One last word, as this type can be any super type of T, the only type you can assign it to is the `Object` type
 </details>
+
+## 103. What does static mean?
+<details>
+  <summary>Short Answer</summary>
+
+Static can be added on a field or a method declaration, it means that this member is attached to the type not to an instance
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Static fields can be defined on classes and static methods can be added to classes or interfaces because a static member belongs to a class, you should use it directly with the class name if it is a field all your instances share this field so using immutable static fields usually means trouble. If you invoke a static member with an instance, the compiler will replace that instance with the class, meaning that you can read a static field using a null instance without throwing a `NullPointerException`
+
+```java
+public static void main(String[] args) throws Exception {
+    Shape shape = null;
+    shape.print(); // prints: Hello World
+}
+
+class Shape {
+    static {
+      System.out.println("From static");
+    }
+    
+    public static void print() {
+        System.out.println("Hello World");
+    }
+}
+```
+
+One last word, you can also define static blocks in your class but please stay away from that this is an anti-pattern
+</details>
