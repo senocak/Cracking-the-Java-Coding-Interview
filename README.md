@@ -2257,3 +2257,56 @@ System.out.println(list);
 
 One last word, if what you need is to select a range of indexes and don't need the rest of the list anymore then you should copy this sublist because if you don't, you will still have the original list in memory which can be an overhead
 </details>
+
+
+<details>
+  <summary>Short Answer</summary>
+
+A class with a set of instances declare that `Compile Time`
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Enumerations are interesting when you know that a class can only have a limited number of instances. Enumerations can have a state, even a mutable state, Why would you do that?, and you can declare a constructor for them. Your Enum class is `final` and extends the class enum so your enumeration cannot extend anything and cannot be extended but it can implement interfaces.
+
+```java
+enum Months {
+  JANUARY, FEBRUARY, MARCH, APRIL, MAY, JUNE, JULY, AUGUST, SEPTEMBER, OCTOBER, NOVEMBER, DECEMBER
+}
+
+enum Month {
+  JANUARY(31), ...;
+  private final int length;
+  Month(int length) {
+    this.length = length;
+  }
+  public int length() {
+    return this.length;
+  }
+}
+```
+
+One last word, because you cannot create any more instance of an enumeration at runtime using enumerations is the preferred pattern to create singleton. You can see examples of that in the natural order factory method of the comparator interface `Comparator.naturalOrder()`
+</details>
+
+## 118. How can you create a map to hold 20 elements?
+<details>
+  <summary>Short Answer</summary>
+
+There is a factory method for that `HashMap.newHashMap()`
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Creating a map with a given capacity is more complex than it seems. Hashmap carries an internal array and when the number of used cells reaches a certain level then the content of the array is copied in a larger array which is costy and this is the reason why it may be interesting to create an array that is large enough up front but then there is some math to do to get this size that has been written in this factory method.
+
+```java
+var map1 = HashMap.newHashMap(24);
+var map2 = LinkedHashMap.newHashMap(36);
+
+// Doesn't do what you need!
+var map3 = new HashMap(24);
+```
+
+One last word, be careful because HashMap has also a constructor that takes an int that is a size but this size is actually the size of the internal array which may be too small to store all the key value pairs you have
+</details>
