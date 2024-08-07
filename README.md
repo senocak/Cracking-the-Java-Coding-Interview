@@ -2026,3 +2026,17 @@ The map you get is `non-modifiable` and the entry objects are also `non-modifiab
 
 One last word, none of these method except null, neither for the key nor the value know the entry. Really, why would you do that?
 </details>
+
+## 108. What is the return type of `max()`?
+<details>
+  <summary>Short Answer</summary>
+
+An Optional
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Whether you like `Optional`s or not or think they are good thing or not, in that particular case this is what you need. Suppose you compute the max of a first stream and then the max of a second stream and then you need to max all the elements of both streams what you expect is that the max of both maxes give you the max of all your elements and it will. Unless, one of the stream is empty if you choose to handle this case by returning null then you cannot handle primitive types and choosing your default value will not work neither `Integer.MIN_VALUE` will not work for instance because you can convert this int to a longer.
+
+One last word, there are several very interesting patterns to process optionals that will make optionals look like stream but that will be for another time
+</details>
