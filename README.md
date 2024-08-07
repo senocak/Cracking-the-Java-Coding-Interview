@@ -2060,3 +2060,20 @@ There is an overload of the `get()` method that takes a timeout, this may be saf
 
 One last word, starting with Java 21, you can call `state()` that returns running Success Failed or Cancelled.
 </details>
+
+## 110. What does multiple inheritance mean?
+<details>
+  <summary>Short Answer</summary>
+
+It means trouble
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Multiple inheritance is an object-oriented notion. There are 3 types of inheritance.
+- Inheritance of type(`Type Inheritance`) and Java supports multiple inheritance of type, as a class can implement as many interfaces as you need.
+- Inheritance of behavior(`Behavior Inheritance`) and Java supports it also. Concrete methods are in inherited from a super class and also from default methods in interfaces and you may run into issues with this one if you implement two interfaces with the same default methods.
+- And the last one is the inheritance of state(`State Inheritance`) that is not supported by Java.
+
+One last word, favor `Object Composition Over Class Inheritance` that's the introduction of `GoF` must read
+</details>
