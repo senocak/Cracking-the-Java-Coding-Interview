@@ -2398,3 +2398,17 @@ There are cases where it makes sense to shadow copy an object and others where i
 
 One last word, you can protect your objects against that with the defensive copy pattern but that will be for another time
 </details>
+
+## 122. What is the `Vector`?
+<details>
+  <summary>Short Answer</summary>
+
+Something you should not be using anymore
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+A vector is an old API from before the `Collections Framework`. This was before Java 2 released in 1998, with Java 2 the Vector class has been refactored to be included in the collections framework. A vector is `thread safe` but in a very basic way. All its methods are synchronized including `size()` or `isEmpty()` which is actually not that great. If you do not need thread safety, you can safely use ArrayList instead and if you do, well there are better implementations depending on your use case.
+
+One last word, this vector class has nothing to do with the vector API which gives you access to the cmd parallel computing capacity of your CPU but that will be for another time
+</details>
