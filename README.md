@@ -2509,3 +2509,17 @@ And old stuff that got some attention recently
 
 One last word, switch expressions are now part of what is called Data Oriented Programming in Java but that will be for another time
 </details>
+
+## 127. What is the difference between an `Exception` and an `Error`?
+<details>
+  <summary>Short Answer</summary>
+
+`Exceptions` are for your application, `Errors` are for the JVM
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+In many cases you need to handle exceptions explicitly, if your exception is a `RuntimeException` which is an extension of the exception class then you don't. Errors are mostly used to tell you that something went wrong in a JVM. Some of them are shown when the jvm is loading your classes so even before running them. That's the case for the `ClassFormatError`, `NoSuchMethodError`, `AbstractMethodError` or `ClassCircularityError`.
+
+One last word, here are examples of errors that will put an end to your application `StackOverflowError`, `OutOfMemoryError`. There is even an `UnknownError` but I never saw it to be honest
+</details>
