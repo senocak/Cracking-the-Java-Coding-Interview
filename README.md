@@ -2128,3 +2128,17 @@ It doesn't do what you think
 
 One last word, don't try to handle your threads yourself. There are ExecutorServices and `ForkJoinPool` especially for that
 </details>
+
+## 114. What is the first thing that a constructor do?
+<details>
+  <summary>Short Answer</summary>
+
+It calls another constructor
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+This other constructor can be a constructor from the same class or from the super class. If you don't write any call to any constructor then the compiler adds a call to the empty constructor of your super class so if this empty constructor does not exist in a super class then you will get a compile error. You can also call a specific Constructor, it can be a call to `this()` that calls a constructor from the same class or a call to `super()` that calls a constructor from the super class. Constructing an object requires that you call all the constructors from object to your class.
+
+One last word, this may be annoying when you need to validate your arguments and it actually may change in a future but that will be for another time
+</details>
