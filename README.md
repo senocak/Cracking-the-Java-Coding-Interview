@@ -2495,3 +2495,17 @@ mostly read operation. This class works in that way; First, the internal array i
 
 One last word, there is also a `CopyOnWriteArraySet` that actually wraps a `CopyOnWriteArrayList` so same warnings on this one
 </details>
+
+## 126. What is the switch statement?
+<details>
+  <summary>Short Answer</summary>
+
+And old stuff that got some attention recently
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+`Switch` used to be a statement that would work on a selector variable that could be an integer type not a long, an Enum or a String of characters. This selector could not be null. It can now be an expression also can accept any object including nulls for the selector and can accept patterns and guarded patterns for the case labels. It can even check for exhaustiveness and can prevent fall through so in one word, it has been fixed and is now much more useful. It could even handle exceptions as case labels in a future.
+
+One last word, switch expressions are now part of what is called Data Oriented Programming in Java but that will be for another time
+</details>
