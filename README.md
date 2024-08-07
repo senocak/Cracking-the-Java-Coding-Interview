@@ -2142,3 +2142,53 @@ This other constructor can be a constructor from the same class or from the supe
 
 One last word, this may be annoying when you need to validate your arguments and it actually may change in a future but that will be for another time
 </details>
+
+## 115. What are the four fundamental functional interfaces in Java?
+<details>
+  <summary>Short Answer</summary>
+
+`Consumer`, `Supplier`, `Function` and `Predicate`
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+These are the 4 Functional Interfaces from the `java.util.function` package.
+
+- A `consumer` takes an argument and doesn't return anything.
+  - ```java
+    Consumer<String> consumer = s -> System.out.println(s);
+    ```
+- A `supplier` doesn't take anything and returns something.
+  - ```java
+    Supplier<Double> supplier = () -> Math.PI;
+    ```
+- A `function` takes something and returns something else.
+  - ```java
+    Function<String, Integer> function = s -> s.length();
+    ```
+- A `predicate` is a function that returns a Boolean.
+  - ```java
+    Predicate<String> predicate = i -> i % 2 == 0;
+    ```
+
+Then there are a number of variations BiConsumer, BiFunction, BiPredicate that take two arguments. They are also unary operator or binary operator as well as specialization for primitive types for instance in consumer.
+
+```java
+BiConsumer<String, String> biConsumer = (s1, s2) -> System.out.println(s1 + s2);
+BiFunction<String, String, Integer> biFunction = (s1, s2) -> s1.indexOf(s2);
+BiPredicate<Integer, Integer> biPredicate = (i1, i2) -> i1 > i2;
+
+UnaryOperator<String> unary = s -> s.toUpperCase();
+//UnaryOperator<String> unary = String::toUpperCase;
+BinaryOperator<String> binary = (s1, s2) -> s1 + ", " + s2;
+
+IntConsumer intConsumer = i -> System.out.println(i);
+// IntConsumer intConsumer = System.out::println;
+DoubleSupplier doubleSupplier = () -> Math.PI;
+ToIntFunction<String> toIntFunction = s -> s.length();
+//ToIntFunction<String> toIntFunction = String::length;
+IntPredicate intPredicate = i -> i % 2 == 0;
+```
+
+One last word, there is also `Runnable` that does not take any argument and that does not return anything, it fits nicely in this family
+</details>
