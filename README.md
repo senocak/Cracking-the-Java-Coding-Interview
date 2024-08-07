@@ -2616,3 +2616,21 @@ class User {
 
 One last word, even though records are unmodifiable, you still need to access their internal state through their accessors. There are good reason for that but that will be for another time
 </details>
+
+## 132. What is a Component?
+<details>
+  <summary>Short Answer</summary>
+
+Field of a record
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+This definition is very precise, the elements you defined along with your record definition are called `Record Components`. The component word became a Java notion when record were added to the language. In the reflection API for instance you have a method `getRecordComponents()` on the `Class.class` or when you create an annotation you can state that it can be added on a record component and for that the element type en numeration that defines all the elements on which you can add an annotation has a value record component.
+
+```java
+java.lang.annotation.ElementType.RECORD_COMPONENT;
+```
+
+One last word, when you declare a record component the compiler gives you an accessor for it. It uses it to create an `equals()` and `hashCode()` method as well as a `toString()` method all that for free. Neat!
+</details>
