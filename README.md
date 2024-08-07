@@ -2384,3 +2384,17 @@ class B extends A {
 
 One last word, the synchronization classes from `java.util.concurent` are also reentrant. This is the case for the `ReentrantLock.class` as its name may suggest
 </details>
+
+## 121. What does shallow copy mean?
+<details>
+  <summary>Short Answer</summary>
+
+It means duplicated an object but not the object this object has references
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+There are cases where it makes sense to shadow copy an object and others where it can be actually dangerous: The rule of thumb that will always work is the following if the related object is non-modifiable like a string then there is no need to duplicate it. In that case shallow copy is okay but if your related object is an ArrayList for instance, it means that anyone with a reference to this ArrayList can modify it and thus modify the internal state of your object and most of the time this is not what you want.
+
+One last word, you can protect your objects against that with the defensive copy pattern but that will be for another time
+</details>
