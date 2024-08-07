@@ -2634,3 +2634,27 @@ java.lang.annotation.ElementType.RECORD_COMPONENT;
 
 One last word, when you declare a record component the compiler gives you an accessor for it. It uses it to create an `equals()` and `hashCode()` method as well as a `toString()` method all that for free. Neat!
 </details>
+
+## 133. What are the main operations of a Stack or a Queue?
+<details>
+  <summary>Short Answer</summary>
+
+`peek`, `pop`, `push`
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+These two data structures are the two simplest data structures you can imagine. `Peek` allows you to check the next available element without removing it. You cannot see the other elements. `Pop` removes it, now you have it and you can do something with it. `Push` adds an element. If it's a Stack then pick will show you the last element that was pushed and if it's a Queue then peek shows you the first element that was pushed maybe some time ago.
+
+```java
+interface Queue<E> { }
+interface Deque<E> {
+  //...
+  E peek();
+  E pop();
+  void push(E e);
+}
+```
+
+One last word, there are two interfaces to model these `Queue` and `Deque` which stands for `Double Ended Queue` and a number of implementations like a `ArrayDeque` for instance or `ConcurrentLinkedQueue` which is thread safe
+</details>
