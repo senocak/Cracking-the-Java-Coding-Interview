@@ -2551,3 +2551,39 @@ There is also a fourth one which consists in not putting any modifier `package p
 
 One last word, without the module system you can create a class in a package from any other jar that can give you access to all the protected and package private members so the two levels you should really rely on are private and public
 </details>
+
+## 130. What is a Sequenced Collection?
+<details>
+  <summary>Short Answer</summary>
+
+An interface added to the Collections Framework
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+This interface was added in Java 21 to fill a gap there was between Lists and SortedSets. Sequence collections allow you to ask for the first or last element of a collection and to remove it or add it if the collection is modifiable. You can also ask for a reverse view on the content of the collection.
+
+```java
+public interface SequencedCollection<E> extends Collection<E> {
+  E getFirst();
+  E getLast();
+
+  void addFirst(E e);
+  void addLast(E e);
+
+  E removeFirst();
+  E removeLast();
+
+  SequencedCollection<E> reversed();
+}
+
+```
+
+One last word, you also have `SequenceMap` and `SequenceSet` that extend SequenceCollection with a `reverse()` method that returns itself a SequencedSet
+
+```java
+public interface SequencedSet<E> extends SequencedCollection<E>, Set<E> {
+    SequencedSet<E> reversed();
+}
+```
+</details>
