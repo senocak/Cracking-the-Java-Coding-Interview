@@ -2537,3 +2537,17 @@ A data structure implemented by the `TreeMap` class
 
 One last word, on the one hand a red black tree is a very efficient data structure as most of the operations are logo? on the other hand it's a reference based data structure so pointer chasing will not play nice with it
 </details>
+
+## 129. What are the visibility modifiers for members?
+<details>
+  <summary>Short Answer</summary>
+
+`private`, `protected` and `public`
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+There is also a fourth one which consists in not putting any modifier `package private`. A private member can only be accessed from the class itself. A public member can be accessed from everywhere and can be limited by your module system. Protected can be accessed from the extending classes and from other classes within the same package. No modifier means that you can access them from the same package.
+
+One last word, without the module system you can create a class in a package from any other jar that can give you access to all the protected and package private members so the two levels you should really rely on are private and public
+</details>
