@@ -2587,3 +2587,32 @@ public interface SequencedSet<E> extends SequencedCollection<E>, Set<E> {
 }
 ```
 </details>
+
+## 131. What does Encapsulation mean?
+<details>
+  <summary>Short Answer</summary>
+
+It means no public instance fields in your classes
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+The internal state of your class should be accessed only through accessors to modify it or to read it. One of the reason is that your code only depends on the public methods of its collaborative objects not on their internal implementation meaning that you can change it without changing their client code. Encapsulation is usually an object concern but you can also apply this principle to apis or libraries that you only depend on using their interface.
+
+```java
+class User {
+    // private state
+    private String name;
+    
+    // public accessors
+    public String getName() {
+        return this.name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+}
+```
+
+One last word, even though records are unmodifiable, you still need to access their internal state through their accessors. There are good reason for that but that will be for another time
+</details>
