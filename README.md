@@ -2458,3 +2458,25 @@ scope.fork(callable);
 // can't pass a Runnable
 ```
 </details>
+
+## 124. Can you create a stream from an Iterable?
+<details>
+  <summary>Short Answer</summary>
+
+Yes
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+There is actually an API to do that. Most of the time you will create streams from collections using the `Collection.stream()` method but sometimes all you have is an iterable in that case creating a collection or an array and then opening a stream on it would be a waste of memory. You can call `Streamsupport.stream()` pass a spliterator that you can create directly from your Iterable and then false because you don't want to mess with parallel streams.
+
+```java
+Iterable<String> iterable = ...;
+Stream<String> stream = StreamSupport.stream(
+        iterable.spliterator(),
+        false // parallel?
+);
+```
+
+One last word, in the case your Iterable produces an unlimited amount of data then a stream can handle that with some short circuit operations where trying to build a collection would just break your application
+</details>
