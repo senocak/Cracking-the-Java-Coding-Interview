@@ -2352,3 +2352,35 @@ System.out.println(ints);
 
 One last word, there is actually another method to do the same thing that will save the construction of this stream object. It's the map multi method (`mapMulti()`) that was added in the JDK16
 </details>
+
+## 120. What does Reentrant mean for synchronization?
+<details>
+  <summary>Short Answer</summary>
+
+It means that when your thread already has the lock of a synchronized block, it can enter it
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+When it needs to enter a synchronized block, your thread asks for the key of the object that is used to guard this block. If the key is not there, your thread is blocked until the key becomes available again. There are cases where you make call a synchronized method from a first synchronized method of the same class or from a subclass and in that case your thread is already holding that key so it can execute this code without having to wait.
+
+```java
+class A {
+  synchronized void a1() {
+    // synchronized on this
+    a2();
+  }
+  synchronized void a2() {
+    // synchronized on this
+  }
+}
+class B extends A {
+  synchronized void b() {
+    // synchronized on this
+    a2();
+  }
+}
+```
+
+One last word, the synchronization classes from `java.util.concurent` are also reentrant. This is the case for the `ReentrantLock.class` as its name may suggest
+</details>
