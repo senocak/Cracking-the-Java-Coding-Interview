@@ -1956,3 +1956,17 @@ Most of the time, you will create your collectors with one of the factory method
 
 One last word, some factory methods always take a downstream collector. This is the case for mapping, filtering or flatMapping methods. They actually defined intermediate operations that need this downstream collector to model the terminal operation that will process your stream
 </details>
+
+## 105. Why is `Thread.stop()` deprecated?
+<details>
+  <summary>Short Answer</summary>
+
+Because it is unsafe
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Being able to interrupt the thread could lead to several problems in your application. If your thread is holding a synchronization key for instance because it is currently updating some shared inmemory structure, interrupting it would free these keys and expose this structure leaving it in a state that could be inconsistent and the same goes if your thread is holding a system resource that needs to be closed. Not closing that resource properly could lead to a resource leaking a situation you want to avoid.
+
+One last word, this method has been deprecated in Java 1.2 in 1998 that was a long time ago. It is now throwing an `UnsupportedOperationException` to make sure that you don't call it
+</details>
