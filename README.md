@@ -1995,3 +1995,34 @@ Comparator<User> cmp2 = Comparator.comparing(User::name);
 
 One last word, remember that comparison should be symmetric and transitive, if it is not you may stumble upon the infamous comparison method violates its general contract error message
 </details>
+
+## 107. How can you create a prefilled maps?
+<details>
+  <summary>Short Answer</summary>
+
+There is a method for that `Map.of()`
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+`Map.of()` is super simple to use just call it and pass a key it's value then the next key and its value and again up to 10 entries.
+
+```java
+// Up to 10 key / value pairs
+var map1 = Map.of(1, "one", 2, "two");
+```
+
+Past the 10 entries, you need to change the pattern because you cannot overload this kind of method with a vararg so another method has been added `Map.of()` entries that takes a vararg of entries that you can create with the `Map.entry()`.
+
+```java
+// No Limit
+var e1 = Map.entry(1, "one");
+var e2 = Map.entry(2, "two");
+var e3 = Map.entry(2, "two"); // Exception in thread "main" java.lang.IllegalArgumentException: duplicate key: 2
+var map2 = Map.ofEntries(e1, e2, e3);
+```
+
+The map you get is `non-modifiable` and the entry objects are also `non-modifiable`, you cannot pass the same key twice if you do that you will get an exception.
+
+One last word, none of these method except null, neither for the key nor the value know the entry. Really, why would you do that?
+</details>
