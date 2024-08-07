@@ -2523,3 +2523,17 @@ In many cases you need to handle exceptions explicitly, if your exception is a `
 
 One last word, here are examples of errors that will put an end to your application `StackOverflowError`, `OutOfMemoryError`. There is even an `UnknownError` but I never saw it to be honest
 </details>
+
+## 128. What is a Red Black Tree?
+<details>
+  <summary>Short Answer</summary>
+
+A data structure implemented by the `TreeMap` class
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+`TreeMap` is actually an implementation of `NavigableMap` that extend `SortedMap` and since Java 21 `SequencedMap`. A Red Black Tree is a data structure that stores its element in a binary tree and keeps them sorted using a Nifty node reorganization algorithm. TreeMap keeps its key value pairs sorted by key while you're adding or removing them so when you iterate of them they are already sorted.
+
+One last word, on the one hand a red black tree is a very efficient data structure as most of the operations are logo? on the other hand it's a reference based data structure so pointer chasing will not play nice with it
+</details>
