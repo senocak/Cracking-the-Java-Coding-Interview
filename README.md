@@ -2480,3 +2480,18 @@ Stream<String> stream = StreamSupport.stream(
 
 One last word, in the case your Iterable produces an unlimited amount of data then a stream can handle that with some short circuit operations where trying to build a collection would just break your application
 </details>
+
+## 125. How is `CopyOnWriteArrayList` working?
+<details>
+  <summary>Short Answer</summary>
+
+Well, as the name suggests it copies its internal array on each write operation
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+`CopyOnWriteArrayList` is a thread save list that is interesting if what you have is
+mostly read operation. This class works in that way; First, the internal array is duplicated and then mutated within a synchronized block then the internal reference to this array is updated because this reference is volatile reading does not need to be synchronized so no contention on read operation. The major of ahead is the array duplication.
+
+One last word, there is also a `CopyOnWriteArraySet` that actually wraps a `CopyOnWriteArrayList` so same warnings on this one
+</details>
