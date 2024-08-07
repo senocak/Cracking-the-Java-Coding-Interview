@@ -2040,3 +2040,23 @@ Whether you like `Optional`s or not or think they are good thing or not, in that
 
 One last word, there are several very interesting patterns to process optionals that will make optionals look like stream but that will be for another time
 </details>
+
+## 109. What is a `Future`?
+<details>
+  <summary>Short Answer</summary>
+
+An object to communicate with the task that is being executed in another thread
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+You get a Future object when you submit a Runnable or Callable to an ExecutorService. An ExecutiveService immediately gives you a future object but it will execute your task in another thread sometimes in a future. At this point, you can use this Future to check if your task is done and to get either the result it produced or the exceptions that was thrown.
+
+```java
+V get(long timeout, TimeUnit unit) throws InterruptedException, ExecutionException, TimeoutException;
+```
+
+There is an overload of the `get()` method that takes a timeout, this may be safer to prefer this pattern rather than a regular get.
+
+One last word, starting with Java 21, you can call `state()` that returns running Success Failed or Cancelled.
+</details>
