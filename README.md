@@ -2310,3 +2310,45 @@ var map3 = new HashMap(24);
 
 One last word, be careful because HashMap has also a constructor that takes an int that is a size but this size is actually the size of the internal array which may be too small to store all the key value pairs you have
 </details>
+
+## 119. How can you use FlatMap to filter a stream?
+<details>
+  <summary>Short Answer</summary>
+
+Your flatMap() method should return an empty stream when you don't want to pass the corresponding value
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+There are cases where filtering a stream may be too complex or too costly. This is the case on this example where you should filter on the fact that analyzing your string should not throw a `NumberFormatException`. The complete code is complex and really not nice. Using a flatMap and returning an empty stream if the result cannot be computed is probably better.
+
+```java
+var intsAsStrings = List.of("1", "2", "3");
+var intsAsStrings = List.of("1", "2", "3");
+var ints = intsAsStrings.stream()
+                      .map(s -> Integer.parseInt(s))
+                      .toList();
+System.out.println(ints);
+
+// > [1, 2, 3]
+```
+
+```java
+var intsAsStrings = List.of("1", "2", "one", "3");
+var intsAsStrings = List.of("1", "2", "3");
+var ints = intsAsStrings.stream()
+                        .flatMap(s -> {
+                          try {
+                            return Stream.of(Integer.parseInt(s));
+                          } catch (NumberFormatException e) {
+                            return Stream.of();
+                          }
+                        })
+                        .toList();
+System.out.println(ints);
+
+// > [1, 2, 3]
+```
+
+One last word, there is actually another method to do the same thing that will save the construction of this stream object. It's the map multi method (`mapMulti()`) that was added in the JDK16
+</details>
