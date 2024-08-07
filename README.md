@@ -2077,3 +2077,17 @@ Multiple inheritance is an object-oriented notion. There are 3 types of inherita
 
 One last word, favor `Object Composition Over Class Inheritance` that's the introduction of `GoF` must read
 </details>
+
+## 111. What is the no-arg empty constructor?
+<details>
+  <summary>Short Answer</summary>
+
+A constructor that the compiler adds to a class when you don't declare any
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+If you create a class and you don't provide your own constructor, the compiler will add one for you because every class should have at least one constructor. This constructor does not do anything and does not take any parameter thus its name the `no-arg constructor`. This may be confusing because if you create a constructor later, then this empty constructor is not added anymore and that can create compiler errors somewhere else in your application. Of course, you can still add one by hand to fix that.
+
+One last word, many frameworks that rely on `Reflection` are using this empty no-arg constructor so there are many cases where it is wise to keep it
+</details>
