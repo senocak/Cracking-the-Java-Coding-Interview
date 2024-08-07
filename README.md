@@ -2658,3 +2658,26 @@ interface Deque<E> {
 
 One last word, there are two interfaces to model these `Queue` and `Deque` which stands for `Double Ended Queue` and a number of implementations like a `ArrayDeque` for instance or `ConcurrentLinkedQueue` which is thread safe
 </details>
+
+## 134. What is an entry and how can you create one?
+<details>
+  <summary>Short Answer</summary>
+
+It is a key value pair in a map
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+This key value pair is modeled by the `Map.Entry` interface. From it you can read and update the value and you can read the key but you cannot modify it. The easiest way to create a key value pair is to use the `Map.Entry` factory method from the Map interface. It gives you an unmodifiable entry. You can create an unmodifiable map from entries with the `Map.ofEntries()` factory method, be careful because none of these factory methods accept null keys or null values.
+
+```java
+Map.Entry<Integer, String> e1 = Map.entry(1, "one");
+Map.Entry<Integer, String> e2 = Map.entry(2, "two");
+
+Map<Integer, String> map = Map.ofEntries(e1, e2);
+Set<Map.Entry<Integer, String>> set = map.entrySet();
+```
+
+One last word, you can also get a set of the entries of a map with the `map.entrySet()` method. This set has very specific properties but that will be for another time
+
+</details>
