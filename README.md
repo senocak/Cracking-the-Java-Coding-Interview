@@ -2223,3 +2223,37 @@ enum Month {
 
 One last word, because you cannot create any more instance of an enumeration at runtime using enumerations is the preferred pattern to create singleton. You can see examples of that in the natural order factory method of the comparator interface `Comparator.naturalOrder()`
 </details>
+
+## 117. How is `List.sublist()` working?
+<details>
+  <summary>Short Answer</summary>
+
+It gives you a mutable view of a given list
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+It's actually a nifty feature and probably overlooked. First, it's a list so you can use it as such but it's also a mutable view so you can use it to manipulate the first list for instance you can insert a list in another one at a given place by calling sublist() passing the same index for the fromIndex and the toIndex and calling `addAll()` on this view or you can clear a range of indexes from a list with `sublist(...).clear()`
+
+```java
+var l1 = List.of(4, 5, 6);
+var l2 = List.of(1, 2, 3);
+
+var list = new ArrayList<>(l2);
+System.out.println(list);
+
+// > [4, 5, 6]
+
+list.sublist(0, 0).addAll(l1);
+System.out.println(list);
+
+// > [1, 2, 3, 4, 5, 6]
+
+list.sublist(1, 5).clear();
+System.out.println(list);
+
+// > [1, 6]
+```
+
+One last word, if what you need is to select a range of indexes and don't need the rest of the list anymore then you should copy this sublist because if you don't, you will still have the original list in memory which can be an overhead
+</details>
