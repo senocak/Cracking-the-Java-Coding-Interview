@@ -2412,3 +2412,49 @@ A vector is an old API from before the `Collections Framework`. This was before 
 
 One last word, this vector class has nothing to do with the vector API which gives you access to the cmd parallel computing capacity of your CPU but that will be for another time
 </details>
+
+## 123. What is the difference between `Runnable` and `Callable`?
+<details>
+  <summary>Short Answer</summary>
+
+Both are used to model tasks in concurrent programming
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+```java
+@FunctionalInterface
+interface Runnable {
+  void run();
+}
+
+@FunctionalInterface
+interface Callable<V> {
+  V vall() throws Exception;
+}
+```
+
+A `Runnable` is a task model introduced in the first versions of java. It doesn't take any argument and does not return anything. `Callable` was added in Java 5 in 2004 as part of the `java.util.concurrent` API. A Callable doesn't take any argument but it does return something and can throw an exception. Runnable is the only one that can be passed to thread creation including with the factory methods added in Java 21 where both can be passed to `ExecutorService`s and `ForJointPool`s.
+
+```java
+Runnable runnable = ...;
+Callable callable = ...;
+
+ExecutorService service = ...;
+service.submit(runnable);
+service.submit(callable);
+
+ForkJoinPool pool = ...;
+pool.submit(runnable);
+pool.submit(callable);
+```
+
+One last word, `StructuredTaskScope` only accept Callables, we will talk more about that later
+
+```java
+StructuredTaskScope scope = ...;
+Callable callable = ...;
+scope.fork(callable);
+// can't pass a Runnable
+```
+</details>
