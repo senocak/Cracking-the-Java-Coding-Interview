@@ -1970,3 +1970,28 @@ Being able to interrupt the thread could lead to several problems in your applic
 
 One last word, this method has been deprecated in Java 1.2 in 1998 that was a long time ago. It is now throwing an `UnsupportedOperationException` to make sure that you don't call it
 </details>
+
+## 106. What does `Comparable` mean?
+<details>
+  <summary>Short Answer</summary>
+
+It means that you can compare these objects without a `Comparator`
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+There are two mechanisms in Java to compare objects and tell if one is greater than the other. First, you can create a comparator that takes two objects and return an int and then you can implement the `Comparable` interface that basically does the same, you pass another object that returns an int. This int should be positive if this is greater than other negative if not and zero if these objects are equal. With a comparator, you can compare objects with another semantic than the one implemented by comparable.
+
+```java
+record User(String name, int age) implements Comparable<User> {
+  int compareTo(User other) {
+    return Integer.compare(this.age, other.age);
+  }
+}
+Comparator<User> cmp = (u1, u2) -> u1.name().compareTo(u2.name());
+// or
+Comparator<User> cmp2 = Comparator.comparing(User::name);
+```
+
+One last word, remember that comparison should be symmetric and transitive, if it is not you may stumble upon the infamous comparison method violates its general contract error message
+</details>
