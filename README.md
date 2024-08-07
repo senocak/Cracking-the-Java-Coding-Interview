@@ -2192,3 +2192,34 @@ IntPredicate intPredicate = i -> i % 2 == 0;
 
 One last word, there is also `Runnable` that does not take any argument and that does not return anything, it fits nicely in this family
 </details>
+
+## 116. What is an Enumeration?
+<details>
+  <summary>Short Answer</summary>
+
+A class with a set of instances declare that `Compile Time`
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Enumerations are interesting when you know that a class can only have a limited number of instances. Enumerations can have a state, even a mutable state, Why would you do that?, and you can declare a constructor for them. Your Enum class is `final` and extends the class enum so your enumeration cannot extend anything and cannot be extended but it can implement interfaces.
+
+```java
+enum Months {
+  JANUARY, FEBRUARY, MARCH, APRIL, MAY, JUNE, JULY, AUGUST, SEPTEMBER, OCTOBER, NOVEMBER, DECEMBER
+}
+
+enum Month {
+  JANUARY(31), ...;
+  private final int length;
+  Month(int length) {
+    this.length = length;
+  }
+  public int length() {
+    return this.length;
+  }
+}
+```
+
+One last word, because you cannot create any more instance of an enumeration at runtime using enumerations is the preferred pattern to create singleton. You can see examples of that in the natural order factory method of the comparator interface `Comparator.naturalOrder()`
+</details>
