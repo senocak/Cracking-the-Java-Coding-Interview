@@ -2767,3 +2767,37 @@ Back in the days a long time ago before the collections framework was added to t
 
 One last word, as the Java says the functionality of this interface is duplicated by the iterator interface and if you see one you can call it as iterator method to use it as an iterator
 </details>
+
+## 139. What is the Diamond Problem in object-oriented programming?
+<details>
+  <summary>Short Answer</summary>
+
+Something that default methods in interfaces brought to the Java platform
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+These problem comes with multiple inheritance of behavior. Before Java 8, Java used to support only the inheritance of type. Class can implement several interfaces. Starting with Java 8, you can have default methods that is behavior in interfaces so if a given class implements two different interfaces that happen to have the exact same default method but are doing two different things then what you have is a diamond problem.
+
+```java
+interface A {
+  default void m(){
+    // ...
+  }
+}
+interface B {
+  default void m(){
+    // ...
+  }
+}
+class C implements A, B {
+  // diamond problem doesn't compile
+  @Override
+  public void m() {
+    //A.super.m();
+  }
+}
+```
+
+One last word, how can you fix that, well the good news is that the compiler can see this problem and will ask you which default method you want to call at compile time
+</details>
