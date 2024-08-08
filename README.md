@@ -2833,3 +2833,34 @@ record Country(City[] cities) {
 
 One last word, records are really great to improve the readability and expressiveness of your code. You can create them on the fly as local records so you should definitely use them everywhere you can
 </details>
+
+## 141. What is a Deque?
+<details>
+  <summary>Short Answer</summary>
+
+A double-ended queue
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+There are two interfaces that you should use when you need a Queue or a Stack in Java. Queue and Deque that extends Queue. You can peek, pop or push by both ends of a Deque and it makes it a model for both Stacks and Queues. In Java Deque defines the two behavior you need when you want to push an item in a full queue or to pop one from an empty queue and these two behaviors are immediately fail with an exception or immediately return true or false if the operation succeeded or failed.
+
+```java
+interface Queue<E> {}
+interface Deque<E> extends Queue<E> {
+    // insert HEAD
+    // throws an exception
+    void addFirst(E e);
+    // immediately returns false
+    boolean offerFirst(E e);
+    
+    // remove HEAD
+    // throws an exception
+    E removeFirst(E e);
+    // immediately returns null
+    E pollFirst(E e);
+}
+```
+
+One last word, deque has an extension `BlockingDeque` that models concurrency. It adds a third behavior, instead of reacting immediately it can block until your push or your pop can succeed
+</details>
