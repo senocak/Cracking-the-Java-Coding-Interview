@@ -2753,3 +2753,17 @@ interface Iterable<T> {
 }
 ```
 </details>
+
+## 138. What is the difference between an Enumeration and an Iterator?
+<details>
+  <summary>Short Answer</summary>
+
+An Enumeration is something you should not be using anymore
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Back in the days a long time ago before the collections framework was added to the jdk in 1998 that was Java 2, the Enumeration interface was the interface you had to use to iterate over the elements of a vector now you have the collection framework, no reason to use Vector anymore. You can use ArrayList instead or a concurrent collection from `java.util.concurrent` if you need thread safety.
+
+One last word, as the Java says the functionality of this interface is duplicated by the iterator interface and if you see one you can call it as iterator method to use it as an iterator
+</details>
