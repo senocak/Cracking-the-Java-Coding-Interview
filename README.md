@@ -2681,3 +2681,17 @@ Set<Map.Entry<Integer, String>> set = map.entrySet();
 One last word, you can also get a set of the entries of a map with the `map.entrySet()` method. This set has very specific properties but that will be for another time
 
 </details>
+
+## 135. What type of ExecutiveService can you cite?
+<details>
+  <summary>Short Answer</summary>
+
+`newSingleThreadExecutor()` that creates only one thread in the pool
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+This question refers to the factory methods of the `Executors.class`. There are some that you probably need to know `newFixedThreadPool()` and you can pass the number of threads that you want. `newCachedThreadPool() that creates threads on demand can reuse use them but that will let them die after 60 seconds. Some of these factory methods also take a thread factory as an argument that you can use to generate the name of the thread for instance or to decide if they are daemon threads or not.
+
+One last word, with the JDK21 you even have a `newVirtualThreadPerTaskExecutor` that create virtual threads on demand and let them die at the end
+</details>
