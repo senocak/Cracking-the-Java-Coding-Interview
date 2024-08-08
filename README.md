@@ -2801,3 +2801,35 @@ class C implements A, B {
 
 One last word, how can you fix that, well the good news is that the compiler can see this problem and will ask you which default method you want to call at compile time
 </details>
+
+## 140. What is a compact constructor?
+<details>
+  <summary>Short Answer</summary>
+
+A syntax that you can use to write the canonical constructor of records in a much simpler way
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+The canonical constructor of a record is simply the constructor that takes all its components. You can have other constructors but they need to call this one. You can write this constructor in a compact form where you do not declare its parameters and you don't need to assign the arguments to the fields of your records. It gives you a very clean syntax especially when all you have to do is validate the arguments that you get but you can also do some defensive copy in a compact constructor if this is what you need.
+
+```java
+record User(String name) {
+  User(String name) {
+    this.name = Objects.requireNonNull(name);
+  }
+
+  User {
+    name = Objects.requireNonNull(name);
+  }
+}
+
+record Country(City[] cities) {
+  Country {
+    cities = Arrays.copyOf(cities);
+  }
+}
+```
+
+One last word, records are really great to improve the readability and expressiveness of your code. You can create them on the fly as local records so you should definitely use them everywhere you can
+</details>
