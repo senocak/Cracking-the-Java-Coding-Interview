@@ -2695,3 +2695,28 @@ This question refers to the factory methods of the `Executors.class`. There are 
 
 One last word, with the JDK21 you even have a `newVirtualThreadPerTaskExecutor` that create virtual threads on demand and let them die at the end
 </details>
+
+## 136. What is a defensive copy?
+<details>
+  <summary>Short Answer</summary>
+
+A pattern by which you create a copy of an object when you receive it or when you return it
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+It is useful when this object is modifiable like an ArrayList, a HashMap or a plane array for instance. If you don't do this copy someone with a reference to this object will be able to modify it and thus modify the internal state of your object. in a record for instance, if you have an array as a component you need to copy it both in the constructor to make sure that no one has a reference on it and in the accessor for the same reason.
+
+```java
+record Country(City[] cities) {
+  Country(City[] cities) {
+    this.cities = Arrays.copyOf(cities);
+  }
+  City[] cities() {
+      return Arrays.copyOf(cities);
+  }
+}
+```
+
+One last word, you don't need a defensive copy with unmodifiable objects but be careful you need to make sure that they do not have any reference to other modifiable objects
+</details>
