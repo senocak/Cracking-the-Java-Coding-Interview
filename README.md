@@ -2864,3 +2864,25 @@ interface Deque<E> extends Queue<E> {
 
 One last word, deque has an extension `BlockingDeque` that models concurrency. It adds a third behavior, instead of reacting immediately it can block until your push or your pop can succeed
 </details>
+
+## 142. What is a deep copy?
+<details>
+  <summary>Short Answer</summary>
+
+A mechanism to copy an object on all its related objects
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+There are two ways to duplicate objects Deep copy and Shallow copy. Shallow copy just copies the current object. If this object is referencing more objects, they are not copied. Deep copy visits all the graph of the reference objects and copies them which can be costly because it is hard to know in advance what is the cost of a deep copy, shallow copy is usually the default behavior.
+
+```java
+List<E> copyOf(Collection<E> col) {
+    if (col /* is non-modifiable*/) {
+        return (List<E>)col;
+    }
+}
+```
+
+One last word, if your objects are non-modifiable then there is no need to copy them. You can check the source code of `List.copyOf()` for instance, it first checks if the list is non-modifiable and in that case just returns it
+</details>
