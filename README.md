@@ -2720,3 +2720,36 @@ record Country(City[] cities) {
 
 One last word, you don't need a defensive copy with unmodifiable objects but be careful you need to make sure that they do not have any reference to other modifiable objects
 </details>
+
+## 137. What is a for-each loop?
+<details>
+  <summary>Short Answer</summary>
+
+a syntaxic sugar to iterate over an Iterable
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+This syntax works for any iterable that includes all the collections and the arrays. Internally the compiler creates an iterator for you and use it to traverse your iterable. You may be thinking that this extra object is an overhead but it can quickly be removed by the JVM through its escape analysis optimization. No one can get a reference to this iterator so in the end the jvm may decide to drop it.
+
+```java
+var list = List.of(...);
+for(var city: list) {
+    //...
+}
+```
+
+One last word, if what you have is an iterable, you can also use its `forEach()` method and pass your Consumer to it. This forEach method uses a for Loop internally so it will not make your code any faster but it can make it easier to read
+
+```java
+interface Iterable<T> {
+  //...
+  default void forEach(Consumer<? super T> action) {
+    Objects.requireNonNull(action);
+    for (T t : this) {
+      action.accept(t);
+    }
+  }
+}
+```
+</details>
