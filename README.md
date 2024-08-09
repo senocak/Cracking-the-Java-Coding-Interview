@@ -3665,3 +3665,27 @@ class Message {
 
 One last word, serialization used to be a great idea when Java was created but it brings many issues including security issues so now you should stay away from that
 </details>
+
+## 173. How does the forEach() method work?
+<details>
+  <summary>Short Answer</summary>
+
+It iterates over the elements of an iterable and pass them to a Consumer.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+There are actually three such methods; one on the iterable interface and another one on the stream interface that both take a Consumer and the third one on the map interface that takes a BiConsumer. This method iterates over the elements of the iterable or the stream or over the key-value pairs of your map and passes them one by one to the consumer you pass as an argument. In the case of maps the BiConsumer accepts the key and the value of each of your key-value pairs.
+
+```java
+var map = Map.of(1, "one", 2, "two", 3, "three");
+map.forEach((key, value) -> System.out.println(key + "::" + value));
+/*
+> 1::one
+> 2::two
+> 3::three
+*/
+```
+
+One last word, apart from printing the content of a collection or a map, doing side effects in your Consumer is most of the time a bad idea. Try to use Streams instead of doing side effects
+</details>
