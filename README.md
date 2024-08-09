@@ -3589,3 +3589,31 @@ var random = RandomGenerator.of(algorithm);
 
 One last word, if you are working in cryptography or if you need a specific random number generator then you need to check the documentation of the `java.util.random` package that gives you all the detail of the algorithms available in the JDK.
 </details>
+
+## 170. What is a Supplier?
+<details>
+  <summary>Short Answer</summary>
+
+A functional interface
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+The Supplier interface models lambdas that do not take any parameter and return something. These lambdas are very useful when you need to model the construction of an object. Suppose that you need to log a message or to throw an exception but this message or this exception is expensive to create. If you pass this argument then it will be created when you call your method even if this method decides not to use it. This can be the case if your log level is not the right one or if there is no need to throw this exception, in that case you can pass a supplier that can create this message or this exception. If the method needs to create it then it can call the get method of this supplier.
+
+```java
+import java.util.function.Supplier;
+
+class Optional<T> {
+  Throwable orElseThrow(Supplier<Exception> supplier) {
+      if (isPresent()) {
+          return this.value;
+      } else {
+          throw supplier.get();
+      }
+  }
+}
+```
+
+One last word, suppliers are very useful, you should use them wherever you can
+</details>
