@@ -3230,3 +3230,26 @@ And the second one is concurrent access. Fields can be declared `volatile` but i
 
 One last word, by default always use private field always
 </details>
+
+## 156. What is the difference between an Interface and an Abstract Class?
+<details>
+  <summary>Short Answer</summary>
+
+Well, it's not the same thing.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+There are two major differences; First, an Abstract Class has a constructor which is called to construct your final object, it is not the case for an interface and second, an Abstract Class can carry a mutable state which is again not the case for an Interface. This question may sound like a trick question because you can have static and instance method in both abstract classes and interfaces, it is a feature that was added in Java 8 in 2014.
+
+```
+Abstract class:
+  - constructor
+  - mutable state
+Interface:
+  - no constructor
+  - does not carry any state
+```
+
+One last word, now you may be wondering when should one use abstract classes or interfaces. By default, prefer interfaces. Why?, well that will be for another time
+</details>
