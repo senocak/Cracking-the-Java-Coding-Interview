@@ -3753,3 +3753,17 @@ It's not just about testing, it's also about providing feedback so if you spot a
 
 One last word, be aware that a preview feature may change before becoming final. It can even be dropped so avoid using them in your application unless you really know what you're doing
 </details>
+
+## 177. How can you reduce a Stream?
+<details>
+  <summary>Short Answer</summary>
+
+There are several method for that.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Reducing a stream means combining all the elements produced by the streams into one final element that can be of a different type. There are 3 `reduced()` methods on the stream interface and two `collect()` methods that are reducing in a mutable container. IntStream, LongStream and DoubleStream have only 2 `reduce()` and one `collect()` but they have a `sum()`, a `min()` and a `max()` and also a nifty summary `statistics()` method that does the max, the min, the count, the average all in one pass over your data.
+
+One last word, some reduced methods return an optional and there is a very good reason for that but that will be for another time
+</details>
