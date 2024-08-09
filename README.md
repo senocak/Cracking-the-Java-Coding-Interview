@@ -2886,3 +2886,17 @@ List<E> copyOf(Collection<E> col) {
 
 One last word, if your objects are non-modifiable then there is no need to copy them. You can check the source code of `List.copyOf()` for instance, it first checks if the list is non-modifiable and in that case just returns it
 </details>
+
+## 143. What is a ForkJoinPool?
+<details>
+  <summary>Short Answer</summary>
+
+A pool of threads used for Parallel Streams
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+This pool of threads is called the Common Fork-Join Pool and there is only one in your JVM. It is created when your jvm starts and wait for your parallel streams to use it. The ForkJoinPool is named after the algorithm used in parallel streams. First, you split your data set again and again until it chunk you have is small enough to be processed in a reasonable amount of time. That's the Fork phase and then you merge everything to compute the final result that's the Join phase.
+
+One last word, you should be careful with parallel streams, they may be much more costly than what you think. One piece, of advice if you're writing a service bound to run in an application server you should stay away from them
+</details>
