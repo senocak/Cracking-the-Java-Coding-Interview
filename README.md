@@ -3303,3 +3303,28 @@ values.add(...);
 
 One last word, if a value is present several times in your map then one of them is removed. It is the first that is found when your implementation iterates over them but it may not be the first that you added to your map
 </details>
+
+## 159. What is the first thing that the constructor does?
+<details>
+  <summary>Short Answer</summary>
+
+It calls another constructor
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+This constructor can be a constructor from the same class called by `this()` or from a super class called by `super()`. If you don't write any such call explicitly, then the compiler will add one for you. This series of super() calls lands in the Object class. In the case of Records any constructor other than the canonical constructor must call another constructor. In the end this chain of calls must call the canonical constructor.
+
+```java
+class User {
+    User(String name, int age) {
+        super(); // compiler
+    }
+    User(String name) {
+        this(name, 30);
+    }
+}
+```
+
+One last word, you cannot add any instruction before this call to this() or super(). Being able to execute code before this call is actually being discussed and should become a feature, we will talk more about this later
+</details>
