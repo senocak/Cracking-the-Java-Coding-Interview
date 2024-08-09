@@ -3617,3 +3617,29 @@ class Optional<T> {
 
 One last word, suppliers are very useful, you should use them wherever you can
 </details>
+
+## 171. How can you join the elements of a Stream of Strings?
+<details>
+  <summary>Short Answer</summary>
+
+There is a Collector for that.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+You can call `collect()` on your stream and pass the `Collectors.joining()` collector to this method. This joining() factory method has several overloads; the first one doesn't take any parameter and joins all the strings of your stream. The second one takes a separator that is inserted between each element and the third one takes a separator a prefix and a suffix and yes these last two handle empty streams or singletons properly.
+
+```java
+var ints = Stream.of("one", "two", "three");
+ints.collect(Collectors.joining());
+// > onetwothree
+
+ints.collect(Collectors.joining(", "));
+// > one, two, three
+
+ints.collect(Collectors.joining(", ", "[", "]"));
+// > [one, two, three]
+```
+
+One last word, be careful because this collector works only on Streams of Strings, if you pass it to a stream of objects for instance you will get a compiler error
+</details>
