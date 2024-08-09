@@ -3739,3 +3739,17 @@ interface Enumaration<E> {
 
 One last word, Enums are great, they can have methods, states and even custom constructors. Enumerations well just forget about that
 </details>
+
+## 176. What is a preview feature?
+<details>
+  <summary>Short Answer</summary>
+
+A way to test upcoming features of the JDK before they become final.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+It's not just about testing, it's also about providing feedback so if you spot a bug or think about an improvement then you can go to the mailing list and talk about it. We can even get answers from the people who actually wrote the feature. You can find the right mailing list in a JEP that describes the feature. Preview features need to be activated to be used so no risk of using them by accident, usually you will activate them in your IDE.
+
+One last word, be aware that a preview feature may change before becoming final. It can even be dropped so avoid using them in your application unless you really know what you're doing
+</details>
