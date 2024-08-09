@@ -2990,3 +2990,28 @@ Map<Integer, String> map = Stream.of("1", "11", "22", "111")
 
 One last word, you also have the `groupingBy()` collector which adds the element that produce the same key to the same list. Neat.
 </details>
+
+## 147. What is a Lock?
+<details>
+  <summary>Short Answer</summary>
+
+An interface
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+It is used to model the object you can use to ensure that only one thread can execute a piece of code at a given time. There are several ways to do that in Java. The first one is the `Synchronized Block`. It has always been there and the second one is the `Lock` interface implemented by the `ReentrantLock` class added in Java 5. The pattern to use this object is to create it then call lock then use it and release it in a try finally block to make sure that in case something goes wrong your lock will always be unlocked.
+
+```java
+Lock lock = new ReentrantLock();
+lock.lock();
+//lock.tryLock(1, TimeUnit.SECONDS);
+try {
+  // only one thread can execute this  
+} finally {
+    lock.unlock();
+}
+```
+
+One last word, you can do many more things with locks than with synchronized blocks like trying to lock but with the timeout for instance
+</details>
