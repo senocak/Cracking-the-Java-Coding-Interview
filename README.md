@@ -3357,3 +3357,30 @@ var stream = StreamSupport.stream(
 
 One last word, these Spliterator Characteristics are a very interesting feature of the API that can greatly speed up your stream computations but that will be for another time
 </details>
+
+## 161. Why should you not use static initializers?
+<details>
+  <summary>Short Answer</summary>
+
+Because you can't prevent this code to run
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+You can run your application in two context at least; in production and to run your test. Odds are that your production context is not the same as your test context. Suppose you create a logger that logs to a file or database then you need the same file system or the same database. You can play with the configuration files for that but then what you do is not return in your code anymore using dependency injection for instance leads to a code that is much easier to understand.
+
+```java
+class User {
+  static Logger logger = Logger.getLogger(User.class);
+}
+// or
+class User {
+    Logger logger;
+    User(Logger logger) {
+      this.logger = logger;
+    }
+}
+```
+
+One last word, there are some examples of static initializers in a JDK itself but that's okay because that's the same JDK, whether you're using it to test your application or to run it in a production environment
+</details>
