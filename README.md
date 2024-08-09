@@ -3526,3 +3526,29 @@ System.out.println(joined);
 
 One last word, there are other patterns that you may want to check. One is based on the use of the StringJoiner class that can take a prefix and a suffix, as well as the `Collectors.joining()` collector which can be useful if you need to map your elements before joining them
 </details>
+
+## 168. What does volatile mean?
+<details>
+  <summary>Short Answer</summary>
+
+It has to do with concurrency and race conditions
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Volatile is a keyword you can use when declaring a field and you should use it when there is a possibility of race condition on this field that is several threads can read and modify this field. Declaring a field volatile ensures that a thread reads the last value that was return to this field even if this write occurred in another thread. The exact rule is the following a synchronized or volatile read always returns the last value written by a synchronized or volatile write.
+
+```java
+class User {
+    volatile String name;
+    void upperCase() {
+        name = name.toUpperCase();
+    }
+    String name() {
+        return this.name;
+    }
+}
+```
+
+One last word, this definition is actually the definition of the happens-before link between read and write operations but that will be for another time
+</details>
