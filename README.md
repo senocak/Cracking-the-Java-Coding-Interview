@@ -3161,3 +3161,42 @@ try {
 
 One last word, Semaphore can also be fair, meaning that the first thread that was blocked is the first one to be given a permit
 </details>
+
+## 154. What is the MethodHandle?
+<details>
+  <summary>Short Answer</summary>
+
+An object to access the members of an object using Reflection
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+There is a caveat in using the Reflection API with the field or method objects. It needs to check access on each invocation and this is quite slow. a MethodHandle is a reference to an existing member of a class but the checks are made when you create the method and all you can invoke public constructors by getting a reference to it with the `findConstructor()` method same for public methods with the `findVirtual()` method or public fields with `findGetter()` and `findSetter()`.
+
+```java
+class User {
+  String name;
+  User(String name) {...}
+  String name() {...}
+}
+var lookup = MethodHandles.Lookup();
+
+// findConstructor
+var constructorMH = lookup.findConstructor(User.class, MethodType.methodType(void.class, String.class));
+var maria = (User)constructorMH.invokeExact("Maria");
+
+//findVirtual
+var getterMH = lookup.findVirtual(User.class, "name", MethodType.methodType(String.class));
+var name = (String)getterMH.invokeExact(maria);
+
+//findGetter
+var fieldReadMH = lookup.findGetter(User.class, "name", MethodType.methodType(String.class));
+var name = (String)fieldReadMH.invokeExact(maria);
+
+//findSetter
+var fieldWriteMH = lookup.findSetter(User.class, "name", MethodType.methodType(String.class));
+var name = (String)fieldWriteMH.invokeExact(maria, "MARIA");
+```
+
+One last word, MethodHandles do not give you access to private members from outside of a class for that you need to use the classical Field or Method classes
+</details>
