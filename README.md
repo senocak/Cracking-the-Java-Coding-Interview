@@ -3057,3 +3057,26 @@ System.out.println(ints);
 
 One last word, you can also filter using two other operations, `mapMulti()` and `flatMap()` which may be useful if you cannot express your validation as a simple predicate but that will be for another time
 </details>
+
+## 150. How is QuickSort working?
+<details>
+  <summary>Short Answer</summary>
+
+Quickly
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+The first step consists in choosing a pivot. Your best choice is to choose a value that will split your set into two equal parts then you compare all the elements to the pivot the lesser elements go to the left, the greater to the right and then you rinse and repeat on the two halves of your set again and again and until you have intervals of size two.
+
+```
+8 1 1 2 3 8 7 5 9 5 6 5 6 4 7 4
+1 1 2 3 5 5 4 4 5 8 7 8 9 6 6 7
+1 1 2 3 5 5 4 4 5 6 6 7 7 8 8 9
+1 1 2 3 4 4 5 5 5 6 6 7 7 8 8 9
+(# comparisons per step) = N
+pivot = 5
+```
+
+One last word, How many operations do you need? Well each step consist in N comparison and you divide your set in two, again and again, until you cannot do it anymore so the number of steps is such that n divided by two power(2^) the number of steps is still greater than one that's n log of n you knew that already now you sure
+</details>
