@@ -3253,3 +3253,23 @@ Interface:
 
 One last word, now you may be wondering when should one use abstract classes or interfaces. By default, prefer interfaces. Why?, well that will be for another time
 </details>
+
+## 157. How can you create a directory with Java I/O?
+<details>
+  <summary>Short Answer</summary>
+
+There is a method for that.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+The method is called `createDirectory()`: Iit is a factory method from the `Files.class` and it takes a Path as a parameter so the pattern is very simple, call `createDirectory()` pass a Path and you're done. You can also pass file attributes that can set the permission you want to set for this directory here is a classical example for a public directory.
+
+```java
+var fileAttributes = PosixFilePermissions.asFileAttribute(PosixFilePermissions.fromString("rwxr-xr-x"));
+Path dir = Path.of("new-dir");
+var createdDir = Files.createDirectory(dir, fileAttributes);
+```
+
+One last word, there is also a `Files.newDirectories()` method that takes the same parameters but that can create any intermediate directory on the path to the directory you want to create. Neat.
+</details>
