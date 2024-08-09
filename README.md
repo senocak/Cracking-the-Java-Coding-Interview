@@ -3643,3 +3643,25 @@ ints.collect(Collectors.joining(", ", "[", "]"));
 
 One last word, be careful because this collector works only on Streams of Strings, if you pass it to a stream of objects for instance you will get a compiler error
 </details>
+
+## 172. What does transient mean?
+<details>
+  <summary>Short Answer</summary>
+
+It is used to prevent a field to be serialized.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Serialization consists in saving a root object along with all the graph of objects it points to, to a binary stream that can be saved to a file or send to the network. You can then recreate all this graph on another machine. Sometimes your object has references to elements that are sensitive or system dependent like files or network connections and you don't want these elements to be serialized, well that's where you can use the transient keyword. Add it on the field and this field will not be serialized.
+
+```java
+// You don't want to expose securityKey
+class Message {
+    String message;
+    transient String securityKey;
+}
+```
+
+One last word, serialization used to be a great idea when Java was created but it brings many issues including security issues so now you should stay away from that
+</details>
