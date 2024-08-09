@@ -3711,3 +3711,31 @@ semaphore.release(); // also OK
 
 One last word, this feature is very useful, it may allow you to unlock systems from the outside just by releasing permits from any other thread
 </details>
+
+## 175. What is the difference between Enum and Enumeration?
+<details>
+  <summary>Short Answer</summary>
+
+Enumeration is an interface, Enum is a class. The only common elements between both is the first 4 letters of their name.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Enumeration is an old stuff that you should not be using anymore. It's an interface that has been superseded by iterator when the collection framework was added to the JDK that was Java 2 1998. Enum is a great addition of the JDK5 that allows you to control the instances of a given class. If you have only one instance, it gives you a singleton and Enum's are the preferred pattern to create singleton.
+
+```java
+enum SomeDays {
+    SATURDAY, SUNDAY
+}
+
+// Obsolete interface
+interface Enumaration<E> {
+    // Some obsolete methods
+    // The only useful method
+    Iterator<E> asIterator();
+    
+}
+```
+
+One last word, Enums are great, they can have methods, states and even custom constructors. Enumerations well just forget about that
+</details>
