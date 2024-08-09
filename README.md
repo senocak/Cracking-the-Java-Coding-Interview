@@ -3463,3 +3463,25 @@ keySet.add(4); // Exception in thread "main" java.lang.UnsupportedOperationExcep
 
 One last word, do not use this set if what you need is to iterate over the key-value pair of your map because it's inefficient you have another set for that you can get with `Map.entrySet()`
 </details>
+
+## 165. What is a Garbage Collector?
+<details>
+  <summary>Short Answer</summary>
+
+A wonderful piece of technology that does incredible things for you!
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+A Garbage Collector is an element of the Java Virtual Machine that works under the hood and takes care of your memory for you. There are actually several garbage collectors available which you can choose from, you can decide which one you want to use when you launch your application. It is the responsibility of your garbage collector to give you the memory you need to create your objects and to reclaim this memory when you are not using it anymore.
+
+```
+Garbage Collector
+- One is active at a time
+- Several to choose from
+- Gives you memory
+- Reclaims it
+```
+
+One last word, garbage collectors are actually critical to get good performance for your application and they are a lot of investment in this piece of technology. The two last one `ZGC` and `Generational ZGC` are doing wonders but that will be for another time
+</details>
