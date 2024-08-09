@@ -3485,3 +3485,24 @@ Garbage Collector
 
 One last word, garbage collectors are actually critical to get good performance for your application and they are a lot of investment in this piece of technology. The two last one `ZGC` and `Generational ZGC` are doing wonders but that will be for another time
 </details>
+
+## 166. What is a Final Class?
+<details>
+  <summary>Short Answer</summary>
+
+A class that you cannot extend.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Final is a keyword that you can add on many elements of your source code. If you add it on the declaration of your class and someone tries to extend this class then the compiler will generate an error. There are elements that you can create in Java that are compiled as final classes this is the case for `Enums` compiled as a final class that extends `java.lang.Enum` and the case for records also compiled as a final class that extends `java.lang.Record`
+
+```java
+final class CannotBeExtended {}
+
+// compiled as a final class that extends java.lang.Record
+record Point(int x, int y) {}
+```
+
+One last word, instead of forbidding the extension of your class, you can also control it by making it `sealed` and publishing the list of classes that can extend it. It works really well especially in conjunction with the switch on types but that will be for another time
+</details>
