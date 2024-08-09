@@ -3103,3 +3103,37 @@ var textBlock = """
 
 One last word, you can control the start and the end of each line by adding a `\s` character. Text blocks are great you should use them wherever you can
 </details>
+
+## 152. How can you loop backward?
+<details>
+  <summary>Short Answer</summary>
+
+There is a method for that
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+It only works if your collection is ordered, meaning that it is in fact a List. Most of the time it is the case because ArrayList is your favorite implementation: There is a `listIterator()` method on List that does not exist on collection and that returns the `ListIterator`. ListIterator extends Iterator so you have the classic called `next()` and `hasNext()` but you also have `previous()` and `hasPrevious()` to iterate backward.
+
+```java
+interface List<E> {
+  Iterator<E> iterator();
+  ListIterator<E> listIterator();
+}
+interface ListIterator<E> extends Iterator<E> {
+  E next();
+  boolean hasNext();
+  
+  E previous();
+  boolean hasPrevious();
+  
+  int nextIndex();
+  int previousIndex();
+  
+  void set(E e);
+  void add(E e);
+}
+```
+
+One last word, you also have a `nextIndex()` and `previousIndex()` methods as well as `set()` an `add()` to set the current element and insert an element through this ListIterator, all this is supported by the ArrayList implementation
+</details>
