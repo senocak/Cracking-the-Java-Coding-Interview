@@ -2929,3 +2929,40 @@ public static void main(String[] args) {
 
 One last word, if your map is a `SequencedMap` instead of Map then you can call sequenced EntrySet() on it to get a sequence set instead of a regular set
 </details>
+
+## 145. What does fall-through mean?
+<details>
+  <summary>Short Answer</summary>
+
+With no doubt troubled
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+This is something that can happen if you're using switch in your application, unfortunately you don't so there is very little chance that you can see this problem. In case you do the problem is the following suppose you switch on an Enum for instance but forgot to add a break after each label then your code will carry on with the next one which is usually not what you want.
+
+```java
+enum Day {
+    Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday
+}
+void main(Day value) {
+  switch (value) {
+    case Monday, Tuesday, Thursday, Friday -> System.out.println("School");
+    case Wednesday, Saturday, Sunday -> System.out.println("Rest"); 
+  }
+  // > value = Day.Tuesday
+  // School
+  // Rest
+}
+void mainWithBreak(Day value) {
+  switch (value) {
+    case Monday, Tuesday, Thursday, Friday -> System.out.println("School"); break;
+    case Wednesday, Saturday, Sunday -> System.out.println("Rest");
+  }
+  // > value = Day.Tuesday
+  // School
+}
+```
+
+One last word, maybe you will be using switch expressions and statements more and more in the future because it is now part of the Data-Oriented programming paradigm currently being added to the Java language but that will be for another time
+</details>
