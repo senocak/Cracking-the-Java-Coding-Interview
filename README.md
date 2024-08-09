@@ -3767,3 +3767,27 @@ Reducing a stream means combining all the elements produced by the streams into 
 
 One last word, some reduced methods return an optional and there is a very good reason for that but that will be for another time
 </details>
+
+## 178. How is HashSet working?
+<details>
+  <summary>Short Answer</summary>
+
+It wraps a HashMap.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+HashSet needs to store objects that are different and refuse to add an object that it already contains. It uses an internal HashMap for that, it adds your object to this HashMap and put them as the keys of the map associated to a dumb value called `PRESENT` in a source code. One consequence is that you should absolutely not mutate the state of an object once you have added it to a HashSet if you do that your set will not work properly.
+
+```java
+class HashSet<E> {
+  HashMap<E, Object> map;
+  static final Object PRESENT;
+  boolean add(E e) {
+      return map.put(e, PRESENT);
+  }
+}
+```
+
+One last word, if you have a lot of objects to add to a Set, try to create it with the right size up front. There is a factory method for that.
+</details>
