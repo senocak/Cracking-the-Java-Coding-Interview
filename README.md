@@ -3423,3 +3423,23 @@ void write() {
 
 One last word, of course this is an optimization only if your number of write operations is much smaller than the number of read operations
 </details>
+
+## 163. What is the difference between an Iterator and a Spliterator?
+<details>
+  <summary>Short Answer</summary>
+
+An iterator is used by Collections, a Spliterator is used by Streams
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Spliterator comes from the contraction of Iterator and split which means that you can split the data and Iterator it's pulling its data from a source. a Spliterator on the other hand sends a consumer with its `tryAdvance()` method and let this source called this consumer. And if there is no more element this tryAdvance() method should return false so Spliterator works on a push model.
+
+```java
+interface Spliterator<E> {
+    boolean tryAdvance(Consumer<E> consumer);
+}
+```
+
+One last word, you can actually implement your own Spliterator to create operations on streams like shifting, sliding, zipping or even folding. It's a little tricky but doable
+</details>
