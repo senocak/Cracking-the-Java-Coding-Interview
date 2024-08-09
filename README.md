@@ -3035,3 +3035,25 @@ var list = Streams.stream(iterable).toList();
 
 One last word, loading your data in memory can dramatically increase your memory footprint so make sure you need it before doing it
 </details>
+
+## 149. What is the filter() method?
+<details>
+  <summary>Short Answer</summary>
+
+A method to prevent elements from a stream to be passed to the next stage of your pipeline
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+A filter() method does not really remove elements from a stream because a stream is an empty object. There is no element in a stream. A stream consumes element from a source, process them one stage at a time and then reduce them. The filter operation takes a predicate as a parameter that decides if a given element can be passed or not.
+
+```java
+var ints = Stream.of(1, 2, 3, 4, 5, 6)
+        .filter(i -> i % 2 == 0)
+        .toList();
+System.out.println(ints);
+// > [2, 4, 6]
+```
+
+One last word, you can also filter using two other operations, `mapMulti()` and `flatMap()` which may be useful if you cannot express your validation as a simple predicate but that will be for another time
+</details>
