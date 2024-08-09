@@ -3273,3 +3273,33 @@ var createdDir = Files.createDirectory(dir, fileAttributes);
 
 One last word, there is also a `Files.newDirectories()` method that takes the same parameters but that can create any intermediate directory on the path to the directory you want to create. Neat.
 </details>
+
+## 158. How is the `Map.values()` method working?
+<details>
+  <summary>Short Answer</summary>
+
+`Map.values()` is a mutable view on the values of a Map
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+`Map.values()` return returns a collection of the values present in your map and this collection is a view on the content of your map that reflects its modifications. This view is also mutable it supports `remove()` from the collection itself and from an Iterator `removeAll()` and `retainAll()`. It does not support the addition of new elements and removing a value, removes the corresponding key value pair.
+
+```java
+Map<K, V> map = ...;
+
+// OK
+Collection<V> values = map.values();
+var iterator = values.iterator();
+iterator.remove();
+values.remove(otherValue);
+values.removeAll();
+values.retainAll(someCollection);
+values.clear();
+
+// NOT OK
+values.add(...);
+```
+
+One last word, if a value is present several times in your map then one of them is removed. It is the first that is found when your implementation iterates over them but it may not be the first that you added to your map
+</details>
