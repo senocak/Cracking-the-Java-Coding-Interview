@@ -3506,3 +3506,23 @@ record Point(int x, int y) {}
 
 One last word, instead of forbidding the extension of your class, you can also control it by making it `sealed` and publishing the list of classes that can extend it. It works really well especially in conjunction with the switch on types but that will be for another time
 </details>
+
+## 167. How can you join the elements of a Collection of Strings?
+<details>
+  <summary>Short Answer</summary>
+
+There is a method for that.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+You can use the `join()` method of the String class that takes a delimiter and an Iterable. It can also take a vararg if you don't need the delimiter, you can still pass an empty string to this method call. You should really use this pattern because it has been carefully optimized to make sure that it is as fast as possible and much faster than any StringBuilder based pattern that you may be using. You can check the source code to get a hint at it.
+
+```java
+var joined = String.join("one", "two", "three");
+System.out.println(joined);
+// > one two three
+```
+
+One last word, there are other patterns that you may want to check. One is based on the use of the StringJoiner class that can take a prefix and a suffix, as well as the `Collectors.joining()` collector which can be useful if you need to map your elements before joining them
+</details>
