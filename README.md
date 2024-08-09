@@ -2966,3 +2966,27 @@ void mainWithBreak(Day value) {
 
 One last word, maybe you will be using switch expressions and statements more and more in the future because it is now part of the Data-Oriented programming paradigm currently being added to the Java language but that will be for another time
 </details>
+
+## 146. What is a Collectors.toMap()?
+<details>
+  <summary>Short Answer</summary>
+
+A collector to create Maps
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Collectors are objects, you can pass to the `collect()` method of the Stream API. `Collectors.toMap()` takes two functions both are applied to the element of your streams. The first one is used to compute the key and the second one to compute the value. In case two elements produce the same key then you need to provide a merge function if you don't you will get an exception at runtime. You can also provide a supplier that will be used to create your empty map useful to create TreeMaps for instance.
+
+```java
+Map<Integer, String> map = Stream.of("1", "11", "22", "111")
+        .collect(Collectors.toMap(
+                s -> s.length(),
+                s -> s,
+                (s1, s2) -> s1 + s2),
+                TreeMap::new
+        );
+```
+
+One last word, you also have the `groupingBy()` collector which adds the element that produce the same key to the same list. Neat.
+</details>
