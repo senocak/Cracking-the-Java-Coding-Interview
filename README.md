@@ -3791,3 +3791,45 @@ class HashSet<E> {
 
 One last word, if you have a lot of objects to add to a Set, try to create it with the right size up front. There is a factory method for that.
 </details>
+
+## 179. What is JShell?
+<details>
+  <summary>Short Answer</summary>
+
+A REPL.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+REPL stands for `R`ead `E`valuate `P`rint `L`oop. It's actually a command line tool that you can use to quickly write snippets of code and test them: You can launch it with the command JShell that can take a bunch of options by the way you can see them by typing `jshell` and then you can create variables, call methods, create records and experiment with any feature. You can even activate the preview feature in jshell so you can also experiment with them.
+
+```shell
+$ jshell
+| Welcome to JShell -- Version 21
+| For an introduction type: /help intro
+
+jshell> record Message(String content){}
+| Created record Message
+jshell> var m = new Message("Hello")
+m ==> Message[content=Hello]
+jshell>
+```
+
+One last word, you can even write your Java code on several lines with jell which is very handy to create complex records for instance
+
+```shell
+$ jshell
+| Welcome to JShell -- Version 21
+| For an introduction type: /help intro
+
+jshell> record User(String name) {
+ ...>   public User { 
+ ...>     Objects.requireNonNull(name); 
+ ...>   } 
+ ...> }
+ | created record User
+ jshell> var mary = new User("Mary")
+ mary ==> User[name=Mary]
+ jshell>
+```
+</details>
