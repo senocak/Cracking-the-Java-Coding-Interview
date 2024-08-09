@@ -3443,3 +3443,23 @@ interface Spliterator<E> {
 
 One last word, you can actually implement your own Spliterator to create operations on streams like shifting, sliding, zipping or even folding. It's a little tricky but doable
 </details>
+
+## 164. How is the `Map.keySet()` method working?
+<details>
+  <summary>Short Answer</summary>
+
+`Map.keySet()` is a mutable view on the keys of a Map
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+`Map.keySet()` is a set of the keys of your map, you can't have duplicates among your keys so that's a set. This view is mutable but not all operations are supported in it. You can delete keys from this set with `remove()`, `removeIf()`, `removeAll()` clear and `retainAll() and you can also delete element through its iterator but you cannot add elements to it. If you try to do that you will get an unsupported operation exception.
+
+```java
+Map<Integer, String> map = Map.of(1, "one", 2, "two", 3, "three");
+Set<Integer> keySet = map.keySet();
+keySet.add(4); // Exception in thread "main" java.lang.UnsupportedOperationException
+```
+
+One last word, do not use this set if what you need is to iterate over the key-value pair of your map because it's inefficient you have another set for that you can get with `Map.entrySet()`
+</details>
