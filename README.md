@@ -3552,3 +3552,40 @@ class User {
 
 One last word, this definition is actually the definition of the happens-before link between read and write operations but that will be for another time
 </details>
+
+## 169. How can you generate random numbers?
+<details>
+  <summary>Short Answer</summary>
+
+There is an interface for that.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+If what you need is just a simple series of random numbers, you can use the `java.util.Random` class. Starting with the JDK17, random generators implement the Random Generator interface that models what a random generator can do: Basically, you can generate series of any primitive types, evenly distributed or that follow a Gaussian distribution: You can ask for one element at a time with the `nextXXX()` methods or you can generate streams.
+
+```java
+import java.util.random.RandomGenerator;
+
+var random = new Random(314L);
+var d = random.nextDouble();
+var i10 = random.nextInt(0, 10);
+LongStream stream = random.longs();
+
+String algorithm =
+// L32X64MixRandom
+// L64X128StarStarRandom
+// L64X128MixRandom
+// L64X256MixRandom
+// L64X1024MixRandom
+// L128X128MixRandom
+// L128X256MixRandom
+// L128X1024MixRandom
+// Xoroshiro128PlusPlus
+// Xoroshiro
+// Xoshiro256PlusPlus
+var random = RandomGenerator.of(algorithm);
+```
+
+One last word, if you are working in cryptography or if you need a specific random number generator then you need to check the documentation of the `java.util.random` package that gives you all the detail of the algorithms available in the JDK.
+</details>
