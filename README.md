@@ -2900,3 +2900,32 @@ This pool of threads is called the Common Fork-Join Pool and there is only one i
 
 One last word, you should be careful with parallel streams, they may be much more costly than what you think. One piece, of advice if you're writing a service bound to run in an application server you should stay away from them
 </details>
+
+## 144. What is an EntrySet?
+<details>
+  <summary>Short Answer</summary>
+
+A Set that contains the key value pairs of a Map
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+You can call `map.entrySet()` to get this set. It is a set of `Map.Entry`, the interface that models your key value pairs. This set is actually a view on your map. You cannot add anything to it if you try to do that you will get an exception but you can remove elements from it either directly or through an iterator. Doing that remove the corresponding key value pair from your map.
+
+```java
+interface Map<K, V> {
+  Set<Map.Entry<K, V>> entrySet();
+}
+
+public static void main(String[] args) {
+  for (var iterator = map.entrySet(); iterator.hasNext();) {
+      var entry = iterator.next();
+      if (entry.getKey() % 2 == 0) {
+          iterator.remove();
+      }
+  }
+}
+```
+
+One last word, if your map is a `SequencedMap` instead of Map then you can call sequenced EntrySet() on it to get a sequence set instead of a regular set
+</details>
