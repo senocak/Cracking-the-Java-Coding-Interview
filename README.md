@@ -3833,3 +3833,26 @@ jshell> record User(String name) {
  jshell>
 ```
 </details>
+
+## 180. What is the difference between Comparator and Comparable?
+<details>
+  <summary>Short Answer</summary>
+
+A Comparator can compare two objects, a Comparable can compare itself to another objects.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Both are interfaces. Comparable defines a method that receives another object from the same class so a comparable object can compare itself to some other object. Comparator is also an interface it defines a method that receives two objects of the same type, these objects can be both comparable but a comparator can implement a different comparison.
+
+```java
+interface Comparator<E> {
+  int compare(E e1, E e2);
+}
+interface Comparable<E> {
+  int compareTo(E other);
+}
+```
+
+One last word, unless you really need it don't implement your comparators yourself. Check the comparator interface, first there are plenty of methods; factory methods and default methods that you can use for that
+</details>
