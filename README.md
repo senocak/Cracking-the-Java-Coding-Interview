@@ -3689,3 +3689,25 @@ map.forEach((key, value) -> System.out.println(key + "::" + value));
 
 One last word, apart from printing the content of a collection or a map, doing side effects in your Consumer is most of the time a bad idea. Try to use Streams instead of doing side effects
 </details>
+
+## 174. What is the difference between a Lock and a Semaphore?
+<details>
+  <summary>Short Answer</summary>
+
+A Lock is an interface, a Semaphore is a class.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Yes, but that's not the point. Locks and Semaphore are doing the same kind of things, locks can hold only one permit and the Semaphore for can hold as many as you need and it's still not the point, the biggest difference is that the lock may enforce that the thread that's releases the lock is the same as the thread that acquired it and it is the case for the ReentrantLock implementation, whilst the Semaphore explicitly states that the thread that releases a permit can be a different thread than the one that acquired it.
+
+```java
+var semaphore = new Semaphore();
+semaphore.acquire();
+
+// in some other thread
+semaphore.release(); // also OK
+```
+
+One last word, this feature is very useful, it may allow you to unlock systems from the outside just by releasing permits from any other thread
+</details>
