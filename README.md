@@ -3137,3 +3137,27 @@ interface ListIterator<E> extends Iterator<E> {
 
 One last word, you also have a `nextIndex()` and `previousIndex()` methods as well as `set()` an `add()` to set the current element and insert an element through this ListIterator, all this is supported by the ArrayList implementation
 </details>
+
+## 153. What is a Semaphore?
+<details>
+  <summary>Short Answer</summary>
+
+A Lock with several permits
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+A classical Lock can give access to the block of code it protects to only one thread at a time. A semaphore can give access to several threads. You can create a semaphore by giving it to number of permits then you can use it to protect a block of code. A thread needs a permit to execute the protector code and if there is none available then it blocks until there is one. Don't forget to release your permit in a finally block. Semaphore are useful when you need to limit the number of threads that can access an external resource.
+
+```java
+var semaphore = new Semaphore(4);
+semaphore.acquire();
+try {
+    // your code
+} finally {
+    semaphore.release();
+}
+```
+
+One last word, Semaphore can also be fair, meaning that the first thread that was blocked is the first one to be given a permit
+</details>
