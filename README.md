@@ -3200,3 +3200,33 @@ var name = (String)fieldWriteMH.invokeExact(maria, "MARIA");
 
 One last word, MethodHandles do not give you access to private members from outside of a class for that you need to use the classical Field or Method classes
 </details>
+
+## 155. Why should you prefer private fields and accessors?
+<details>
+  <summary>Short Answer</summary>
+
+Because it is safer
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+A private field must be accessed through an accessor, meaning that you can control the access and there are two things that you can easily do. The first one is the defensive copy sometimes you need to protect your internal state from outside modifications even if your field is final it can be a reference to a mutable container that you need to copy when you build your object.
+
+```java
+public class User {
+  private int[] labels;
+
+  User(int[] labels) {
+    this.labels = Arrays.copyOf(labels);
+  }
+
+  public int labels() {
+    return Arrays.compare(labels);
+  }
+}
+```
+
+And the second one is concurrent access. Fields can be declared `volatile` but it only makes the reference thread safe. You can then guarantee thread-safety using a synchronized block.
+
+One last word, by default always use private field always
+</details>
