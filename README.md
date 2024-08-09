@@ -3384,3 +3384,42 @@ class User {
 
 One last word, there are some examples of static initializers in a JDK itself but that's okay because that's the same JDK, whether you're using it to test your application or to run it in a production environment
 </details>
+
+## 162. What is a ReadWriteLock?
+<details>
+  <summary>Short Answer</summary>
+
+A lock that enables parallel reads and blocks on writes
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Locks are used to prevent race conditions. Race Condition occurs when two threads are writing and reading the same field. Will thread B see the value written by thread A. Synchronization achieves that by blocking everything, ReadWriteLock works with two locks; one for the read operations and another one for the write operations. The write lock is exclusive, no other lock can be taken when it is active: The read lock on the other hand is not you can have any number of active read blocks.
+
+```java
+ReadWriteLock lock = new ReentrantReadWriteLock();
+
+void read() {
+    var readLock = lock.readLock();
+    readLock.lock();
+    try {
+        // as many thread as needed
+        // no write, as many reads
+    } finally {
+        readLock.unlock();
+    }
+}
+void write() {
+  var writeLock = lock.writeLock();
+  writeLock.lock();
+  try {
+    // one thread
+    // no other write
+  } finally {
+    writeLock.unlock();
+  }
+}
+```
+
+One last word, of course this is an optimization only if your number of write operations is much smaller than the number of read operations
+</details>
