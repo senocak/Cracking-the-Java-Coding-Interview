@@ -3080,3 +3080,26 @@ pivot = 5
 
 One last word, How many operations do you need? Well each step consist in N comparison and you divide your set in two, again and again, until you cannot do it anymore so the number of steps is such that n divided by two power(2^) the number of steps is still greater than one that's n log of n you knew that already now you sure
 </details>
+
+## 151. What is a Text Block?
+<details>
+  <summary>Short Answer</summary>
+
+A syntax to write strings of characters
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+You open a text block with a triple double quote(""") followed by a line terminator. Then all the text that follows in your source code is part of the string you're creating until you put another triple double quote that closes your string. A text block usually spans over several lines of your source code, you can add any kind of character in a text block without having to escape them. The blank characters at the beginning of each line are not part of your text they are called `incidental white spaces`.
+
+```java
+var textBlock = """
+        This is a block of text
+        With a second line
+        And some <code>"HTML"</code>
+        And some blanks at the end  \s
+        """;
+```
+
+One last word, you can control the start and the end of each line by adding a `\s` character. Text blocks are great you should use them wherever you can
+</details>
