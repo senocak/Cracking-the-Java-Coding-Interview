@@ -3328,3 +3328,32 @@ class User {
 
 One last word, you cannot add any instruction before this call to this() or super(). Being able to execute code before this call is actually being discussed and should become a feature, we will talk more about this later
 </details>
+
+## 160. How can you create a Stream from an Iterator?
+<details>
+  <summary>Short Answer</summary>
+
+There is a code pattern for that
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+First, you need to create a spliterator from your iterator using the Spliterator Factory class and then you need to pass the Spliterator to the StreamSupport factory class. The `Spliterator.UnknownSize()` factory method also take the Characteristics of the Spliterator you want to create. There are several that you can choose from DISTINCT, NONNULL, SORTED for instance. To build your stream you need to tell the API if you're going to use it in parallel or not.
+
+```java
+import java.util.Iterator;
+import java.util.Spliterator;
+import java.util.Spliterators;
+import java.util.stream.StreamSupport;
+
+Iterator<String> iterator = ...;
+var spliterator = Spliterators.spliteratorUnknownSize(iterator, Spliterator.DISTINCT, Spliterator.NONNULL, Spliterator.SORTED);
+
+var stream = StreamSupport.stream(
+        spliterator,
+        false // not parallel
+);
+```
+
+One last word, these Spliterator Characteristics are a very interesting feature of the API that can greatly speed up your stream computations but that will be for another time
+</details>
