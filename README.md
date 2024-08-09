@@ -3015,3 +3015,23 @@ try {
 
 One last word, you can do many more things with locks than with synchronized blocks like trying to lock but with the timeout for instance
 </details>
+
+## 148. How can you create a Collection from an Iterable?
+<details>
+  <summary>Short Answer</summary>
+
+Why would you do that? Are you sure that this is what you need?
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+And iterable is something that can produce elements without having to store them in memory all at once so you can process many elements with this pattern with a small memory footprint for instance you can create a stream from this iterable and unless you go distinct() or sorted() on your stream, it will not store anything in your memory so if you are really really sure that this is what you need then here is the pattern.
+
+```java
+Iterable<String> iterable = ...;
+// are you REALLY REALLY sure?
+var list = Streams.stream(iterable).toList();
+```
+
+One last word, loading your data in memory can dramatically increase your memory footprint so make sure you need it before doing it
+</details>
