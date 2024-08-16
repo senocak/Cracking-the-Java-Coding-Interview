@@ -4228,3 +4228,17 @@ var list = ints.collect(ArrayList::new);
 
 One last word, some reduce() methods return an Optional, and sometimes the corresponding collectors does the same but not always. That's the case for the summarizing collectors but that will be for another time
 </details>
+
+## 182. What is the vararg?
+<details>
+  <summary>Short Answer</summary>
+
+An Array
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+A vararg is a feature of the language that allows you to pass zero or more elements to a method, you declare your method in that way with the 3 dots and then you can call it with any number of strings. There are 2 constraints with vararg; first, you can only use one vararg per method and second this vararg parameter should be the last of your parameters. No parameter is allowed after a vararg, your compiler will tell you that. In your method this vog is an array by the way you can also pass an array to a method that declares the vararg.
+
+One last word, you can also use vararg with constructors and because you can pass an array you should still use a defensive copy with vararg
+</details>
