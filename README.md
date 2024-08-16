@@ -4242,3 +4242,33 @@ A vararg is a feature of the language that allows you to pass zero or more eleme
 
 One last word, you can also use vararg with constructors and because you can pass an array you should still use a defensive copy with vararg
 </details>
+
+## 183. How should you close an I/O resource?
+<details>
+  <summary>Short Answer</summary>
+
+You should call it `close()` method
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+The only safe way that guarantees that this method is called in all circumstances is to open your I/O resources in a try with resources statement, in that way even if an exception is interrupting your normal process, your close() method is called when your program exits the try block.
+
+```java
+try (
+    var writer = Files.newBufferedWriter(path);
+    var printer = new PrinterWriter(writer);
+) {
+    ...
+} catch(Exception e) {
+    ...
+}// closes printer then writer
+
+
+interface AutoCloseable {
+    void close() throws Exception;
+}
+```
+
+One last word, you can use any object that implements AutoCloseable with a try with resources pattern and to implement this interface you just need to create a close() method so creating your own AutoCloseable object is actually very simple, you should definitely use these patterns in your applications
+</details>
