@@ -4272,3 +4272,22 @@ interface AutoCloseable {
 
 One last word, you can use any object that implements AutoCloseable with a try with resources pattern and to implement this interface you just need to create a close() method so creating your own AutoCloseable object is actually very simple, you should definitely use these patterns in your applications
 </details>
+
+## 184. What is the difference between a Fork-Join Pool and an ExecutorService?
+<details>
+  <summary>Short Answer</summary>
+
+ExecutorService is an interface, Fork-Join Pool is a class
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+There are many implementations of ExecutorService and Fork-Join Pool is, by the way, one of them. There is one point worth mentioning, with CachedThreadPool and FixedThreadPool available from the `Executors` factory class, your task are stored in a single waitlist where the threads can take them. In a Fork-Join Pool, there is one waitlist per thread and the pool implements the work-stealing pattern so that the thread can steal a task from another waitlist in case its own is empty.
+
+```java
+var fixedES = Executors.newFixedThreadPool();
+var cachedES = Executors.newCachedThreadPool();
+```
+
+One last word, as of now, there are two Fork-Join Pools used by the JVM. One to run your parallel streams and another one to run your virtual threads
+</details>
