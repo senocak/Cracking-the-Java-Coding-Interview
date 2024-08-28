@@ -4291,3 +4291,39 @@ var cachedES = Executors.newCachedThreadPool();
 
 One last word, as of now, there are two Fork-Join Pools used by the JVM. One to run your parallel streams and another one to run your virtual threads
 </details>
+
+## 185. What is a Spliterator?
+<details>
+  <summary>Short Answer</summary>
+
+An interface
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+This interface models the way you can connect a stream to a source of data. The name comes from `Iterator` and `split` which is a feature used by Parallel Streams. The spliterator interface is not so easy to implement. You have 4 methods to implement and 4 more default methods that you can redefine. The first four are `trySplit()`, `estimateSize()`, `characteristics()` and `tryAdvance()` which is the one called to get the elements one by one. And the 4 default methods are `getExactSizeIfKnown()`, `forEachRemaining()`, `hasCharacteristics()` and `getComparator()`.
+
+```java
+public interface Spliterator<T> {
+    boolean tryAdvance(Consumer<? super T> action);
+    long estimateSize();
+    int characteristics();
+    Spliterator<T> trySplit();
+
+    default void forEachRemaining(Consumer<? super T> action) {
+        do { } while (tryAdvance(action));
+    }
+    default long getExactSizeIfKnown() {
+        return (characteristics() & SIZED) == 0 ? -1L : estimateSize();
+    }
+    default boolean hasCharacteristics(int characteristics) {
+        return (characteristics() & characteristics) == characteristics;
+    }
+    default Comparator<? super T> getComparator() {
+        throw new IllegalStateException();
+    }
+}
+```
+
+One last word, understanding how all this is working can be very interesting for your application but that will be for another time
+</details>
