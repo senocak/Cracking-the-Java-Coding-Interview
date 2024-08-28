@@ -4327,3 +4327,37 @@ public interface Spliterator<T> {
 
 One last word, understanding how all this is working can be very interesting for your application but that will be for another time
 </details>
+
+## 186. How can you get an instance of a Class?
+<details>
+  <summary>Short Answer</summary>
+
+There are actually 4 ways to do that, at least, depending on what you have
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+If what you have is an object, then you can call `getClass()` on it which is also working for arrays. Second, you can use the `.class` syntax that works for object types and primitive types. If what you have is the name of a class you can call `Class.forName()` and pass it as a parameter. It also works with Arrays. To get the class instance that represent a primitive type, you can also use the TYPE constant defined in all the wrapper types. And starting with the JDK 22, you can get the class that represent a primitive type with the method `Class.forPrimitiveType()`
+
+```java
+var s = "one";
+Class<?> s1 = s.getClass();
+
+var ints = new int[]{1, 2, 4};
+Class<?> c2 = ints.getClass();
+
+// Or
+Class<?> c3 = String.class;
+Class<?> c4 = boolean.class;
+
+// Or
+Class<?> c4 = Class.forName("java.lang.String");
+Class<?> c5 = Class.forName("[I");
+
+// Or
+Class<?> c6 = Long.TYPE;
+Class<?> c7 = Class.forPrimitiveType("long");
+```
+
+One last word, you can also get classes from other classes with `getSuperClass()` or `getInterfaces()`
+</details>
