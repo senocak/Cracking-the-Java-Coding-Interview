@@ -4361,3 +4361,27 @@ Class<?> c7 = Class.forPrimitiveType("long");
 
 One last word, you can also get classes from other classes with `getSuperClass()` or `getInterfaces()`
 </details>
+
+## 187. What does it mean to capture a variable?
+<details>
+  <summary>Short Answer</summary>
+
+It means that you have a local class that references a variable from its enclosing method
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Starting with the JDK 8, local classes can capture final variables. These variable can also be effectively final which means that the compiler added the `final` keyword for you. It is only possible if you do not modify this variable in your code. Odds are that you will do that with Lambda expressions and in that case this Lambda is called the capturing lambda.
+
+```java
+var limit = 10;
+Predicate<String> shorter = s -> s.length() < limit;
+
+// Error
+var limit = 10;
+limit++;
+Predicate<String> shorter = s -> s.length() < limit; // ERROR
+```
+
+One last word, there is a very good reason why Lambda Expressions can only capture final variable that is values and not modifiable variable that has to do with concurrency but that will be for another time
+</details>
