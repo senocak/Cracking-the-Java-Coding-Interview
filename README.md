@@ -4385,3 +4385,17 @@ Predicate<String> shorter = s -> s.length() < limit; // ERROR
 
 One last word, there is a very good reason why Lambda Expressions can only capture final variable that is values and not modifiable variable that has to do with concurrency but that will be for another time
 </details>
+
+## 188. What is Serialization?
+<details>
+  <summary>Short Answer</summary>
+
+A way to save graphs of objects in files or to send them over the network.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Serialization used to be one of the killer features of the Java platform. It turns out that now this situation changed. There are several security problems with it. For instance, deserializing an object does not call any of its constructors, thus bypassing any validation rules and so it can be used by some malicious code to inject corrupted objects in your application.
+
+One last word, there are several ways to protect your application against that. First you can use records. Deserialization calls the canonical constructor of records, and then you can use deserialization filters at the JVM level but that will be for another time.
+</details>
