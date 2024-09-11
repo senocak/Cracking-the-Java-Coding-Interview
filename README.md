@@ -4425,5 +4425,5 @@ Never
 
 Never. Any code you put in finalize is most of the time buggy, useless or both. Don't try to have the garbage collector by clearing your collections or your map. First, the garbage collector is smart enough to do it itself and second, you may have race conditions in this code that may lead to NullPointerException among other nasty bugs. Don't close your resources in finalize because they may never be closed, prefer the try with resources pattern which is much safer.
 
-One last word, as of now finalize() is deprecated for removal. Maybe it will stay there, but at some point the garbage collector will not call it anymore so stop overriding this method.
+One last word, as of now finalize() is deprecated for removal. Maybe it will stay there, but at some point the garbage collector will not call it anymore so stop overriding this method. 
 </details>
