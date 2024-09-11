@@ -4399,3 +4399,31 @@ Serialization used to be one of the killer features of the Java platform. It tur
 
 One last word, there are several ways to protect your application against that. First you can use records. Deserialization calls the canonical constructor of records, and then you can use deserialization filters at the JVM level but that will be for another time.
 </details>
+
+## 189. What does happens-before mean?
+<details>
+  <summary>Short Answer</summary>
+
+It has to do with the concurrency.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+There are several references to happen-before links in the JavaDoc, for instance the Future interface tells you that the actions taken by the asynchronous computation happen-before actions following the corresponding `future.get()`. A problem may occur if you modify your variable and that this variable is read by another thread. Each thread operates on its own CPU cache. You need a special operation to make sure that the modification you made is visible from all the other CPU caches and this special operation is triggered by the fact that the happen-before link exists between the write operation and the read operation.
+
+One last word, your only source of information should be the Chapter 17 of the Java language specification
+</details>
+
+## 190. When can you use finalize()?
+<details>
+  <summary>Short Answer</summary>
+
+Never
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Never. Any code you put in finalize is most of the time buggy, useless or both. Don't try to have the garbage collector by clearing your collections or your map. First, the garbage collector is smart enough to do it itself and second, you may have race conditions in this code that may lead to NullPointerException among other nasty bugs. Don't close your resources in finalize because they may never be closed, prefer the try with resources pattern which is much safer.
+
+One last word, as of now finalize() is deprecated for removal. Maybe it will stay there, but at some point the garbage collector will not call it anymore so stop overriding this method.
+</details>
