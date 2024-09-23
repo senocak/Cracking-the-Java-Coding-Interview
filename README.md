@@ -4453,3 +4453,30 @@ var skipped = ints.stream().skip(3).toList();
 
 One last word, skipping may be costly to call on parallel streams because you may need to have inter-thread communication to track the first elements you want to skip and there is another overhead in doing that
 </details>
+
+## 192. What is an Anonymous Class?
+<details>
+  <summary>Short Answer</summary>
+
+A class that does not have a name.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+The syntax allows you to create the class and its instance at the same time. It's useful when you need to quickly implement an interface or extend a class in your code. There are cases where an anonymous class can be written as a `lambda` but not always. A lambda implements a Functional Interface and an anonymous class can extend anything. You cannot create a constructor in anonymous class, but you can use an instance block if you need to do some initialization.
+
+```java
+var counter = new Object() {
+    private int count = 10;
+
+    void inc() {
+        count++;
+    }
+};
+counter.inc();
+System.out.println(counter.count);
+// > 11
+```
+
+One last word, you can use anonymous classes in conjunction with the `var` keyword, which give you access to the associated non-denotable type but that will be for another time
+</details>
