@@ -4427,3 +4427,29 @@ Never. Any code you put in finalize is most of the time buggy, useless or both. 
 
 One last word, as of now finalize() is deprecated for removal. Maybe it will stay there, but at some point the garbage collector will not call it anymore so stop overriding this method. 
 </details>
+
+## 191. How can you skip elements in a Stream?
+<details>
+  <summary>Short Answer</summary>
+
+There is a method for that
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+You can call `skip()` on a stream and pass the number of elements you need to skip as an argument. That being said, there are several caveats you need to be aware of. For instance, skipping elements only makes sense for ordered stream. If you stream a list or the lines of a text file, then calling `skip(2)` skips the first 2 elements of your list or the first two lines of your text. Skipping elements on a non-ordered stream leads to unpredictable results.
+
+```java
+// Ordered
+var ints = List.of(3, 4, 5, 1, 2);
+var skipped = ints.stream().skip(3).toList();
+// [1, 2]
+
+// Non-ordered
+var ints = Set.of(3, 4, 5, 1, 2);
+var skipped = ints.stream().skip(3).toList();
+// [2, 3]
+```
+
+One last word, skipping may be costly to call on parallel streams because you may need to have inter-thread communication to track the first elements you want to skip and there is another overhead in doing that
+</details>
