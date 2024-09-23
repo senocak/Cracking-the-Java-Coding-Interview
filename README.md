@@ -4480,3 +4480,26 @@ System.out.println(counter.count);
 
 One last word, you can use anonymous classes in conjunction with the `var` keyword, which give you access to the associated non-denotable type but that will be for another time
 </details>
+
+## 193. How can you read the Gzip compressed file?
+<details>
+  <summary>Short Answer</summary>
+
+There is a class for that.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+This class is the `GZIPInputStream` and it takes another input stream as a constructor argument so it's actually a decoration on another input stream. Along with `GZIPOutputStream`, this class allows you to read and write data compressed in the gzip format. Note that, the gzip algorithm supports streaming, meaning that you can get the uncompressed data while you are reading the compressed stream. You can do that with the different `read()` methods available.
+
+```java
+try (
+    var is = Files.newBufferedInputStream(path);
+    var gzis = new GZIPInputStream(is);
+) {
+    ... = gzis.read(...);
+}
+```
+
+One last word, Java I/O also supports the ZIP file format, which allows you to compress directory trees but that will be for another time
+</details>
