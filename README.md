@@ -4542,8 +4542,6 @@ A collector
 The Collectors Factory class gives you a bunch of pre-made, ready-to-use collectors,  and some of the factory methods models Stream intermediate operations like mapping, filtering or flat mapping. These are called intermediate collectors but then there is a problem because a Collector models a terminal Stream operation so these Factory methods also take another collector to compose the mapping operation for instance with this other collector. You can then create complex Collector compositions ending with a terminal collector like `toList()` or `counting()`
 
 ```java
-import java.util.stream.Collectors;
-
 var toList = Collectors.toList();
 var counting = Collectors.counting();
 
@@ -4552,4 +4550,30 @@ var filtering = Collectors.mapping(s -> s.length() < 5, counting);
 ```
 
 One last word, The Collector API is quite complex but also very powerful. You should definitely check it out and we will talk more about it in the future
+</details>
+
+## 196. What is the HashTable?
+<details>
+  <summary>Short Answer</summary>
+
+Something you should not be using anymore.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+HashTable was created in the early days of the JDK before the introduction of the Collections framework. The implementation is very similar to `HashMap`, apart from the handling of Hash Collision which is not as efficient and from the fact that all the map methods are synchronized, so if you do not need synchronization HashMap is always a better choice and if you do then `ConcurrentHashMap` is also a better choice.
+
+```java
+// DON'T
+var table = new Hashtable<>();
+
+// not concurrent
+var map = new HashMap<>();
+
+// concurrent
+var concurrentMap = new ConcurrentHashMap<>();
+```
+
+One last word, be careful because HashTable does not support null values and if you try to put a null key you will get a `NullPointerException`. HashMap supports null keys and null values, even if it may not be the greatest idea
+
 </details>
