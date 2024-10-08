@@ -4577,3 +4577,32 @@ var concurrentMap = new ConcurrentHashMap<>();
 One last word, be careful because HashTable does not support null values and if you try to put a null key you will get a `NullPointerException`. HashMap supports null keys and null values, even if it may not be the greatest idea
 
 </details>
+
+## 197. What is the Consumer?
+<details>
+  <summary>Short Answer</summary>
+
+A functional interface
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+This functional interface models a Lambda that takes a single parameter and does not return anything. The Consumer is what you pass to the `forEach()` method that you have on the streams and the collections. You can compose consumers thanks to `andThen()` default method on the consumer interface so you can create one consumer from two others just by calling `print.andThen(log)` for instance
+
+```java
+@FunctionalInterface
+public interface Consumer<T> {
+    void accept(T t);
+}
+
+var stream = Stream.of(1, 2, 3);
+stream.forEach(s -> System.out.println(s));
+
+Consumer<String> print = s -> System.out.println(s);
+Consumer<String> log = s -> Logger.info(s);
+Consumer<String> printThenLog = print.andThen(log);
+```
+
+One last word, the `java.util.function` package also gives you a `biConsumer` that takes two parameters instead of one and specialize consumers: `intConsumer`, `LongConsumer` and `DoubleConsumer`
+
+</details>
