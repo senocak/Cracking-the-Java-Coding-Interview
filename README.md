@@ -4503,3 +4503,29 @@ try (
 
 One last word, Java I/O also supports the ZIP file format, which allows you to compress directory trees but that will be for another time
 </details>
+
+## 194. What is a LinkedHashSet?
+<details>
+  <summary>Short Answer</summary>
+
+A S et with linked elements.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+This set maintains links between its element so that it maintains the iteration order. I f you add C,A,B,B in a HashSet,   the second B is not added and if you iterate over the elements of the set, you will get A,B,C because a HashSet does not maintain in the order of its elements. If you do the same with LinkedHashSet, you will get C,A,B because LinkedHashSet does what is needed to maintain this order. 
+
+```java
+var set1 = Set.of(10, 20, 30, 40, 50);
+// > [30, 40, 50, 10, 20] -> will vary
+
+var ints = List.of(10, 20, 30, 40, 50);
+var set2 = new HashSet<>(ints);
+// > [50, 20, 40, 10, 30] -> stable
+
+var set3 = new LinkedHashSet<>(ints);
+// > [10, 20, 30, 40, 50] -> stable
+```
+
+One last word, starting with the `JDK 21` LinkedHashSet implements `SequenceSet` which brings new methods like direct access to the first and last element of the SequenceSet and a `reversed()` method
+</details>
