@@ -4508,7 +4508,7 @@ One last word, Java I/O also supports the ZIP file format, which allows you to c
 <details>
   <summary>Short Answer</summary>
 
-A S et with linked elements.
+A Set with linked elements.
 </details>
 <details>
   <summary>Less Short Answer</summary>
@@ -4528,4 +4528,28 @@ var set3 = new LinkedHashSet<>(ints);
 ```
 
 One last word, starting with the `JDK 21` LinkedHashSet implements `SequenceSet` which brings new methods like direct access to the first and last element of the SequenceSet and a `reversed()` method
+</details>
+
+## 195. What is an Intermediate Collector?
+<details>
+  <summary>Short Answer</summary>
+
+A collector
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+The Collectors Factory class gives you a bunch of pre-made, ready-to-use collectors,  and some of the factory methods models Stream intermediate operations like mapping, filtering or flat mapping. These are called intermediate collectors but then there is a problem because a Collector models a terminal Stream operation so these Factory methods also take another collector to compose the mapping operation for instance with this other collector. You can then create complex Collector compositions ending with a terminal collector like `toList()` or `counting()`
+
+```java
+import java.util.stream.Collectors;
+
+var toList = Collectors.toList();
+var counting = Collectors.counting();
+
+var mapping = Collectors.mapping(s -> s.length(), toList);
+var filtering = Collectors.mapping(s -> s.length() < 5, counting);
+```
+
+One last word, The Collector API is quite complex but also very powerful. You should definitely check it out and we will talk more about it in the future
 </details>
