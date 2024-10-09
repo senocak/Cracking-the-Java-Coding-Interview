@@ -4606,3 +4606,33 @@ Consumer<String> printThenLog = print.andThen(log);
 One last word, the `java.util.function` package also gives you a `biConsumer` that takes two parameters instead of one and specialize consumers: `intConsumer`, `LongConsumer` and `DoubleConsumer`
 
 </details>
+
+## 198. How can you read chars from a binary stream?
+<details>
+  <summary>Short Answer</summary>
+
+There is a class for that
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+The class is `InputStreamReader` which extends `Reader` so it can read characters and that takes an InputStream as a constructor argument so InputStreamReader decorates an existing InputStream, reading its binary content and exposing it as characters. By default, the characters you read are decoded using the default charset. Starting with the JDK 18 this charset is UTF-8.
+
+```java
+try (
+    var is = Files.newBufferedInputStream(path);
+    var reader = new InputStreamReader(is);
+) {
+    String s = reader.read(...);
+}
+
+try (
+    var is = Files.newBufferedOutputStream(path);
+    var write = new OutputStreamWriter(is);
+) {
+    ... = reader.read(...);
+}
+```
+
+One last word, you also have an `OutputStreamWriter` class that extends `Writer`, so that it can write characters and strings on the OutputStream it is built on neat
+</details>
