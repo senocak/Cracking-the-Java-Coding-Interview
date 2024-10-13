@@ -4636,3 +4636,31 @@ try (
 
 One last word, you also have an `OutputStreamWriter` class that extends `Writer`, so that it can write characters and strings on the OutputStream it is built on neat
 </details>
+
+## 199. What is a Cyclic Barrier?
+<details>
+  <summary>Short Answer</summary>
+
+A class from `java.util.concurrent`
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+A cyclic barrier is there to synchronize a set of thread and that can release them once they are all waiting on this barrier. You create a CyclicBarrier by giving it the number of threads that will synchronize on it, then each thread should call `barrier.await()` and blocks on this call. When the right number of calls to await has been issued, then the barrier opens, releasing all the blocked threads and because it is cyclic, the barrier will close and you can open it by calling await() again.
+
+```java
+var barrier = new CyclicBarrier(3);
+Runnable task = () -> {
+  try {
+      // do something
+  } catch (Exception e) {
+      // application exceptions
+  } finally {
+      barrier.await();
+      // barrier exceptions
+  }
+};
+```
+
+One last word, cyclic barriers may be interesting if you need to conduct some processings in parallel but you should prefer parallel streams if you can use them
+</details>
