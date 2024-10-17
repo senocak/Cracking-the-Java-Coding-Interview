@@ -4664,3 +4664,27 @@ Runnable task = () -> {
 
 One last word, cyclic barriers may be interesting if you need to conduct some processings in parallel but you should prefer parallel streams if you can use them
 </details>
+
+## 200. What is the Heap Memory?
+<details>
+  <summary>Short Answer</summary>
+
+The memory managed by your garbage collector.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+The memory used by the JVM is made of several parts. The Heap Memory is the one in which your objects are stored. When you call a `new ArrayList()` for instance, what you get is a reference to some piece of memory that lives in a heap memory. Then, when you do not need this ArrayList anymore, the garbage collector will detect it and will reclaim it to use it for other objects. There are several strategies implemented by different garbage collectors, depending on what you need for your application.
+
+```java
+// may be off heap
+var buffer = ByteBuffer.allocateDirect(size);
+
+// Memory api
+try(var arena = Arena.ofconfined()){
+    MemorySegment segment = arena.allocate(size)
+}
+```
+
+One last word, there is also an off-heap memory not managed by your garbage collector. The JDK gives you two apis to access it; ByteBuffer and the Memory API but that will be for another time
+</details>
