@@ -4688,3 +4688,37 @@ try(var arena = Arena.ofconfined()){
 
 One last word, there is also an off-heap memory not managed by your garbage collector. The JDK gives you two apis to access it; ByteBuffer and the Memory API but that will be for another time
 </details>
+
+## 201. How is the reduce() method working?
+<details>
+  <summary>Short Answer</summary>
+
+It reduces the elements of a Stream
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+There are two reduce() methods on the Stream interface; the first one takes only the reduction operation in the form of a Lambda expression. The first element and the second element of the stream are passed to this Lambda, then the result and the third element then the result and the fourth until all the elements of the Stream are consumed. The second overload takes the identity element of your reduction operation. This identity element is then used as the first element of the reduction. If your stream is empty, and you gave an identity element then this element is returned if not then the reduction is undefined reason why the reduction is an empty optional
+
+```java
+// reduce
+var result = Stream.of(1, 2, 3, 4).reduce((i1, i2) -> i1 + i2);
+// 1 + 2 -> 3
+// 3 + 3 -> 6
+// 6 + 4 -> 10
+
+var result = Stream.of(1, 2, 3, 4).reduce(0, (i1, i2) -> i1 + i2);
+// 0 + 1 -> 1
+// 1 + 2 -> 3
+// 3 + 3 -> 6
+// 6 + 4 -> 10
+
+var result = Stream.<Integer>of(1, 2, 3, 4).reduce(0, (i1, i2) -> i1 + i2);
+// 0
+
+Optional<Integer> result = Stream.<Integer>of(1, 2, 3, 4).reduce((i1, i2) -> i1 + i2);
+// Optiional.empty
+```
+
+One last word, that's why you need optionals in Java to have correct reductions
+</details>
