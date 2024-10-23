@@ -4722,3 +4722,38 @@ Optional<Integer> result = Stream.<Integer>of(1, 2, 3, 4).reduce((i1, i2) -> i1 
 
 One last word, that's why you need optionals in Java to have correct reductions
 </details>
+
+## 202. What are the Primitive types in Java?
+<details>
+  <summary>Short Answer</summary>
+
+They are 7 of them
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+There are 4 integer types `byte`, `short`, `int`, `long` then 2 for floating-point numbers; `float` and `double` and `char` for characters. Primitive types are values, so they are not references. A primitive type can never be null. There are all associated with a wrapper type, which is a class with the same name. You can check these classes for very useful methods on them like parsing, valueOf() and compare()
+
+```java
+// integer types
+// bytes    8 bits
+// short    16 bits
+// int      32 bits
+// float    64 bits
+
+// floating-point types
+// float    32 bits
+// double   64 bits
+
+// character
+// char     16 bits
+
+// Parsing
+var d = Double.parseDouble("3.14");
+var i = Integer.parseInt("314");
+// Comparing
+int order = Float.compare(f1, f2);
+```
+
+One last word, operating on primitive types is super fast. No indirection, no pointer chasing. This is what you need to get the best performance, and this is what the Valhalla project aims to bring for object types, but that will be for another time.
+</details>
