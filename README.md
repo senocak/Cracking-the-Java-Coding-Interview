@@ -4757,3 +4757,25 @@ int order = Float.compare(f1, f2);
 
 One last word, operating on primitive types is super fast. No indirection, no pointer chasing. This is what you need to get the best performance, and this is what the Valhalla project aims to bring for object types, but that will be for another time.
 </details>
+
+## 203. What is an Optional?
+<details>
+  <summary>Short Answer</summary>
+
+A wrapper type that can be empty
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Optionals are there to correctly handle reduction in the case of empty streams. In that case, you need to return the identity element of your reduction operation. You need that because if you combine this result with the reduction of another non-empty stream, you still need the correct result. The problem is that many reductions do not have an identity element that, the case for `max()`, `min()` or `average()`. Returning an empty optional is a way to solve this issue
+
+```java
+var stream1 = IntStream.of(-1, -2, -3);
+var stream2 = IntStream.of();
+var max1 = stream1.max();
+var max2 = stream2.max(); // 0?
+var max = max(max1, max2); // 0???
+```
+
+One last word, even if you never stream empty collections, you may still have to deal with filter operations or parallel streams and both can produce empty streams without you realizing it
+</details>
