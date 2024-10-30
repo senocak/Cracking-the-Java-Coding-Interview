@@ -4779,3 +4779,40 @@ var max = max(max1, max2); // 0???
 
 One last word, even if you never stream empty collections, you may still have to deal with filter operations or parallel streams and both can produce empty streams without you realizing it
 </details>
+
+## 204. What is an Expression?
+<details>
+  <summary>Short Answer</summary>
+
+Something that produces a value.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+An expression is a combination of any operands, operators or method calls that in the end produces a single value. There are language constructs in Java that are not expressions that the case for the `if-else` or the `while` statements. The `switch` used to be a statement, but is now also an expression as for the JDK14 and it is suddenly much more useful. You can switch on Integer types(not longs), enumerations, strings and types
+
+```java
+var i = 0;
+var j = i++;
+var s = "Hello";
+var l = s.length();
+
+while(i++ < 10) {
+    ...
+}
+
+var day = ...;
+switch(day) {
+    case SATURDAY:
+    case SUNDAY:
+        println("Week-end");
+}
+
+var result = switch(day) {
+case SATURDAY, SUNDAY -> "Week-end";
+default -> "Week-end";
+};
+```
+
+One last word, creating switch expressions on seal types is part of the Data Oriented Programming Paradigm, currently being implemented in Java, super interesting but that will be for another time
+</details>
