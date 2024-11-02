@@ -4816,3 +4816,27 @@ default -> "Week-end";
 
 One last word, creating switch expressions on seal types is part of the Data Oriented Programming Paradigm, currently being implemented in Java, super interesting but that will be for another time
 </details>
+
+## 205. What is the ByteBuffer?
+<details>
+  <summary>Short Answer</summary>
+
+A class from `java.nio`
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+`NIO` stands for New Input/Output that was new in 2002 so it's now called Non-Blocking IO. A ByteBuffer can be used to allocate elements on the off-heap memory and to map files in memory. They suffer from several caveats. First, they are indexed with ints. And second, they can't be closed explicitly, meaning that you cannot deallocate the off-heap memory: This class is now superseded by the `MemorySegment` class indexed with Longs. MemorySegment are created by Arenas that you can close to deallocate them
+
+```java
+var byteBuffer = ByteBuffer.allocateDirect(10);
+var segment = Arena.ofConfined().allocate(10); // Long
+
+try(var arena = Arena.ofConfined()) {
+    var segment = arena.allocate(1_024L);
+    ...
+} // close() deallocate segment
+```
+
+One last word, MemorySegments and Arenas are part of the JEP-454 but that will be for another time
+</details>
