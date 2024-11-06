@@ -4840,3 +4840,41 @@ try(var arena = Arena.ofConfined()) {
 
 One last word, MemorySegments and Arenas are part of the JEP-454 but that will be for another time
 </details>
+
+## 206. What is a non-denotable type?
+<details>
+  <summary>Short Answer</summary>
+
+A type inferred by the compiler
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+A non-denotable type is created by the compiler in several places. One of them is when you create an anonymous class. They are also used for intersection types, you can check the JEP-286 for more details and examples. You can use the inferred type of an anonymous class with the `var` keyword. In that case, you have access to the fields and methods of the anonymous type. You can use this feature to create mutable boxes for instance, which will be much more efficient than using an atomic variable
+
+```java
+var counter = new Object() {
+    int count = 0;
+};
+counter.count++;
+println("count = " + count);
+```
+
+```java
+var countingCollector = Collector.of(
+    () -> new Object() {int count = 0;},
+    (box, element) -> box.count++;
+    (box1, element1) ->{
+        box1.count += box2.count;
+        return box1;
+    },
+    box -> box.count;
+);
+
+var count = Stream.of(0, 1, 2, 3).collect(countingCollector);
+println("count = " + count);
+// > count = 4
+```
+
+One last word, atomic variables are costly performance wise, and they are there to handle concurrency. You should not use them outside of this context
+</details>
