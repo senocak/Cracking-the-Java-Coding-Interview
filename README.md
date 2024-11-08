@@ -4878,3 +4878,30 @@ println("count = " + count);
 
 One last word, atomic variables are costly performance wise, and they are there to handle concurrency. You should not use them outside of this context
 </details>
+
+## 207. What is the difference between a Zip and a Gzip stream?
+<details>
+  <summary>Short Answer</summary>
+
+Gzip can compress a single file, Zip can compress a full directory tree
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Both are built on the same compression algorithm called `deflate`. Both are modeled by their own input and output stream classes, but zip is a little hairy to use. You first need to create zip entries for directories and files, then right after adding a file entry you need to add the content of that file. Reading this content mirrors this procedure. You first need to discover the entries, then read the files.
+
+```java
+var path = Path.of(...);
+try(
+    var os = Files.newOutputStream(path);
+    var zos = new ZipOutputStream(path);
+    var printer = new PrintWriter(path);
+){
+    zos.putNextEntry(new ZipEntry("dir1/"));
+    zos.putNextEntry(new ZipEntry("dir2/file.txt"));
+    printer.println("Hello!");
+}
+```
+
+One last word, you can actually create a file system for that, and then you can just create directories and copy files to this file system, normally much simpler.
+</details>
