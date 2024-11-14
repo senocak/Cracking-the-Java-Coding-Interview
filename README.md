@@ -4905,3 +4905,35 @@ try(
 
 One last word, you can actually create a file system for that, and then you can just create directories and copy files to this file system, normally much simpler.
 </details>
+
+## 208. What is a Sequenced Map?
+<details>
+  <summary>Short Answer</summary>
+
+An interface
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+It is a nice addition to the Collections Framework in a `JDK 21`. It models Map that have a defined encounter order. Because this order exists, you can get the first entry or the first key or the last entry or last key. SequenceMap gives you other methods like `reversed()` that gives you a reversed view on the map. No copy is made. Implementation wise: TreeMap and LinkedHashedMap are both SequencedMap.
+
+```java
+// getting the first element
+var firstEntry = map.firstEntry();
+var firstKey = map.sequencedKeySet().first();
+
+// getting the last element
+var lastEntry = map.lastEntry();
+var lastKey = map.sequencedKeySet().last();
+
+// reversed
+var reversedEntries = map.reversed();
+var reversedKey = map.sequencedKeySet().reversed();
+
+// implementations
+TreeMap<K, V>
+LinkedHashedMap<K, V>
+```
+
+One last word, Sequence Collection and SequenceSet have also been added along with the SequencedMap interface. That's the `JEP-431` that you can check for all the details, design decisions and examples.
+</details>
