@@ -4937,3 +4937,29 @@ LinkedHashedMap<K, V>
 
 One last word, Sequence Collection and SequenceSet have also been added along with the SequencedMap interface. That's the `JEP-431` that you can check for all the details, design decisions and examples.
 </details>
+
+## 209. What is the Void type?
+<details>
+  <summary>Short Answer</summary>
+
+A class
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+This class is used in a Reflection API. The Reflection API gives you access to the return type of method that can be void. Because the `getReturnType()` returns a Class, this Void type was added to model this type. You could call that a dirty hack. That being said, you cannot create an instance of this type, and you cannot get anything of this type so apart from this use in the Reflection API and also in the MethodHandle API by the way, there is not much you can do with it.
+
+```java
+Class<Void> returnType = List.class
+    .getMethod("clear")
+    .getReturnType();
+
+void process(Object o) {
+    if (o instanceof Void v) {
+        // always false!
+    }
+}
+```
+
+One last word, the compiler lets you use void in an instanceof or in a switch on types, but that's pretty useless because the result will always be false so don't do it.
+</details>
