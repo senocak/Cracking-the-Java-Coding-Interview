@@ -4997,3 +4997,30 @@ HashMap<K, V>
 
 One last word, maybe in a future there will be a way to advertise that there is a better pattern than these, in your IDE for instance, without generating compiler warnings. That would be great
 </details>
+
+## 211. What does late binding mean?
+<details>
+  <summary>Short Answer</summary>
+
+It has to do with knowing what method should be called at runtime.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+When you call an interface method in your code or any method that can be overridden, the compiler cannot tell which method would be called at runtime since it depends on the concrete type you have. Thus the name: late binding, which means that your method call is bound to an implementation only at runtime. Early binding means that this binding can be resolved at compile time. That's the case when you call a particular overload of a method.
+
+```java
+int size(List<String> strings) {
+    // strings is a list
+    return strings.size();
+}
+
+// binds to ArrayList.size()
+var s1 = size(new ArrayList<>());
+
+// binds to LinkedList.size()
+var s1 = size(new LinkedList<>());
+```
+
+One last word, late binding occurs when you call a method that can be overridden. It has a cost but can be optimized in some cases.
+</details>
