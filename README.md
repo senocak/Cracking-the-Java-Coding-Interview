@@ -4963,3 +4963,37 @@ void process(Object o) {
 
 One last word, the compiler lets you use void in an instanceof or in a switch on types, but that's pretty useless because the result will always be false so don't do it.
 </details>
+
+## 210. Why are Vector and HashTable not deprecated?
+<details>
+  <summary>Short Answer</summary>
+
+There's no short answer to this one.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+These classes are there to stay for backward compatibility reasons. Removing them would break some old code. Deprecating something creates a warnings at compile time telling you, "Hey, this isn't unsafe to use. It will be removed in the future". That's not the case for `Vector`s and `HashTable`s. These classes are old but certainly not unsafe. Using them is not great but not harmful. Removing them could be harmful
+
+```java
+// don't use
+Vector<E>
+Stack<E>
+HashTable<K, V>
+// use (concurrent)
+CopyOnWriteArrayList<E>
+Collections.synchronizedList(list)
+Vector<E> // yes
+ArrayBlockingQueue<E>
+ConcurrentHashMap<K, V>
+// Collection, not a list
+ConcurrentLinkedQueue<K, V>
+
+// use
+ArrayList<E>
+ArrayDeque<E>
+HashMap<K, V>
+```
+
+One last word, maybe in a future there will be a way to advertise that there is a better pattern than these, in your IDE for instance, without generating compiler warnings. That would be great
+</details>
