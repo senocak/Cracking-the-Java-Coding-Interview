@@ -5024,3 +5024,34 @@ var s1 = size(new LinkedList<>());
 
 One last word, late binding occurs when you call a method that can be overridden. It has a cost but can be optimized in some cases.
 </details>
+
+## 212. How is Stream.distinct() working?
+<details>
+  <summary>Short Answer</summary>
+
+It removes the duplicates from the stream.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Internally distinct adds the elements of the stream in a `HashSet`. When you add an element to a HashSet, the `add()` method returns the boolean. If this boolean is false it means that the element was not added because it was already in HashSet and in that case distinct() does not push this element to the downstream. If it is true this element is immediately pushed to the downstream because it was not in a HashSet so internally, distinct() bufferizes all the different elements of your stream.
+
+```java
+var map = new HashMap<String, Integer>();
+map.put("one", 1);
+map.put("two", 2);
+map.put("four", 3);
+
+// UNORDERED stream
+var distinct = map.value().stream().distinct().toList();
+// > [3, 1, 2]
+
+var ints = List.of(1, 2, 1, 3, 3, 2);
+
+// ORDERED stream
+var distinct = ints.stream().distinct().toList();
+// > [1, 2, 3]
+```
+
+One last word, if you call distinct() on an `ORDERED` stream then a `LinkedHashSet` is used instead of a regular HashSet to preserve the order of your stream precisely.
+</details>
