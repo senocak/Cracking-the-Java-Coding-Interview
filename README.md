@@ -5117,3 +5117,29 @@ try(
 
 One last word, you should use this option with caution as you can't be sure that some other outside process opened your file, so deleting it may be either impossible or dangerous or both
 </details>
+
+## 215. What is Collection.retainAll() working?
+<details>
+  <summary>Short Answer</summary>
+
+It computes the intersection of 2 Collections.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+`retainAll()` only keeps the element of this Collection that are also in the Collection you pass as an argument. So to be kept, an element needs to be present in both Collections. `retainAll()` returns a boolean that is true if this collection was modified. So you can only call this method on Collections that are modifiable. `retainAll()` calls `contains()` on the Collection you pass for each element of this Collection. So if you want this call to be efficient, you should pass HashSet to retain all.
+
+```java
+var ints = new ArrayList<>(List.of(1, 2, 3, 4));
+var others = List.of(3, 4, 5, 6);
+ints.retainAll(others);
+// > [3, 4]
+
+// Set Operations
+addAll(other); // Union
+removeAll(other); // Complement
+retainAll(other); // Intersaction
+```
+
+One last word, there are 3 methods to deal with sets in the Collection Framework, `addAll()` for the union, `removeAll()` for the complement and `retainAll()` for the intersection
+</details>
