@@ -5094,3 +5094,26 @@ class Box {
 
 One last word, returning a capturing lambda can expose the captured state to race conditions. Local variables are never subject to race conditions in Java, reason why you can't capture them if they are not final.
 </details>
+
+## 214. How can you create temporary files?
+<details>
+  <summary>Short Answer</summary>
+
+There is a flag for that
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+The factory methods from the `Files` factory class can take `Standard Open Options` as parameters. One of them is called, `DELETE_ON_CLOSE`. If you pass it, the JVM will try to delete the corresponding file when you close this writer or this OutputStream, if you don't close it and it's a mistake, you should close it then it will try to delete it when you exit your application.
+
+```java
+var path = Path.of(...);
+try(
+    var writer = Files.newBufferedWriter(path, StandardOpenOption.DELETE_ON_CLOSE)
+){
+
+} // tries to delete path on close()
+```
+
+One last word, you should use this option with caution as you can't be sure that some other outside process opened your file, so deleting it may be either impossible or dangerous or both
+</details>
