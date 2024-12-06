@@ -5055,3 +5055,42 @@ var distinct = ints.stream().distinct().toList();
 
 One last word, if you call distinct() on an `ORDERED` stream then a `LinkedHashSet` is used instead of a regular HashSet to preserve the order of your stream precisely.
 </details>
+
+## 213. What does capturing a variable mean?
+<details>
+  <summary>Short Answer</summary>
+
+Capturing is used when a Lambda refers to a field or a local variable.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+A Lambda expression can refers to the fields of a class it is declared in and to the local variables of the method it is declared in. In case your local variable is not declared `final`, the compiler will try to make it final for you and if it can, the viable becomes effectively final and you can capture it. If it can't, then you get the compiler error.
+
+```java
+class Box {
+    // non-final
+    int value;
+
+    Supplier<Integer> box() {
+        return () -> value;
+    }
+    
+    Supplier<Integer> box() {
+        int value = 3;
+        // value becomes effectively final
+        return () -> value;
+    }
+    
+    Supplier<Integer> box3() {
+        int value = 3;
+        value++;
+        // value can not be effectively final
+        // -> COMPILER ERROR
+        return () -> value;
+    }
+}
+```
+
+One last word, returning a capturing lambda can expose the captured state to race conditions. Local variables are never subject to race conditions in Java, reason why you can't capture them if they are not final.
+</details>
