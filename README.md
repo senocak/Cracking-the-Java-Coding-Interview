@@ -5143,3 +5143,29 @@ retainAll(other); // Intersaction
 
 One last word, there are 3 methods to deal with sets in the Collection Framework, `addAll()` for the union, `removeAll()` for the complement and `retainAll()` for the intersection
 </details>
+
+## 216. What does tearing mean?
+<details>
+  <summary>Short Answer</summary>
+
+It has to do with concurrency and 32 bits vs 64 bits machines.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+As you know, some types are stored on 64 bits. On a 64 bits machine, writing a long or a double in memory is done in one operation but on the 32bits machine, you need 2 write operations to write a full long. If you're not cautious in a multi-thread environment, the thread during the write operations can be interrupted. It means that some other thread could see an intermediate state where only the 32 first bits have been updated but not the last. This is what tearing is.
+
+```java
+// 1 write op
+var i = 0xFFFE;
+
+// 1 write op on 64 bits
+// 2 write ops on 32 bits
+var l = 0xFFFE_FFFE;
+l += 0x0001_0001;
+
+// on 32 bits; you could read 0xFFFF_FFFE or 0xFFFE_FFFF 
+```
+
+One last word; you can prevent that using `synchronization`, but it has a cost.
+</details>
