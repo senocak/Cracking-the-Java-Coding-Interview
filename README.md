@@ -5169,3 +5169,30 @@ l += 0x0001_0001;
 
 One last word; you can prevent that using `synchronization`, but it has a cost.
 </details>
+
+## 217. What is a stream builder?
+<details>
+  <summary>Short Answer</summary>
+
+A builder for streams.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+You can build stream by using a `Stream.Builder` builder. The pattern is the following; first, you need to create this builder with the `builder()` factory method and second, you can add object to it with the `add()` calls that you can chain or call `accept()`. Once you're done adding elements, you can call `build()` to create your stream, and you can only call build once, and then you can use this stream normally. Note that this stream is ordered and can accept any value, including null values.
+
+```java
+var builder = Stream.builder();
+builder
+    .add(1)
+    .add(2)
+    .add(3);
+
+builder.accept(4);
+builder.accept(5);
+// only once
+var stream = builder.build();
+```
+
+One last word, this is useful when you can only generate your objects one by one. You do not need to put them in an array or collection. You can rely on the internal `SpinedBuffer` of this builder. Neat.
+</details>
