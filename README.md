@@ -5196,3 +5196,31 @@ var stream = builder.build();
 
 One last word, this is useful when you can only generate your objects one by one. You do not need to put them in an array or collection. You can rely on the internal `SpinedBuffer` of this builder. Neat.
 </details>
+
+## 218. How can you stream the content of a text file?
+<details>
+  <summary>Short Answer</summary>
+
+There are methods for that.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+There are 2 patterns to do that depending on what you have. If what you have is a `Path`, then you can call the `lines()` method of the Files factory class and pass this path as an argument, and if what you have is a `BufferReader`, then you can call `lines()` directly on it. Note that, this lines method does not exist on regular Readers. What you get is a Stream of the lines of your text file. The nice thing is that the Stream interface is itself `AutoClosable`, so you can create this stream in a try with resources statement. It will close this stream, then in turn calls the `close()` method of the underlying Reader.
+
+```java
+var path = ...;
+try(var lines = Files.lines(path)){
+    // do something with lines
+}// close the stream and the file
+
+try(
+    BufferedReader reader = ...;
+    var lines = reader.lines(path);
+){
+    // do something with lines
+}// close the stream and the file
+```
+
+One last word, you also have a `lines()` method on the String class that does the same thing. Neat.
+</details>
