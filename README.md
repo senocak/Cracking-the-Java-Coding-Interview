@@ -5224,3 +5224,31 @@ try(
 
 One last word, you also have a `lines()` method on the String class that does the same thing. Neat.
 </details>
+
+## 219. What is a ReadWriteLock?
+<details>
+  <summary>Short Answer</summary>
+
+An interface.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+This has to do with concurrent programming. Read-write lock is useful in situations where you want to allow concurrent reads, but you need to have exclusive write operations. It works better when you have many reads and very few writes. The pattern is the following; you create an instance with the Reentrant Read-Write Lock implementation, then acquire the read or the write lock, use it, and release it in a finally block. Releasing it in a finally block is important because it will be executed even if you have an exception at runtime.
+
+```java
+var lock = new ReentrantReadWriteLock();
+
+// Read
+var readLock = lock.readLock();
+readLock.lock();
+try {
+    // all read allowed
+    // no write
+} finally {
+    readLock.unlock();
+}
+```
+
+One last word, you can impose fairness on this implementation, giving the priority to the longest waiting thread, but it has a cost.
+</details>
