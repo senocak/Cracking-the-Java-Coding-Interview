@@ -5252,3 +5252,29 @@ try {
 
 One last word, you can impose fairness on this implementation, giving the priority to the longest waiting thread, but it has a cost.
 </details>
+
+## 220. How is Collection.removeIf() working?
+<details>
+  <summary>Short Answer</summary>
+
+It removes the elements of a collection using the Predicate passed as an argument.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+The implementation of `removeIf()` varies depending on the collection you have. The default behavior is implemented in the collection interface. It iterates over the elements of the Collection, and remove them if they match the Predicate. This is how it works for `HashSet` or `LinkedList` for instance. Then this method is overridden in `ArrayList`. ArrayList scans and marks all the elements to be removed, then removes them in a second pass.
+
+```java
+var ints = new ArrayList<>(List.of(1, 2, 3, 4, 5));
+ints.removeIf(e -> e % 2 == 0);
+// > [1, 3, 5]
+
+var ints = List.of(2, 2, 2, 2, 2);
+// Don't do that!
+var list = new ArrayList<>(ints);
+list.removeIf(e -> e < list.size());
+// > []
+```
+
+One last word; be careful your Predicate should not read the collection it works on or throw any exception, because then the behavior could be different on the ArrayList and on other implementations.
+</details>
