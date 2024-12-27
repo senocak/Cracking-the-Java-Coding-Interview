@@ -5278,3 +5278,26 @@ list.removeIf(e -> e < list.size());
 
 One last word; be careful your Predicate should not read the collection it works on or throw any exception, because then the behavior could be different on the ArrayList and on other implementations.
 </details>
+
+## 221. What is a WeakReference?
+<details>
+  <summary>Short Answer</summary>
+
+A reference that is managed by the Garbage Collector in a certain way.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+You can create an instance of Weak Reference by passing a reference to any object. What you're doing is actually telling the Garbage Collector, "Hey, if you need some space, you can reclaim this object". If some other object has a regular reference to your object, then calling `get()` will always return your object. But if at some point no regular reference exist anymore, then the Garbage Collector is allowed to set the object your weak reference is pointing to, to null and reclaim this object, calling `get()` will then return null.
+
+```java
+var weakRef = new WeakReference<>(user);
+var user = weakRef.get();
+weakRef.clear();
+
+var noMoreUser = weakRef.get();
+// > null
+```
+
+One last word; WeakReferences are used in WeakHashMap a map that can be really useful to design caches, but that will be for another time.
+</details>
