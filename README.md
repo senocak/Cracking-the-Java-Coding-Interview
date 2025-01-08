@@ -5329,3 +5329,34 @@ println("size: " + map.size());
 
 One last word; IdentityHashMap can work as long as your keys can be referenced so don't use value objects in them because it will fail when Valhalla is there.
 </details>
+
+## 223. How can you limit a Stream?
+<details>
+  <summary>Short Answer</summary>
+
+There is a method for that.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Technically speaking, you are not really limiting a stream. What you are saying is that once that stream processed the given amount of object, it should stop and you need to be careful because at each stage, what you get is a new Stream object. If what you need is to skip the first two elements and the last two elements, then if you write the following code what you get is not what you expect because you forgot that the stream on which you call limit consumes only four elements not six so the correct code is this one.
+
+```java
+var ints = Stream
+        .of(1, 2, 3, 4, 5, 6)
+        .skip(2)
+        .limit(4)
+        .toList();
+// > [3, 4, 5, 6]
+
+var ints = Stream
+        .of(1, 2, 3, 4, 5, 6)
+        .skip(2)
+        .limit(2)
+        .toList();
+// > [3, 4]
+
+```
+
+One last word; `skip()` and `limit()` only make sense on ORDERED streams and both manage an internal mutable counter so don't use them in parallel streams
+</details>
