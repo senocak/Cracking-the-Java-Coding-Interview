@@ -5360,3 +5360,31 @@ var ints = Stream
 
 One last word; `skip()` and `limit()` only make sense on ORDERED streams and both manage an internal mutable counter so don't use them in parallel streams
 </details>
+
+## 224. What is a Latch?
+<details>
+  <summary>Short Answer</summary>
+
+A closed door that will open after you knocked a certain amount of times.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+A `CountDownLatch` is a class used in congruent programming. You create an instance of it by giving it a counter, some threads will call `latch.await()` and some other threads can also call the `latch.countdown()` method, which will decrease the internal counter. Once this counter reaches 0, then the door opens and all the threads blocked on the `await()` calls are free to run. Once a latch opens, it cannot be closed again so you can use a latch for instance to start an application where you need to initialize resources concurrently.
+
+```java
+var latch = new CountDownLatch(2);
+var t1 = Thread.ofPlatform();
+var t2 = Thread.ofPlatform();
+var t3 = Thread.ofPlatform();
+// in t1
+latch.await(); // blocks
+// in t2
+latch.countdown();
+// in t3
+latch.countdown();
+// -> Latch.await is unblocked
+```
+
+One last word; you can check the `CyclicBarrier` class, if what you need is something that you can close again.
+</details>
