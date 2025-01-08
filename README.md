@@ -5301,3 +5301,31 @@ var noMoreUser = weakRef.get();
 
 One last word; WeakReferences are used in WeakHashMap a map that can be really useful to design caches, but that will be for another time.
 </details>
+
+## 222. What is an IdentityHashMap?
+<details>
+  <summary>Short Answer</summary>
+
+A map.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+When you look for a key in a map, whether it is because you need to put a new key value up here in it or because you are looking for a key, your first compute hash code for that key, and because two keys that are different can still have the same hash code, you compare them. In a regular HashMap, you compare them using their `equals()` method. In an `IdentityHashMap` you use `==`, that is reference equality so if you run this code you will end up with one key-value pair in your map and if you run this one you end up with two
+
+```java
+var map = new HashMap<String, String>();
+map.put(new String("one"), "one");
+map.put(new String("one"), "one");
+println("size: " + map.size());
+// > size: 1
+
+var map = new IdentityHashMap<String, String>();
+map.put(new String("one"), "one");
+map.put(new String("one"), "one");
+println("size: " + map.size());
+// > size: 2
+```
+
+One last word; IdentityHashMap can work as long as your keys can be referenced so don't use value objects in them because it will fail when Valhalla is there.
+</details>
