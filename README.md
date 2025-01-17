@@ -5388,3 +5388,35 @@ latch.countdown();
 
 One last word; you can check the `CyclicBarrier` class, if what you need is something that you can close again.
 </details>
+
+## 225. What is a try with resources statement?
+<details>
+  <summary>Short Answer</summary>
+
+A great language feature that can close your resources for you.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+The try with resources statement works with any class that implements `AutoClosable` that defines only one method `close()` so you can use it with all your classes that have a `close()` method that returns void. You create your instances as the argument of the `try()` and then when your program exits the following block of code, whether it is with an exception or not all the close() methods are called in the right order
+
+```java
+interface MyResource implements AutoClosable {
+    void close() {
+        // close this resource
+    }
+}
+
+try(
+    var reader = // create a reader
+    var resource = new MyResource(reader);
+) {
+    //var resource = new MyResource(reader); // don't do that
+    // play with resource
+} catch (Exception e) {
+    // Log e
+}// calls resource.close() then calls reader.close()
+```
+
+One last word; it's important to open all your resources within the `try()` because if you don't, you may have some buffer that will not be properly flushed before the close() is called leading to some loss of data.
+</details>
