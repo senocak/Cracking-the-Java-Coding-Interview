@@ -5420,3 +5420,34 @@ try(
 
 One last word; it's important to open all your resources within the `try()` because if you don't, you may have some buffer that will not be properly flushed before the close() is called leading to some loss of data.
 </details>
+
+## 226. What is a Gatherer?
+<details>
+  <summary>Short Answer</summary>
+
+An interface.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+You can see a Gatherer as the equivalent of a `Collector`, but for intermediate operations. The Gatherer API gives you 3 elements; The Gatherer interface, a `gather()` method on the stream interface, and a Gatherers factory class with some ready-to-use gatherers. A Gatherer can model intermediate operations that do not exist on the Stream API. Suppose that you want to remove the duplicates from a Stream of Strings of characters, but ignoring case differences. You can't do it with the stream API, but you can design a gatherer to do that.
+
+```java
+// interface
+interface Gatherer<T, A, R> {}
+
+// method
+interface <R> Stream<R> gather(Gatherer<? super T, ?, R> g){}
+
+// Factory class
+class Gatherers{}
+
+var strings = Stream.of("one", "One", "ONE").distinct().toList();
+// > ["one", "One", "ONE"]
+
+var strings = Stream.of("one", "One", "ONE").gather(removeDupIngCase).toList();
+// > [one]
+```
+
+One last word; gatherers can do many things. They can push as many elements as you need to the DownStream, they can manage an internal mutable state, and they can decide to interrupt the Stream or not. Neat.
+</details>
