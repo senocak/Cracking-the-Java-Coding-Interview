@@ -5451,3 +5451,32 @@ var strings = Stream.of("one", "One", "ONE").gather(removeDupIngCase).toList();
 
 One last word; gatherers can do many things. They can push as many elements as you need to the DownStream, they can manage an internal mutable state, and they can decide to interrupt the Stream or not. Neat.
 </details>
+
+## 227. What is type inference?
+<details>
+  <summary>Short Answer</summary>
+
+A way to deduce the type of a variable or an argument.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+There are many places where you do not declare the type of the variable you use and where the compiler needs to make sure that this type is correct. For instance, when you pass a lambda method, the compiler checks if this lambda matches the type of the parameter this method declares. In the `JDK10` a `var` keyword was added to the language to extend the scope of type inference.
+
+```java
+var sum = IntStream.of(1, 2, 3, 4)
+        // IntUnaryOperator
+        .map(i -> i * 2)
+        // IntPredicate
+        .filter(i -> i > 3)
+        // sum is of type int
+        .sum();
+
+// DOES NOT COMPILE
+// it must have an initializer
+var someVariable;
+var someOtherVariable = null;
+```
+
+One last word; this `var` keyword can be used only for local variables, not fields nor method parameters, and these variables needs to have an initializer.
+</details>
