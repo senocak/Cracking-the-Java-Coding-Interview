@@ -5506,3 +5506,37 @@ public interface Map<K, V> {
 
 One last word; `putIfAbsent()` returns the value that was previously bound to this key, which may be null. So be careful with that.
 </details>
+
+## 229. What is a PrintWriter?
+<details>
+  <summary>Short Answer</summary>
+
+A writer.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+This type is important because it's the type of `System.out` on which you call `println()` to pass "Hello World" to it. It is an extension of the Writer class and it's the class that carries the `printf()` and `println()` methods that takes this nifty, horrible format as a parameter. This format is coming from C and it allows you to format your strings of character to properly display them on text terminals. Yes that was some time ago. By the way, this format is documented in the java.util.Formatter class in case you need it.
+
+```java
+class PrintWriter extends Writer {
+    PrintWriter printf(...){}
+    void println(...){}
+}
+
+package java.util;
+final class Formatter {}
+
+// Extensions;
+// ChoiceFormat
+// CompactNumberFormat
+// DateFormat
+// DecimalFormat
+// ListFormat
+// MessageFormat
+// NumberFormat
+// SimpleDateFormat
+```
+
+One last word; there are several formatting classes in the JDK. Another one is based on the Format abstract class extended by MessageFormat or SimpleDateFormat. But that will be for another time
+</details>
