@@ -5480,3 +5480,29 @@ var someOtherVariable = null;
 
 One last word; this `var` keyword can be used only for local variables, not fields nor method parameters, and these variables needs to have an initializer.
 </details>
+
+## 228. What is putIfAbsent()?
+<details>
+  <summary>Short Answer</summary>
+
+A method from the `MAP` interface.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+`putIfAbsent()` takes a key and a value and binds this value to this key under a condition that may be slightly different from what you expect. If you check the source code of `putIfAbsent()` you can see that it does not call `contains()` but `get()` and does the binding `get()` returns null, meaning that if the key is bound to null in your Map, (why would you do that???) then it remaps it with the new value. Some map implementations do not accept null values or keys which is a good idea.
+
+```java
+public interface Map<K, V> {
+    default V putIfAbsent(K key, V value) {
+        V v = get(key);
+        if (v == null) {
+            v = put(key, value);
+        }
+        return v;
+    }
+}
+```
+
+One last word; `putIfAbsent()` returns the value that was previously bound to this key, which may be null. So be careful with that.
+</details>
