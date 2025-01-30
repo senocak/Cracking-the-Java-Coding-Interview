@@ -5540,3 +5540,26 @@ final class Formatter {}
 
 One last word; there are several formatting classes in the JDK. Another one is based on the Format abstract class extended by MessageFormat or SimpleDateFormat. But that will be for another time
 </details>
+
+## 230. What is a ThreadLocal variable?
+<details>
+  <summary>Short Answer</summary>
+
+An old stuff from Java 2.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+ThreadLocal variables were added to allow the passing of arguments from a servlet to another servlet without having to rely on method parameters. That was very useful in the early days of J2EE because a servlet was actually a callback. Now some of the design decisions made at that time do not fit very well with modern frameworks and especially with Virtual Threads. Reason why the Loom project that delivered Virtual Threads in the JDK 21 is developing `ScopedValues`. ScopedValues does the same thing as ThreadLocals but without the drawbacks.
+
+```java
+var v = new ThreadLocal<String>();
+v.set("Hello Duke");
+
+var duke = v.get();
+// DONT FORGET
+v.remove();
+```
+
+One last word; ThreadLocal variables can be the source of security vulnerabilities in your application, so do not forget to call remove() on them once you're done with them.
+</details>
