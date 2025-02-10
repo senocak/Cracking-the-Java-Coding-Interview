@@ -5589,3 +5589,27 @@ class User {
 ```
 One last word; final also means that the value of your fields are visible from other threads so you never need to declare a final field volatile, for instance. Neat.
 </details>
+
+## 232. How can you sort a Collection?
+<details>
+  <summary>Short Answer</summary>
+
+well, you can't.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+It does not make sense to sort the Collection because the Collection doesn't have any order. The elements you will see if you iterate over them could change from one iteration to the other. You may be thinking that sorting only makes sense for List, since list are ordered and indeed there is a `sort()` method on the List interface, but you can also sort some sets that are actually `SortedSet` or `NavigableSet`. And this is captured by `Sequenced Collection` added in the JDK 21. `SequencedSet` is an extension of Sequence Collection, and there is also a `SequenceMap` for maps.
+
+```java
+interface List<E> {
+    void sort(Comparator<E> cmp) {}
+}
+interface SequencedCollection<E> {
+}
+interface SequencedSet<E> extends SequencedCollection<E> {
+}
+```
+
+One last word; ordering and sorting are two different notions. You need ordering to sort, but you can order without sorting.
+</details>
