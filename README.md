@@ -5563,3 +5563,29 @@ v.remove();
 
 One last word; ThreadLocal variables can be the source of security vulnerabilities in your application, so do not forget to call remove() on them once you're done with them.
 </details>
+
+## 231. What is a final field?
+<details>
+  <summary>Short Answer</summary>
+
+A field with the final modifier on this declaration.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+A final field can be static or not and if it is a static field then it must have an initializer and once it has been initialized, it cannot be modified anymore. For instance, `Mmath.Pi` is a public static final field defined in the Math class. If your field is an instance field, then it needs to be initialized before your object is fully constructed. And once you give a value to it, you cannot change it even from within a constructor.
+
+```java
+class Math {
+    public static final double PI = 3.141592653589793;
+}
+class User {
+    // useless
+    volatile final String name;
+    User(String name) {
+        this.name = name;
+    }
+}
+```
+One last word; final also means that the value of your fields are visible from other threads so you never need to declare a final field volatile, for instance. Neat.
+</details>
