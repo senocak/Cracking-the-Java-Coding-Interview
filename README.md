@@ -5613,3 +5613,26 @@ interface SequencedSet<E> extends SequencedCollection<E> {
 
 One last word; ordering and sorting are two different notions. You need ordering to sort, but you can order without sorting.
 </details>
+
+## 233. How can you create an Iterable from a Stream?
+<details>
+  <summary>Short Answer</summary>
+
+There is a pattern for that.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+The idea is to avoid putting all the elements produced by the stream in a Collection or an Array to save on memory. So what you can do is get the Spliterator of the stream and use a factory method of the Spliterator class. An itable is basically a Supplier, so you can pass the construction of this iterator to build your Iterable. This Iterable produces elements as they are pulled by the underlying Stream without buffering them.
+
+```java
+var stream = ...;
+// NO!
+Iterable iterable = () -> stream.toList().iterator();
+Iterable iterable = () -> Spliterator.iterator(stream.spliterator());
+
+
+```
+
+One last word; be careful because a Stream can produce an unbound number of elements so you probably need to protect your application against that.
+</details>
