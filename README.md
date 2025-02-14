@@ -5636,3 +5636,27 @@ Iterable iterable = () -> Spliterator.iterator(stream.spliterator());
 
 One last word; be careful because a Stream can produce an unbound number of elements so you probably need to protect your application against that.
 </details>
+
+## 234. What is a VarHandle?
+<details>
+  <summary>Short Answer</summary>
+
+An object to access fields.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+You may be thinking that `VarHandle` is the equivalent of MethodHandle, but to access fields. It's actually not the case. You can access fields with MethodHandle and VarHandle was added in the JDK 9, where method handle was added in the JDK 7 so during these 6 years, MethodHandle was used to access fields. What VarHandle gives you is access to fields but with a concurrent semantic like `volatile` or `atomic`. Accessing a field using this mode mimics the fact that the field was defined as a volatile field, for instance.
+
+```java
+record User(String name) {}
+var user = new User("maria");
+var lookup = MethodHandles.lookup();
+var varHandle = lookup.findVarHandle(User.class, "name", String.class);
+varHandle.accessModeType(AccessMode.GET_VOLATILE);
+String name = (String) varHandle.get(user);
+// > name = maria
+```
+
+One last word; be careful because accessing a field value using a VarHandle ignores the possible volatile declaration on that field.
+</details>
