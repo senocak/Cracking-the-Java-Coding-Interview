@@ -5660,3 +5660,23 @@ String name = (String) varHandle.get(user);
 
 One last word; be careful because accessing a field value using a VarHandle ignores the possible volatile declaration on that field.
 </details>
+
+## 235. What is a MessageFormat?
+<details>
+  <summary>Short Answer</summary>
+
+A class.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+MessageFormat works with a pattern and this pattern can be used to format messages from arrays of object or to parse strings of characters to extract the information it contains. There is one major trap in the MessageFormat class. You may be tempted to reuse your MessageFormat and cache them in public static variables for instance. Well, don't do that. A MessageFormat is a mutable object and it's not thread safe so sharing such an instance between threads will produce race-conditions.
+
+```java
+var format = new MessageFormat("In {0} Java will turn {1,number}");
+var result = format.format(new Object[]{"2025", 30});
+// > In 2025 Java will turn 30
+```
+
+One last word; date formatting has been superseded by the Date and Time API in the JDK 8, so you may want to check the `DateTimeFormatter` class that will be for another time.
+</details>
