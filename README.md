@@ -5680,3 +5680,29 @@ var result = format.format(new Object[]{"2025", 30});
 
 One last word; date formatting has been superseded by the Date and Time API in the JDK 8, so you may want to check the `DateTimeFormatter` class that will be for another time.
 </details>
+
+## 236. What is a Collector built on?
+<details>
+  <summary>Short Answer</summary>
+
+3 elements plus 1.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+A Collector collects the elements of the Stream in a mutable container. For that, it needs 2 elements; one used to build a mutable container in the form of a Supplier and another one to add an element to this container in the form of a BiConsumer and that's the Accumulator. Then, you can use a Collector in parallel, meaning that several instances of the container may be built in different threads. At some point, you will need to combine them that's the Combiner, which is a BinaryOperator and the last one is made to make your Container non-modifiable, for instance. That's the Finisher and it's a Function.
+
+```java
+var collector = Collector.of(
+    () -> new ArrayList<>(),
+    (list, e) -> list.add(e),
+    (list1, list2) -> {
+        list1.addAll(list2);
+        return list1;
+    },
+    list -> Collections.unmodifiableList(list)
+);
+```
+
+One last word; a collector also has Characteristics but that will be for another time.
+</details>
