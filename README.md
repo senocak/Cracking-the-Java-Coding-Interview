@@ -5744,8 +5744,6 @@ A method from the Map interface.
 `getOrDefault()` takes 2 parameters, a key and a default value. You may be thinking that if the key is not in the Map then it returns the default value. `getOrDefault()` does not check if the key is in the Map with `contains()`, it checks if the `get(key)` returns null. If you have a Map that does not accept null values like `ConcurrentHashMap`, then yes `getOrDefault()` returns the default value you provide if the key is not in the Map. But if your Map accepts null values and that the case for `HashMap` then it also returns the default value in case of a null value.
 
 ```java
-java.util.Map
-
 interface Map<K, V> {
     default V getOrDefault(K key, V value) {
         if (get(key) == null) {
@@ -5758,4 +5756,31 @@ interface Map<K, V> {
 ```
 
 One last word; `getOrDefault()` is aligned with what `putIfAbsent()` does we already talked about that.
+</details>
+
+## 239. What is this?
+<details>
+  <summary>Short Answer</summary>
+
+come on...
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+`This` is a keyword of the language that is a reference on the object you are in. Because it is a reference on your instance, you cannot use it in static members of your class for obvious reasons. One fun fact: you can write your methods in that way with `this` as a first parameter. This is actually the trick the compiler is using to give you a this reference in your method. And that's a very good way to write unreadable code and to trick people.
+
+```java
+class User {
+    String name;
+    String getName(User this) {
+        return this.name;
+    }
+    @Override
+    String toString(User this) {
+        return "User" + this.name;
+    }
+}
+```
+
+One last word; this is also a way to call another constructor from the constructor you are in. There used to be restrictions on the calling of constructors within constructors, which have been lifted for `Valhalla` to have immutable objects, but that will be for another time.
 </details>
