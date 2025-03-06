@@ -5706,3 +5706,28 @@ var collector = Collector.of(
 
 One last word; a collector also has Characteristics but that will be for another time.
 </details>
+
+## 237. What does escape analysis mean?
+<details>
+  <summary>Short Answer</summary>
+
+It means performance!
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+There are cases in your code where you declare variables that are objects. You already know that they will be destroyed very soon. Objects are a little costly to create and then they need to be garbaged. And sometimes they are just not referenced in your code like the iterator in the for-each pattern or they do not escape the method you're in. In these cases, the JVM may decide not to create these objects. It uses their content where it's needed, but it does not create them.
+
+```java
+var ints = List.of(1, 2, 3);
+
+// compiles with an iterator
+for (var i: ints){
+    // do something with i
+}
+// that is not in the code!
+// What about not creating it at runtime?
+```
+
+One last word; on the stack it's called `scalarization`. and on the Heap `flattening`. Something `Valhalla` already does very well .
+</details>
