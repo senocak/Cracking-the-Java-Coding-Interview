@@ -5798,3 +5798,32 @@ It actually depends on your operating system because an instance of a Thread cla
 
 One last word; all this is valid for kernel threads. Virtual threads on the other hand are like regular objects. You can create them on demand and have as many as you need in your application, but that will be for another time.
 </details>
+
+## 241. What is Pattern Matching?
+<details>
+  <summary>Short Answer</summary>
+
+An old feature from the 70s that is making it to the Java language.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Pattern Matching was defined by the functional programming people about 50 years ago. So far, there are 2 patterns in Java, `Type Pattern` and `Record Pattern`. When you write `o instanceof string s` what you're really asking is: could this variable o be declared as String s?. And if it is the case, then s, called the pattern variable, is created and you can use it where it makes sense. With Record Pattern you can deconstruct records and create pattern variables for their components.
+
+```java
+record Pattern(int x, int y) {}
+void someMethod(Object o) {
+    if (o instanceof String s) {
+        // you can use s here
+    }
+    if (o instanceof Point p) {
+        // you can use p
+    }
+    if (o instanceof Point(int i1, int i2)) {
+        // you can use i1 and i2 here
+    }
+}
+```
+
+One last word; there are more patterns to come, Primitive Type Patterns and Named Patterns but that would be for another time.
+</details>
