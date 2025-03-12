@@ -5784,3 +5784,17 @@ class User {
 
 One last word; this is also a way to call another constructor from the constructor you are in. There used to be restrictions on the calling of constructors within constructors, which have been lifted for `Valhalla` to have immutable objects, but that will be for another time.
 </details>
+
+## 240. How expensive is a Thread?
+<details>
+  <summary>Short Answer</summary>
+
+A thread is quite expensive.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+It actually depends on your operating system because an instance of a Thread class is a wrapper on a thread provided by your OS. A kernel thread holds several megabytes of memory and may take several milliseconds to create, so yes it is an expensive resource. Reason why application create them when they start and try to keep them alive and reuse them. This leads to the callback-based asynchronous programming model that can work with very few threads.
+
+One last word; all this is valid for kernel threads. Virtual threads on the other hand are like regular objects. You can create them on demand and have as many as you need in your application, but that will be for another time.
+</details>
