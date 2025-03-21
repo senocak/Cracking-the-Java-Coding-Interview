@@ -5827,3 +5827,25 @@ void someMethod(Object o) {
 
 One last word; there are more patterns to come, Primitive Type Patterns and Named Patterns but that would be for another time.
 </details>
+
+## 242. Why can't you map, filter, reduce a Collection?
+<details>
+  <summary>Short Answer</summary>
+
+Because you don't want to map, filter, reduce a Collection.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+There are cases where the reduce operation does not need to process all the elements you have to produce a result. If you're looking for the first element, having to map and then filter all the rest of your elements would be a terrible overhead. So mapping everything, then filtering everything before reducing would be a terrible way to implement this algorithm. What you want to do is to take every element through your entire processing pipeline, one step at a time. This is what streams are doing.
+
+```java
+var objects = List.of(...);
+var mapped = objects.map(...);
+var filtered = mapped.map(...);
+var result = filtered.findFirst();
+// mapped and filtered are not needed!
+```
+One last word; Eclipse Collections implemented the concept of `Lazy Collections` so if this is what you need please use it.
+
+</details>
