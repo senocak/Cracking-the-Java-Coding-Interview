@@ -5849,3 +5849,39 @@ var result = filtered.findFirst();
 One last word; Eclipse Collections implemented the concept of `Lazy Collections` so if this is what you need please use it.
 
 </details>
+
+## 243. Can you explain the parameterized types of a Collector?
+<details>
+  <summary>Short Answer</summary>
+
+There are 3 of them.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+But you only need to understand the first one and the last one. The first one is the type of elements this collector can consume. The third type is the type of the element that this Collector can produce. You can leave the second type anonymous, it actually represents the internal container your Collector implementation may use.
+
+```java
+Collector<T, A, R> collector;
+
+T: the typed consumed
+R: the typed produced
+
+Collector<E, ?, List<E>> toList = Collector.toList();
+Collector<E, ?, Map<K, List<E>>> groupingBy = Collector.groupingBy(Function<E, K> mapper);
+```
+
+```java
+var strings = List.of("one", "two", "three");
+var joining = (Collector<CharSequence, StringJoiner, String>) Collectors.joining(", ");
+var container = joining.supplier().get();
+var accumulator = joining.accumulator();
+var finisher = joining.finisher();
+
+strings.forEach(s -> accumulator.accept(container, s));
+var result = finisher.apply(container);
+// > one, two, three
+```
+
+One last word; actually, Collectors do not depend on the stream API. You can use their Supplier, Accumulator and Finisher independently, but that will be for another time.
+</details>
