@@ -5885,3 +5885,32 @@ var result = finisher.apply(container);
 
 One last word; actually, Collectors do not depend on the stream API. You can use their Supplier, Accumulator and Finisher independently, but that will be for another time.
 </details>
+
+## 244. What does volatile mean?
+<details>
+  <summary>Short Answer</summary>
+
+It has to do with the visibility of fields in a concurrent environment.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Volatile is a keyword you can put on fields. It means that the read and write operations on this field are volatile reads and volatile writes. And this has to do with the existence of happens-before links between your read operation and your write operations. The Java Specification says that the happens-before link exists between synchronized or volatile reads and synchronized or volatile writes.
+
+```java
+class Box {
+    volatile int counter = 0;
+}
+var box = new Box();
+Thread.ofVirtual()
+      .start(() -> 
+        // visible
+        box.counter = 1);
+Thread.ofVirtual()
+      .start(() -> 
+        // visible
+        println(box.counter));
+```
+
+One last word; a volatile reference on a mutable container does not protect the content of this container against race conditions, so be careful with that.
+</details>
