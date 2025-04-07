@@ -5914,3 +5914,23 @@ Thread.ofVirtual()
 
 One last word; a volatile reference on a mutable container does not protect the content of this container against race conditions, so be careful with that.
 </details>
+
+## 245. How can you compute the median value of an array?
+<details>
+  <summary>Short Answer</summary>
+
+By using the right algorithm.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+The lazy way of doing it would be to sort the array, then to read the middle index, but it's inefficient. The first step of the quick sort algorithm is to choose the pivot index and move all the smaller elements to the left, meaning that if after doing this, you have split your array in 2 equal parts, it's done. You don't need to go any further. The problem is that you may not have the middle index in one guess, so you need to repeat but only on the largest part that you have on average. You will not have to sort everything, so you will go faster.
+
+```java
+// 1 5 3 0 2 6 8 3 2 5 9 
+// 1 5 3 0 2 3 2 5 6 8 9 // bad luch
+// 1 2 3 0 2 3 5 5 6 8 9 // better!
+```
+
+One last word; you can use better strategies if what you need is just something that is close enough. That can be useful, especially if you have a lot of data.
+</details>
