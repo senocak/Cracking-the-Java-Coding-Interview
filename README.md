@@ -5934,3 +5934,30 @@ The lazy way of doing it would be to sort the array, then to read the middle ind
 
 One last word; you can use better strategies if what you need is just something that is close enough. That can be useful, especially if you have a lot of data.
 </details>
+
+## 246. How is the toArray() method working?
+<details>
+  <summary>Short Answer</summary>
+
+There are several toArray() methods; on Collection, Streams and specialized Streams.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+On specialized Streams toArray() builds an array with your number in it, plain and simple. On `Stream<T>`, toArray() builds an array of Objects, but you can also pass a supplier of the given type to produce an array of that type. On Collections, toArray() does the same but it can also take an array of the given type.
+
+```java
+int[] ints = IntStream.of(1, 2, 3).toArray();
+long[] longs = LongStream.of(1L, 2L, 3L).toArray();
+double[] doubles = DoubleStream.of(1D, 2D, 3D).toArray();
+
+Object[] strings1 = Stream.of("one", "two", "three").toArray();
+String[] strings2 = Stream.of("one", "two", "three").toArray(String[]::new);
+
+Object[] strings3 = List.of("one", "two", "three").toArray();
+String[] strings4 = List.of("one", "two", "three").toArray(new String[0]);
+String[] strings5 = List.of("one", "two", "three").toArray(new String[3]);
+```
+
+One last word; for Collections passing an empty array may actually be a better idea than passing an array of the right size. This could has to do with the fact that an array must first be filled with zeros, but as usual when it comes to performance measure, don't guess
+</details>
