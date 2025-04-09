@@ -5961,3 +5961,37 @@ String[] strings5 = List.of("one", "two", "three").toArray(new String[3]);
 
 One last word; for Collections passing an empty array may actually be a better idea than passing an array of the right size. This could has to do with the fact that an array must first be filled with zeros, but as usual when it comes to performance measure, don't guess
 </details>
+
+## 247. What is an unnamed variable?
+<details>
+  <summary>Short Answer</summary>
+
+A variable that has no name.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+What could be the use of such a variable? Well, with record patterns you create pattern variable when you deconstruct a record. Creating such variables calls the accessors of your record, which may be costly. So, if you don't need them, you can declare them as unnamed, and they will not be created. You can also use these unnamed variables in Lambda expressions or when you catch exceptions.
+
+```java
+record Circle(Point center, double radius) {
+    var surface = switch (object) {
+        case Circle(Point p, double r) -> Math.PI * r * r;
+        // more cases
+    };
+}
+
+var map = new HashMap<Integer, String>();
+List.of("one", "two", "three")
+        .forEach(e -> map.computeIfAbsent(e.length(), _ -> new ArrayList<>())
+        .add(e)
+
+try(var lines = reader.lines()) {
+    // analyze lines
+} catch (IOException _) {
+    // it failed
+}
+```
+
+One last word; for record deconstruction, using unnamed variables may also hide a change in your model as well as the use of the var keyword, by the way, so be aware of that before using this feature.
+</details>
