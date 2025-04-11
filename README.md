@@ -5995,3 +5995,33 @@ try(var lines = reader.lines()) {
 
 One last word; for record deconstruction, using unnamed variables may also hide a change in your model as well as the use of the var keyword, by the way, so be aware of that before using this feature.
 </details>
+
+## 248. What does the reversed() method do?
+<details>
+  <summary>Short Answer</summary>
+
+It reverses a List.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Actually, one of the method brought to you by the SequencedCollection API, and this method returns you a view on your SequencedCollection. Since it is a view, if the underlying SequenceCollection is modified, you will see this notification. Note that, for a list this reversed view is also modifiable. Modifying it modifies the underlying list. If what you need is a copy and not a view, you can still pass it to `List.copyOf()` that will happily copy it for you.
+
+```java
+var ints = new ArrayList<>(List.of(1, 2, 3, 4));
+println(ints);
+println(ints.reversed());
+ints.add(2, 10);
+println(ints.reversed());
+// > [1, 2, 3, 4]
+// > [4, 3, 2, 1]
+// > [4, 3, 10, 2, 1]
+ints.reversed().add(2, 10);
+println(ints);
+// [1, 2, 10, 3, 4]
+
+var copy = List.copyOf(ints.reversed());
+```
+
+One last word; be careful though because `List.copyOf()` does not accept null values. Why would you put null values in your collections?
+</details>
