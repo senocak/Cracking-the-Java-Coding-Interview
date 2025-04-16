@@ -6025,3 +6025,33 @@ var copy = List.copyOf(ints.reversed());
 
 One last word; be careful though because `List.copyOf()` does not accept null values. Why would you put null values in your collections?
 </details>
+
+## 249. Why Java doesn't allow variable capturing?
+<details>
+  <summary>Short Answer</summary>
+
+Because it would have changed the concurrent programming model.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+A lambda can only capture a final variable, that is a value. It cannot capture a modifiable local variable. If it had been allowed, since this lambda can escape the method it is declared in and sent to different threads it would have exposed these local variables to different threads and then to race conditions, something that does not exist in Java, so the decision was; You can only capture values, not modifiable variables.
+
+```java
+void process() {
+    int count = 12;
+    count++;
+    
+    // does not compile!
+    return () -> count;
+}
+void process() {
+    int count = 12;
+    // compiles because
+    // count is efficiently final
+    return () -> count;
+}
+```
+
+One last word; there are JVM-based languages that allow the capturing of local variables in lambdas. But when it comes to race conditions, you're on your own.
+</details>
