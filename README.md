@@ -6106,3 +6106,26 @@ Predicate<String> notNullNotEmpty = Predicate.not(isNull.or(isEmpty));
 
 One last word; it is one of the 4 fundamental Functional Interfaces that you need to know, `Consumer`, `Supplier`, `Function` and `Predicate`.
 </details>
+
+## 252. What is a WeakHashMap?
+<details>
+  <summary>Short Answer</summary>
+
+A Map.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+The keys of a WeakHashMap are weak references which can be garbaged if it is not used by anything in your application. Meaning that the size of this map may decrease over time without your application ever calling `remove()`. This is very useful to create caches for instance, because you can add key-value pairs in a WeakHashMap and if at some point your application is running low on memory, the garbage collector can just remove the ones that are not used.
+
+```java
+var map = WeakHashMap.<Integer, String>newWeakHashMap(50);
+map.put(1, "one");
+map.put(2, "two");
+map.put(3, "three");
+// do a lot of stuff
+map.size(); // <- can be < 3!
+```
+
+One last word; values in a WeakHashMap are stored using strong references. So if your value has a strong references on its key, your weak hashmap will just behave as a regular HashMap. So, don't do that.
+</details>
