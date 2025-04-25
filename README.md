@@ -6082,3 +6082,27 @@ var response = analyze(json);
 One last word; the existing solution to overcome this problem is to use reactive programming and avoid the writing of blocking code. The future is to write blocking code but in virtual threads but that will be for another.
 time
 </details>
+
+## 251. What is a Predicate?
+<details>
+  <summary>Short Answer</summary>
+
+A Functional interface.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+This interface defines a `test()` method that takes an object and that returns a boolean. It is used in several places in the stream API and the Collections Framework. For instance, in the `filter()` method that can filter a Stream or in the `Collection.removeIf()` method that will remove elements from a Collection. This interface defines default methods to combine predicates with `AND` and `OR`. You can also negate a Predicate with the `negate()` method or the `not()` method which is a factory method that takes another predicate.
+
+```java
+interface Predicate<T> {
+    boolean test(T t);
+}
+Predicate<Integer> isPositive = i -> i > 0;
+Predicate<String> isEmpty = String::isEmpty;
+Predicate<String> isNull = Objects::isNull;
+Predicate<String> notNullNotEmpty = Predicate.not(isNull.or(isEmpty));
+```
+
+One last word; it is one of the 4 fundamental Functional Interfaces that you need to know, `Consumer`, `Supplier`, `Function` and `Predicate`.
+</details>
