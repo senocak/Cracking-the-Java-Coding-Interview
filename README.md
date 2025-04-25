@@ -6055,3 +6055,30 @@ void process() {
 
 One last word; there are JVM-based languages that allow the capturing of local variables in lambdas. But when it comes to race conditions, you're on your own.
 </details>
+
+## 250. What is a blocking call?
+<details>
+  <summary>Short Answer</summary>
+
+Something you want to avoid.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+How much time does it take to process a network request/response cycle? Creating a request and analyzing a response takes in the order of the microseconds. Waiting for a network response to come takes in the order of the milliseconds, so it is a thousand times slower. Blocking means that during this time, the threat that is running your request is waiting, doing nothing. It could handle about a thousand requests construction or response analyzes, but it does not.
+
+```java
+// 1 microsec to execute this
+var jsonRequest = buildRequest();
+
+// 1_000 microsec to get the response during which the thread is doing nothing.
+var json = send(jsonRequest);
+// 1 microsec to analyze json
+var response = analyze(json);
+
+// works fine in virtual threads
+```
+
+One last word; the existing solution to overcome this problem is to use reactive programming and avoid the writing of blocking code. The future is to write blocking code but in virtual threads but that will be for another.
+time
+</details>
