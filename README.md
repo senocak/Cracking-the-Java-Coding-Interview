@@ -6129,3 +6129,31 @@ map.size(); // <- can be < 3!
 
 One last word; values in a WeakHashMap are stored using strong references. So if your value has a strong references on its key, your weak hashmap will just behave as a regular HashMap. So, don't do that.
 </details>
+
+## 253. How can you use a Collector outside of the Stream API?
+<details>
+  <summary>Short Answer</summary>
+
+There is a pattern for that.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+A Collector is built on 4 elements. `a supplier`, `an accumulator`, `a combiner`, and `a finisher`. You can apply these elements on a List, for instance. First, you need to create the mutable container. Second, you can accumulate the element of this List in it using the accumulator. And once this is done, you need to call the finisher on the result if you have one, and you're done.
+
+```java
+Collector<String, StringBuilder, String> joiner = Collector.of(
+    StringBuilder::new,
+    StringBuilder::append,
+    StringBuilder::append,
+    StringBuilder::toString);
+var strings = List.of("1", "2", "3");
+var sb = joiner.supplier().get();
+strings.forEach(s -> joiner.accumulator().accept(sb, s));
+var result = joiner.finisher().apply(sb);
+
+//> "123"
+```
+
+One last word; Collectors do not depend on the stream API, so you can use them independently. And it's a very powerful API that can model complex processing, just as gatherers. But that will be for another time.
+</details>
