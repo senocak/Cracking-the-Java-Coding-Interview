@@ -6157,3 +6157,38 @@ var result = joiner.finisher().apply(sb);
 
 One last word; Collectors do not depend on the stream API, so you can use them independently. And it's a very powerful API that can model complex processing, just as gatherers. But that will be for another time.
 </details>
+
+## 254. What is a StampedLock?
+<details>
+  <summary>Short Answer</summary>
+
+A lock with an optimistic read mode, among other things.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+A StampedLock locked has 3 modes, `exclusive write` and `non-exclusive read`, which are the 2 modes of `ReadWriteLocks`, plus a third one, `optimistic read`. The stamp you get when you call one of the `lock()` methods must be provided to unlock this StampedLock. Optimistic reads are interesting but also fragile. You need to acquire the lock, check if it is non-zero, read what you need, and then validate what you just read to make sure no write was done from another thread.
+
+```java
+var stampedLock = new StampedLock();
+var stamp = stampedLock.writeLock();
+
+try {
+    // exclusive  write  
+} finally {
+    stampedLock.unlockWrite(stamp);
+}
+
+try(for(;; stamp = stampedLock.tryOptimisticRead()) ){
+    if(stamp == 0L)
+        continue: retry;
+    // read what you need
+    if(!stampedLock.validate(stamp))
+        continue: retry;
+} finally {
+    stampedLock.unlockRead(stamp);
+}
+```
+
+One last word; locks obtained from StampedLock can also be upgraded. For instance, from read lock to write lock.But that will be for another time.
+</details>
