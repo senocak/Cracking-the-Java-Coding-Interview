@@ -6192,3 +6192,29 @@ try(for(;; stamp = stampedLock.tryOptimisticRead()) ){
 
 One last word; locks obtained from StampedLock can also be upgraded. For instance, from read lock to write lock.But that will be for another time.
 </details>
+
+## 255. How can you create multi-dimensional arrays?
+<details>
+  <summary>Short Answer</summary>
+
+There is a pattern for that.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+There is a syntax to create and use arrays with multiple dimensions. But under the hood, what you get is an array of references to other arrays that can be stored anywhere in the memory of your application. It is actually working in that way. First, you create an array of references then for each of them, you create another array of the right size. And by the way, this size can vary from one array to the other.
+
+```java
+int[][] ints = new int[10][10];
+ints[5][5] = 1;
+
+int[][] ints;
+ints = new int[10][];
+
+for(int[] subarray: ints) {
+    subarray = new int[10];
+}
+```
+
+One last word; There is no way you can automatically map a large contiguous region of memory to a multi-dimensional array as you can do it in C, for instance. If this is what you need, you will have to write some code.
+</details>
