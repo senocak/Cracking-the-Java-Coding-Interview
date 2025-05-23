@@ -6218,3 +6218,26 @@ for(int[] subarray: ints) {
 
 One last word; There is no way you can automatically map a large contiguous region of memory to a multi-dimensional array as you can do it in C, for instance. If this is what you need, you will have to write some code.
 </details>
+
+## 256. How can you stream the content of a directory?
+<details>
+  <summary>Short Answer</summary>
+
+There is a method for that.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+The method you want to call is `newDirectoryStream()` declared on the Files factory class. It returns a `DirectoryStream` object. This object is not a Stream but an Iterable. So you can get an Iterator from it. This iterator gives you the guarantee that a call to `next()` that follows a call to `hasNext()` that returned true will not fail. Which when you think about the concurrent nature of file systems is not obvious. Note that the directory you stream is not frozen while you iterate on its content. What you get is the content of that directory. Subdirectories are not explored.
+
+```java
+var dir = Path.of(...);
+try(var paths = Files.newDirectoryStream(dir)) {
+    for(vat path: paths) {
+        // do something
+    }
+} // needs to be closed
+```
+
+One last word, you can also pass a filter to the construction of this object to list all the files of a certain type for instance.
+</details>
