@@ -6241,3 +6241,27 @@ try(var paths = Files.newDirectoryStream(dir)) {
 
 One last word, you can also pass a filter to the construction of this object to list all the files of a certain type for instance.
 </details>
+
+## 257. What is a stack trace?
+<details>
+  <summary>Short Answer</summary>
+
+An Array.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+All the Exception classes extend Throwable. And when you create an instance of such an object, an array is created that contains all the methods that call the line of code on which this exception was created. Note that this array is filled when the exception is created. Reason why, if you create an exception to report an error and throw it, you'd better call throw new so that the stack trace that you get take you to the right place in your application.
+
+```java
+1: var t = new Throwable();
+2:
+3:
+4:
+5: t.printStackTrace();
+6:
+// > java.lang.Throwable at Main.main(Main.java:1)
+```
+
+One last word, sometimes the stack trace does not contain all the stacked frames. In extreme cases, you may even have no stack frame at all. That may happen if the VM has no stack trace information.
+</details>
