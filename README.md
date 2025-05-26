@@ -6265,3 +6265,52 @@ All the Exception classes extend Throwable. And when you create an instance of s
 
 One last word, sometimes the stack trace does not contain all the stacked frames. In extreme cases, you may even have no stack frame at all. That may happen if the VM has no stack trace information.
 </details>
+
+## 258. How can you read a ZIP file with the FileSystem API?
+<details>
+  <summary>Short Answer</summary>
+
+There is a pattern for that.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Java NIO gives you a `FileSystem` abstract class to model file systems, and one of them can access JAR files that are used in Java applications. You can create such a file system on a zip file and then use it to create files, directories, with the classical Java I/O and NIO patterns and you can do the same to read them. It's exactly like you were writing or reading from a regular disk file system.
+
+```java
+var uri = URI.create("jar:file:/dir/archive.zip");
+var env = Map.of("create", "true");
+try (
+    var zipfs = FileSystems.newFileSystem(uri, env);
+    // then decorate writer
+    var writer = Files.newBufferedWriter(zipfs.getPath("/").resolve("hello.txt"));
+) {
+    // user writer
+}
+```
+
+```java
+try (
+    var zipfs = ...;
+    var writer = ...;
+    // then decorate writer
+    var printWriter = new PrintWriter(writer);
+) {
+    printWriter.println("Hello World!");
+    Path newDir = zipfs.getPath("/").resolve("new-dir");
+    Files.createDirectories(newDir);
+}
+```
+
+```java
+try (
+    var zipfs = ...;
+    var writer = ...;
+    Files.list(zipfs.getPath("/").resolve("hello.txt"));
+) {
+    lines.forEach(System.out::println);
+}
+```
+
+One last word, as you know, Path objects are actually bound to a specific file system. So when using this pattern, you need to use Path objects or File objects, but created from Paths.
+</details>
