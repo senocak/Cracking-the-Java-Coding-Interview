@@ -6314,3 +6314,43 @@ try (
 
 One last word, as you know, Path objects are actually bound to a specific file system. So when using this pattern, you need to use Path objects or File objects, but created from Paths.
 </details>
+
+## 259. Is the String Class an Immutable Class?
+<details>
+  <summary>Short Answer</summary>
+
+That's actually a trick question. And the correct answer is no.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+You probably think that the string class is a non-modifiable class, which is partly true. What is true is that once you fix the value of a string of characters, you cannot change it. All the methods of the String class, like `toUpperCase()` or `substring()`, actually return another String object that wraps a different array. But there is a mutable field in the string class, which holds the hash code of that string object. This hash code is cached in a field.
+
+```java
+class String {
+    private final byte[] value;
+    private int hash; // mutable field
+    
+    public String toUpperCase() {
+        // some complex computations
+        return new String(...);
+    }
+    
+    public String substring() {
+        // some complex computations
+        var newValue = Arrays.copyOfRange(...);
+        return new String(newValue);
+    }
+    
+    public int hashCode() {
+        if (hash == 0 && !hashIsZero) {
+            // compute hash code
+            hash = computedHash;
+        }
+        return hash;
+    }
+}
+```
+
+One last word, this mutable field makes it so that a String cannot be made a value object with Valhalla. Unless it is changed, but that will be for another time.
+</details>
