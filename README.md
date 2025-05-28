@@ -6354,3 +6354,31 @@ class String {
 
 One last word, this mutable field makes it so that a String cannot be made a value object with Valhalla. Unless it is changed, but that will be for another time.
 </details>
+
+## 260. What is a Virtual Thread?
+<details>
+  <summary>Short Answer</summary>
+
+A class, that is not public.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Virtual Threads are an amazing addition to the JDK21. A Virtual Thread is a wrapper on a task you want to submit to a regular thread. This task can be modeled by a Runnable or a Callable. Formally, Virtual Threads can be mounted and unmounted on regular threads, so that they can execute the task that they wrap. And when your task blocks, like when it is waiting for data from the network, the NIO API unmounts the Virtual Thread so that the regular Thread is not blocked. Being able to unmount a task from a Thread was not possible in Java before Virtual Threads, and that's a game changer.
+
+```java
+var task = // runnable
+var thread = Thread.ofVirtual()
+    .unstarted(task);
+// this is virtual thread
+// task SHOULD be blocking!
+thread.start();
+
+var executor = Executors.newVirtualThreadPerTaskExecutor();
+// executed in a virtual thread
+// task SHOULD be blocking!
+var future = executor.submit(task);
+```
+
+One last word, Virtual Threads are made to wrap blocking tasks. Forget about using them for anything else.
+</details>
