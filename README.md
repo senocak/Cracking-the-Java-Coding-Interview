@@ -6382,3 +6382,29 @@ var future = executor.submit(task);
 
 One last word, Virtual Threads are made to wrap blocking tasks. Forget about using them for anything else.
 </details>
+
+## 261. How can you represent time?
+<details>
+  <summary>Short Answer</summary>
+
+There is a class for that.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+The problem is that there are in fact 2 of them; `java.sql.time` that extends `java.sql.Date` and LocalTime, which is the one you should favor. A LocalTime models an hour, minute, second with a nanosecond precision and with no time zone information. And it's an immutable class. You have factory methods to create a LocalTime, accessors to read the time it carries, methods to create another LocalTime from the one you have, and even with the methods. Neat.
+
+```java
+var now = LocalTime.now();
+var time1 = LocalTime.of(
+    9,  //hours
+    15, //minutes
+    43  //seconds
+);
+var minutes = time1.getMinute();
+var time2 = time1.plusHours(2);
+var time3 = time1.withMinutes(30);
+```
+
+One last word, LocalTime is now a value-based class, which is a Valhalla notion. Among other restrictions, you should not synchronize on it. That will be for another time.
+</details>
