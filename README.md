@@ -6408,3 +6408,41 @@ var time3 = time1.withMinutes(30);
 
 One last word, LocalTime is now a value-based class, which is a Valhalla notion. Among other restrictions, you should not synchronize on it. That will be for another time.
 </details>
+
+## 262. What is mapMulti()?
+<details>
+  <summary>Short Answer</summary>
+
+A method from the Stream interface.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+mapMulti() allows you to flat-map a stream without having to create intermediate Streams object, which can be an overhead in your data processing pipeline. You need to call mapMulti() with a lambda that takes 2 arguments; the element of the stream you need to process and an object that models the downstream. When you want to pass an object to the downstream, you need to call `downstream.accept()`. You can call accept() any number of times or not call it at all.
+
+```java
+var ints = List.of(1, 2, 3, 4);
+var stream = ints.stream().mapMulti((elt, downstream) -> {
+    if (elt % 2 == 0) {
+        downstream.accept(elt);
+        downstream.accept(elt);
+    }
+});
+var result = stream.toList();
+// > [2, 2, 4, 4]
+```
+
+```java
+var ints = List.of(1, 2, 3, 4);
+Stream<Object> stream = ints.stream().mapMulti((elt, downstream) -> {
+    if (elt % 2 == 0) {
+        downstream.accept(elt);
+        downstream.accept(elt);
+    }
+});
+List<Object> result = stream.toList();
+// > [2, 2, 4, 4]
+```
+
+One last word, you need to specify the type of the object you are pushing to the downstream when you call mapMulti(). If you don't, this method will return a stream of objects. Usually, it's not what you want.
+</details>
