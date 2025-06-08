@@ -6446,3 +6446,32 @@ List<Object> result = stream.toList();
 
 One last word, you need to specify the type of the object you are pushing to the downstream when you call mapMulti(). If you don't, this method will return a stream of objects. Usually, it's not what you want.
 </details>
+
+## 263. What is a ConcurrentMap?
+<details>
+  <summary>Short Answer</summary>
+
+An interface.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+The ConcurrentMap interface has a double rule of defining thread-safety and the atomicity of some operations on Map. It has 2 implementations in a JDK; `ConcurrentHashMap` and `ConcurrentSkipListMap`. Each method defined in this interface can be specified to be atomic. That's the case for `putIfAbsent()` for instance, which cannot be interrupted between the checking of the absence of the key and the binding of this key to the value you provide. Atomicity may also apply to some methods of the Collections you can get from this map; `values()`, `keySet()` or `entrySet()`.
+
+```java
+interface ConcurrentMap {}
+interface ConcurrentHashMap extends ConcurrentMap {}
+interface ConcurrentSkipListMap extends ConcurrentMap {}
+
+putIfAbsent(K key, V value) {
+    // equivalent to:
+    if(!map.containsKey(key)) {
+        return map.put(key, value);
+    } else
+        return map.get(key);
+    // but atomic
+}
+```
+
+One last word; be careful because some concurrent maps do not accept null keys. Why would you put null keys in a Map?
+</details>
