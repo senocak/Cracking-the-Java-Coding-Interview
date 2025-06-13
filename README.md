@@ -6475,3 +6475,46 @@ putIfAbsent(K key, V value) {
 
 One last word; be careful because some concurrent maps do not accept null keys. Why would you put null keys in a Map?
 </details>
+
+## 264. How can you access the off-heap memory?
+<details>
+  <summary>Short Answer</summary>
+
+There is a whole API for that.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+There are 2 APIs in fact to do that. The first one is really old from Java 4 in 2002 and it's the `ByteBuffer` class. The Panama project brought new patterns to access the off-heap memory based on the use of an `Arena` object. From an Arena, you can get Memory Segments and then read and write data from them. You can do so directly with an offset or with an index. You can also map them to file just like you could with ByteBuffers.
+
+```java
+try(var arena = Arena.global()) {
+    MemorySegment segment = arena.allocate(1_024L);
+    segment.set(
+        ValueLayout.JAVA_INT, // Layout
+        4L,     // offset
+        314     // value
+    );
+    var value = segment.get(
+        ValueLayout.JAVA_INT, // Layout
+        4L // offset
+    );
+}
+```
+
+```java
+var path = ...;
+try(var arena = Arena.global();
+    var channel = FileChannel.open(path, ...)) {
+    ByteBuffer buffer = channel.map(
+        MapMode.READ_ONLY, 
+        0, channel.size());
+    MemorySegment segment = channel.map(
+        MapMode.READ_ONLY, 
+        0, channel.size(),
+        arena);
+}
+```
+
+One last word, `ByteBuffers` are indexed with integers and `MemorySegments` with longs. You can also define layouts on them to access their content in a structured way, but that will be for another time.
+</details>
