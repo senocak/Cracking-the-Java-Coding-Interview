@@ -6518,3 +6518,29 @@ try(var arena = Arena.global();
 
 One last word, `ByteBuffers` are indexed with integers and `MemorySegments` with longs. You can also define layouts on them to access their content in a structured way, but that will be for another time.
 </details>
+
+## 265. What is a SIZED stream?
+<details>
+  <summary>Short Answer</summary>
+
+A stream that will produce a known number of elements.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+SIZED is actually a characteristic of a stream. You can read these characteristics from the Spliterator your stream is built on. When you open a stream on a Collection because you know the size of the Collection, you also know that this stream will produce this number of elements. In the case you stream the elements you get when you split a String with a regular expression, it's not the case. So that stream is not SIZED.
+
+```java
+var ints = List.of(1, 2, 3, 4);
+var stream = ints.stream();
+var sized = (stream.spliterator().characteristics() & Spliterator.SIZED) > 0;
+// > true
+
+Pattern.compile(" ")
+       .splitAsStream(someText);
+var sized = (stream.spliterator().characteristics() & Spliterator.SIZED) > 0;
+// > false
+```
+
+One last word; these characteristics are used to optimize your streams. For instance, calling `toList()` can directly create an array of the right size without having to do any resizing. Neat!
+</details>
