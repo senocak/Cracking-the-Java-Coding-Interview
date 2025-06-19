@@ -6544,3 +6544,36 @@ var sized = (stream.spliterator().characteristics() & Spliterator.SIZED) > 0;
 
 One last word; these characteristics are used to optimize your streams. For instance, calling `toList()` can directly create an array of the right size without having to do any resizing. Neat!
 </details>
+
+## 266. What is a deserialization filter?
+<details>
+  <summary>Short Answer</summary>
+
+It is a filter that you can declare to prevent the deserialization of specific classes.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Deserialization an unknown stream of data is inherently a dangerous activity. A deserialization filter can prevent instances of classes and graphs of object that are too deep or too complex from being deserialized. You need to implement the `ObjectInputFilter.checkInput()` method with the information you need on the data stream. You can then return a Status that can be ALLOWED, REJECTED or even UNDECIDED.
+
+```java
+ObjectInputFilter filter = filterInfo -> {
+    // analyze filterInfo for
+    // - serial class
+    // - depth
+    // - references
+    // - array Length
+    // - stream bytes
+    
+    // return a status
+    // can be
+    // ALLOWED REJECTED UNDECIDED
+    return Status.REJECTED;
+};
+
+// set the filter
+ObjectInputFilter.Config.setSerialFilter(filter);
+```
+
+One last word; serialization is the source of many security issues. Using records can prevent some of them, so use them wherever you can.
+</details>
