@@ -6577,3 +6577,34 @@ ObjectInputFilter.Config.setSerialFilter(filter);
 
 One last word; serialization is the source of many security issues. Using records can prevent some of them, so use them wherever you can.
 </details>
+
+## 267. How can you get the class of a primitive type?
+<details>
+  <summary>Short Answer</summary>
+
+There is a pattern for that.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Primitive types are associated with classes that you need when you want to get a method from a class using the Reflection API. You can use the `int.class` syntax that gives you a class of Integer. But the JDK 22 added a new method on the Class class: called `forPrimitiveName()` that takes the primitive type as a string of characters and that returns you the same object.
+
+```java
+class Box {
+    int x;
+
+    public void setX(int x) {
+        this.x = x;
+    }
+}
+var method = Box.class.getMethod("setX", int.class);
+// > void org.paumard.Box.setX(int)
+```
+
+```java
+Class<Integer> intClass = int.class;
+Class<Integer> sameIntClass = Class.forPrimitiveName("int");
+```
+
+One last word; so far primitive types are different from object types. This may change in the future once the value types from Valhalla make it to the JDK. You'll even be able to define your own primitive type like floats on 16 bits, but that will be for another time.
+</details>
