@@ -6608,3 +6608,33 @@ Class<Integer> sameIntClass = Class.forPrimitiveName("int");
 
 One last word; so far primitive types are different from object types. This may change in the future once the value types from Valhalla make it to the JDK. You'll even be able to define your own primitive type like floats on 16 bits, but that will be for another time.
 </details>
+
+## 268. Why do you need Optional?
+<details>
+  <summary>Short Answer</summary>
+
+To tell that a method cannot return anything.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+There are cases where you need that. And returning void or null does not tell that you cannot return anything. It's a way of returning nothing, which is different. Because a stream can be computed in parallel, the reduction operation has to be associative. If it was not, the result of your operation would depend on the order in which it has been computed. But then a stream can be empty. What could be the result of the reduction of an empty stream? Well, it has to be the identity element of your reduction operation. But now, what can you do for Min or Max or any reduction that does not have any identity element? The choice is to return an optional that can be empty.
+
+```
+A = {1, 2, 3}
+B = {4, 5, 6}
+C = A U B
+Max(C) = Max(Max(A), Max(B))
+```
+
+```
+A = {}
+B = {1, 2, 3, 4, 5, 6}
+A U B = B
+Max(Max({}), Max(B)) = Max(B)
+
+So Max({}) = Id(Max)
+```
+
+One last word. Using optionals in any other context is usually a bad idea. Don't do that.
+</details>
