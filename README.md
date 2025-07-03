@@ -6638,3 +6638,30 @@ So Max({}) = Id(Max)
 
 One last word. Using optionals in any other context is usually a bad idea. Don't do that.
 </details>
+
+## 269. What is a Function?
+<details>
+  <summary>Short Answer</summary>
+
+A functional interface.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+A Function maps an object of a given type to an object of another type. It is used by the `map()` method of the stream interface. The Function interface also defines a method to chain and compose functions. It also defines a factory methods that return the identity function. There are also specialized functions to avoid the boxing of primitive types when you want to process numbers and the Unary Operator, that is a Function that does not change the type.
+
+``` java
+interface Function<T, R> {
+    R apply(T t);
+}
+Function<String, Integer> f1 = s -> s.length();
+Function<Integer, String> f2 = i -> "" + i;
+Function<Integer, String> f3 = f1.andThen(f2);
+
+Function<String, String> id = Function.identity();
+ToIntFunction<String> f5 = s -> s.length();
+UnaryOperator<String> f6 = s -> s.toLowerCase();
+```
+
+One last word; Function is part of the 4 fundamental Functional Interfaces of the JDK; `Consumer`, `Supplier`, `Predicate` and `Function`. And yes, it's okay to add `Runnable` to the lot, even if Runnable was there long before Java 8.
+</details>
