@@ -6665,3 +6665,54 @@ UnaryOperator<String> f6 = s -> s.toLowerCase();
 
 One last word; Function is part of the 4 fundamental Functional Interfaces of the JDK; `Consumer`, `Supplier`, `Predicate` and `Function`. And yes, it's okay to add `Runnable` to the lot, even if Runnable was there long before Java 8.
 </details>
+
+## 270. What is a Spliterator?
+<details>
+  <summary>Short Answer</summary>
+
+An interface.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+A Spliterator is an object on which a stream is built. It has a number of methods to traverse the element of the source, to partition them, and to get information on the source. Writing your own spliterator is not an easy task, and you need to be careful about the behavior of each method. Fortunately, there are many examples in the JDK itself to help you. You can check for instance the `ArrayListSpliterator` or the `HashMap.KeySpliterator` which is the Spliterator of the HashSet.
+
+``` java
+interface Spliterator<E> {
+    boolean tryAdvance(Consumer);
+    void forEachRemaining(Consumer);
+    Spliterator<E> trySplit();
+    
+    long getExactSizeIfKnown();
+    long estimateSize();
+    int characteristics();
+}
+```
+
+```java
+class ArrayList<E> {
+    final class ArrayListSpliterator<E> {}
+}
+class HashMap<K, V> {
+    Spliterator<K> spliterator() {
+        return new HashMap.KeySpliterator<>(...);
+    }
+}
+```
+
+``` java
+class Pattern {
+    Stream<String> splitAsStream(String input) {
+        class MatcherIterator implements Iterator<String> {
+            ...
+        }
+        return StreamSupport.stream(
+            Spliterators
+                .spliteratorUnknownSize(
+                  new MatcherIterator(input), ...);
+    }
+}
+```
+
+One last word, a spliterator can produce an unbound number of elements, and you can produce them lazily. You can check the `RandomIntSpliterator` or the `MatcherIterator` used in the `Pattern.splitAsStream` method.
+</details>
