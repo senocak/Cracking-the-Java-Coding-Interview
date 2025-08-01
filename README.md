@@ -6827,3 +6827,32 @@ sealed interface ServiceResponse {
 
 One last word; sealed interfaces implemented by records are a very powerful feature, used in Data-Oriented Programming, but that will be for another time.
 </details>
+
+## 275. What is heap pollution?
+<details>
+  <summary>Short Answer</summary>
+
+A problem you can easily avoid.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Heap pollution has to do with generics and raw types. If you declare a List for instance, with a raw type, that is, you omit to give a value to the type parameter, you may get an exception, usually a `ClassCastException`. So don't do that. Even if you declare a List of Strings, you can still add integers to it by using raw types. This is, of course, stupid and the compiler gives you hints about that by issuing warnings. But because of backward compatibility, raw types are legal, so you can still use them.
+
+``` java
+void someLegacyMethod(List list) {
+    // Legacy use of raw types :( 
+    list.add("one");
+}
+var ints = new ArrayList<Integer>();
+someLegacyMethod(ints);
+// now you have a string in ints!
+
+// i is an Integer
+// following your list declaration
+var i = ints.iterator().getFirst();
+// > ClassCastException!
+```
+
+One last word; sometimes it may look easier to use raw types because generics are complex. That's always a mistake. Don't do that.
+</details>
