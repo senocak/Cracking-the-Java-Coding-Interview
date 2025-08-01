@@ -6779,3 +6779,25 @@ var isNonNull = stream.spliterator().hasCharacteristics(Spliterator.NON_NULL);
 
 One last word; avoiding null values in your data processing pipelines is something you should aim for. It will make your life so much easier.
 </details>
+
+## 273. What is a fail-safe iterator?
+<details>
+  <summary>Short Answer</summary>
+
+Something that does not exist in Java.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+A failsafe Iterator describes a specific behavior when you iterate on a Collection that is modified while you iterate over it. Usually this modification is not done through the iterator itself from java.util. Doing that results in a `ConcurrentModificationException` to be thrown. This is called the fail-fast behavior. Concurrent Collections usually have a different behavior called weakly consistent. `CopyOnWriteArraylist` has yet another behavior called `Snapshot`. Its modification creates a copy, so you can keep iterating on your own version of this CopyOnWriteArraylist without any problem.
+
+``` java
+var ints = new ArrayList<>(List.of(1, 2, 3, 4));
+var iterator = ints.iterator();
+println(iterator.next());
+ints.add(5);
+// > fails fast: throws a ConcurrentModificationException
+```
+
+One last word; be careful because this ConcurrentModificationException that you get has in fact nothing to do with Concurrency. Everything is usually happening in the same thread.
+</details>
