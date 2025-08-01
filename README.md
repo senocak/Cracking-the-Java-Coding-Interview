@@ -6758,3 +6758,24 @@ synchronized(i) {}
 
 One last word; String is not a value-based class. First, it is not fully un-modifiable. It carries this hashCode field that is not final. And second, it may wrap a very large array of bytes that does not fit well with this notion of value-based class.
 </details>
+
+## 272. What is a non-null stream?
+<details>
+  <summary>Short Answer</summary>
+
+A stream with the characteristics NON_NULL.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+NON_NULL is a characteristic that stream may have, if you have the guarantee that this stream is built on a source that cannot produce any null element. You can check these characteristics through the Spliterator your stream is built on by calling it `hasCharacteristics()` method for instance. You can rely on these characteristics when you need to collect your elements in a container for instance, that does not accept null values which is the case for most Concurrent Collections or ConcurrentHashMap.
+
+``` java
+var pattern = Pattern.compile(" ");
+var stream = pattern.splitAsStream("one two three four");
+var isNonNull = stream.spliterator().hasCharacteristics(Spliterator.NON_NULL);
+// > true
+```
+
+One last word; avoiding null values in your data processing pipelines is something you should aim for. It will make your life so much easier.
+</details>
