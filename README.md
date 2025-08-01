@@ -6919,3 +6919,38 @@ One of the bad things of LinkedLists is that accessing an element by its index h
 
 One last word; both structures are concurrent and built on the use of Atomic References. You can go and check this source code. It's interesting.
 </details>
+
+## 279. What is Scalarization?
+<details>
+  <summary>Short Answer</summary>
+
+An optimization that consists in not creating the object declared in your code.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Take the example of joining strings of characters. As we all know, running this code in a naive way would lead to the creation of a bunch of intermediate strings that are actually not used by your code. Well, the same could happen in this case. You end up creating a bunch of Population objects that you don't need. Since these object are not escaping the method they are created in, the simple optimization could be to avoid creating them, and just using the value they carry. This is what is called `scalarization`. You replace your object with the numbers you need to conduct your computations.
+
+``` java
+var strings = List.of(/*many strings*/);
+var joining = "";
+for (var s: strings) {
+    joining += s;
+}
+```
+``` java
+record Population(int n) {
+    Population add(Population other) {
+        return new Population(this.n + other.n);
+    }
+    static Population sum(List<Population> pops) {
+        var sum = new Population(0);
+        for (var pop: pops) {
+            sum = sum.add(pop);
+        }
+    }
+}
+```
+
+One last word; believe it or not, this is what `Valhalla` is already doing. Just make this Population record a value type and you will get free scalarization. Neat.
+</details>
