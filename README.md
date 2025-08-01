@@ -6856,3 +6856,38 @@ var i = ints.iterator().getFirst();
 
 One last word; sometimes it may look easier to use raw types because generics are complex. That's always a mistake. Don't do that.
 </details>
+
+## 276. What is an Arena?
+<details>
+  <summary>Short Answer</summary>
+
+An interface.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+An arena is the object you need to use to create memory segments in the memory part of the Foreign Function and Memory API. An arena is responsible for allocating this memory segment and controls how your application is using it. An arena is AutoClosable and when closed, it deallocates all the Memory Segments it created. It can control if your read and write operations are within the boundaries of this Memory Segment and what thread is accessing it.
+
+``` java
+try(var arena = Arena.ofConfined()) {
+    var segment = arena.allocate(1_024L, 8L);
+}
+// deallocates the segment on close
+```
+
+``` java
+// Use in mono-thread
+var a1 = Arena.ofConfined();
+
+// Use in multi-thread
+var a2 = Arena.ofShared();
+
+// Models the global memory can not be closed
+var a3 = Arena.global();
+
+// Managed by Garbage Collector can not be closed
+var a4 = Arena.ofAuto();
+```
+
+One last word; there are 4 different Arenas in the JDK, all with different behaviors. Your preferred choice should be `Arena.ofConfined()` or `Arena.ofShared()` in a multi-threaded environment. And you can even create your own Arena in case you need it.
+</details>
