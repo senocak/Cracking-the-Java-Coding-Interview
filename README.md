@@ -6716,3 +6716,45 @@ class Pattern {
 
 One last word, a spliterator can produce an unbound number of elements, and you can produce them lazily. You can check the `RandomIntSpliterator` or the `MatcherIterator` used in the `Pattern.splitAsStream` method.
 </details>
+
+## 271. What is a value-based class?
+<details>
+  <summary>Short Answer</summary>
+
+A class that wraps a value.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+There are several examples of value-based classes in the JDK. Integer, Double and all the classes that wrap primitive types are all value-based classes. All the classes of the Date and Time API are also value-based classes as well as others like Optional for instance. A value-based class can only carry some non-modifiable information, thus its name. And since its instances should behave as values, you should not use anything related to their identity, that is their address in memory. Things like `==` (equal equal) or identity hash code, or synchronization should not be used and will fail at some point.
+
+``` java
+@ValueBased
+class Integer{}
+
+@ValueBased
+class Double{}
+
+@ValueBased
+class Instant{}
+
+@ValueBased
+class Optional{}
+```
+
+``` java
+var i = Integer.valueOf(10);
+var j = Integer.valueOf(20);
+
+// NOPE!!!
+boolean b = (i == j);
+
+// NOPE!!!
+int hashCode = System.identityHashCode(i);
+
+// NOPE!!!
+synchronized(i) {}
+```
+
+One last word; String is not a value-based class. First, it is not fully un-modifiable. It carries this hashCode field that is not final. And second, it may wrap a very large array of bytes that does not fit well with this notion of value-based class.
+</details>
