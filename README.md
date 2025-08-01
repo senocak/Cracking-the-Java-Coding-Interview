@@ -6801,3 +6801,29 @@ ints.add(5);
 
 One last word; be careful because this ConcurrentModificationException that you get has in fact nothing to do with Concurrency. Everything is usually happening in the same thread.
 </details>
+
+## 274. How can you create a sealed type without permits?
+<details>
+  <summary>Short Answer</summary>
+
+There is a pattern for that.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+A sealed type needs to know its permitted extensions at compile time and all these extensions need to live in the same compilation unit, that is in the same package or if you're using the Java module system in the same module. Instead of declaring your extending types in separate class files, you can declare them as member types and in that way, the permits close becomes optional. The compiler assumes that all the member types that extend your seal type are permitted. This is a very convenient way of organizing your codebase, especially if you need to conduct a refactoring at some point.
+
+``` java
+sealed interface ServiceResponse permits Result, ResourceNotFound, ServerError {}
+// All classes are declared in their own class file in the same package or module
+
+sealed interface ServiceResponse {
+    record Result(String payload) implements ServiceResponse {}
+    record ResourceNotFound() implements ServiceResponse {}
+    record ServerError(String message) implements ServiceResponse {}
+}
+// No explicit permits needed
+```
+
+One last word; sealed interfaces implemented by records are a very powerful feature, used in Data-Oriented Programming, but that will be for another time.
+</details>
