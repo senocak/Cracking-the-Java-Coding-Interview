@@ -6891,3 +6891,20 @@ var a4 = Arena.ofAuto();
 
 One last word; there are 4 different Arenas in the JDK, all with different behaviors. Your preferred choice should be `Arena.ofConfined()` or `Arena.ofShared()` in a multi-threaded environment. And you can even create your own Arena in case you need it.
 </details>
+
+## 277. What is thread pinning?
+<details>
+  <summary>Short Answer</summary>
+
+Something you want to avoid.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Thread pinning is an issue that came with `Virtual Threads`. Virtual Threads are executed by regular threads called carrier threads in this context. And when a Virtual Threads executes a piece of code that is blocking, it is unmounted from its carrier thread. When the data it is waiting for is available then this Virtual Threads is mounted again, but the trick is that it can be mounted on a different carrier thread. Now, C or C++ code have access to addresses on the stack. So a Virtual Threads cannot be unmounted if it is running any native code that would just corrupt these addresses. This is what pinning is. It is the feature that prevents the unmounting and remounting cycle.
+
+``` java
+```
+
+One last word; in the first version from the JDK 21, Virtual Threads were also pinned if they were executing a synchronized block. But this one has been fixed in the JDK 24.
+</details>
