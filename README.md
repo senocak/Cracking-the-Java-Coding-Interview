@@ -6903,8 +6903,19 @@ Something you want to avoid.
 
 Thread pinning is an issue that came with `Virtual Threads`. Virtual Threads are executed by regular threads called carrier threads in this context. And when a Virtual Threads executes a piece of code that is blocking, it is unmounted from its carrier thread. When the data it is waiting for is available then this Virtual Threads is mounted again, but the trick is that it can be mounted on a different carrier thread. Now, C or C++ code have access to addresses on the stack. So a Virtual Threads cannot be unmounted if it is running any native code that would just corrupt these addresses. This is what pinning is. It is the feature that prevents the unmounting and remounting cycle.
 
-``` java
-```
-
 One last word; in the first version from the JDK 21, Virtual Threads were also pinned if they were executing a synchronized block. But this one has been fixed in the JDK 24.
+</details>
+
+## 278. What is a Skip List?
+<details>
+  <summary>Short Answer</summary>
+
+A nifty structure to create lists.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+One of the bad things of LinkedLists is that accessing an element by its index has a big of n(`O(n)`) complexity. A Skip List adds an internal structure that reduces this complexity to `O(log(n))`, which is much faster. The `log(1000)` is roughly 10 in base 2. This structure relies on the fact that elements you store are Comparable. It creates fast lanes to quickly move to the element you need. When you add or remove elements from a Skip List, this structure is updated so that it's always balanced, well, as much as possible. Skip List have been used in the JDK to implement the `ConcurrentSkipListSet` which is a Set, and even a `NavigableSet` and `ConcurrentSkipListMap` which is a Map and even a `NavigableMap`.
+
+One last word; both structures are concurrent and built on the use of Atomic References. You can go and check this source code. It's interesting.
 </details>
