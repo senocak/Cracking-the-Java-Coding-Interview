@@ -6954,3 +6954,33 @@ record Population(int n) {
 
 One last word; believe it or not, this is what `Valhalla` is already doing. Just make this Population record a value type and you will get free scalarization. Neat.
 </details>
+
+
+## 280. How is the Collectors.joining() working?
+<details>
+  <summary>Short Answer</summary>
+
+Let us skip the short answer.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+First, it creates an internal mutable container that is a `StringBuilder`. Second, it accumulates the element produced by your stream in this StringBuilder. If you pass the separator prefix or a suffix, then they are added to this StringBuilder too. And third, once all the elements of the stream have been consumed, it calls `toString` on its internal StringBuilder and returns this result. If you want to write your own Collectors, taking a look at how this one is working is interesting because it has the three elements a collector has; `initializer`, `accumulator` and `finisher`. It also has a `Combiner`, but I'm not sure that you want to use this joining Collector in a parallel stream. And there is this `CH_NOID` meaning that this collector has no characteristics.
+
+``` java
+static Collector<CharSequence, ?, String> joining() {
+    return new CollectorImpl<>(
+        StringBuilder::new,
+        StringBuilder::append,
+        (sb1, sb2) -> {
+            sb1.append(sb2);
+            return sb1;
+        },
+        StringBuilder::toString,
+        CH_NOID
+    );
+}
+```
+
+One last word; `Collectors.joining()` works only on a Stream of String of characters. Your compiler will tell you if you try to collect a stream of the wrong type.
+</details>
