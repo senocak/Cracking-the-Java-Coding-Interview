@@ -6955,7 +6955,6 @@ record Population(int n) {
 One last word; believe it or not, this is what `Valhalla` is already doing. Just make this Population record a value type and you will get free scalarization. Neat.
 </details>
 
-
 ## 280. How is the Collectors.joining() working?
 <details>
   <summary>Short Answer</summary>
@@ -6983,4 +6982,30 @@ static Collector<CharSequence, ?, String> joining() {
 ```
 
 One last word; `Collectors.joining()` works only on a Stream of String of characters. Your compiler will tell you if you try to collect a stream of the wrong type.
+</details>
+
+## 281. How can you split a string of characters?
+<details>
+  <summary>Short Answer</summary>
+
+There are several patterns for that.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Choosing the right pattern depends on how you want to split your string of characters. And if you think you're going to use all the elements or if you think you must be needing just the first ones. In case you need all the elements, then the good old `string.split()` split pattern creates an array with what you need in it. And in case you just need the first ones, or you're running in an environment where the memory is tight, then you could prefer a pattern that splits your string lazily, like patterns `.splitAsStream()`.
+
+``` java
+var text = ...;
+// The string is split upfront
+String[] elements = text.split(";");
+
+// First: create a Pattern on a regex;
+var pattern = Pattern.compile(";");
+
+// Second: lazily split the string
+pattern.splitAsStream(text);
+```
+
+One last word; depending on what you want to do, you may find analyzing your string with regular exceptions and named groups useful. It is a little tricky to set up. Regular expressions are not easy, but super powerful. But that will be for another time.
 </details>
