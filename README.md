@@ -7009,3 +7009,24 @@ pattern.splitAsStream(text);
 
 One last word; depending on what you want to do, you may find analyzing your string with regular exceptions and named groups useful. It is a little tricky to set up. Regular expressions are not easy, but super powerful. But that will be for another time.
 </details>
+
+## 282. What is a Parallel Stream?
+<details>
+  <summary>Short Answer</summary>
+
+A stream that is processed in parallel.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Creating a parallel stream is super simple. You just need to call `parallel()` on your stream and you're done. The internal algorithm will then split your data in two chunks and process each of them in its own thread. Then each chunk may be split again and again and again until the algorithm decides that the chunk it has is small enough to be processed entirely. All these mechanics is managed by the stream API. You do not need to worry about anything, including race conditions, visibility issues, and the like. As long as you're not doing any side effect in your stream pipeline, you're safe. You know that side effects in a stream pipeline is a bad idea, don't you?
+
+``` java
+var strings = /*many strings*/;
+strings.stream()
+        .parallel()
+        // your processing follows
+```
+
+One last word; there are good use cases for parallel streams and bad use cases. If your processing is not a good use case, then you may hurt your performance instead of improving them. As always, when it comes to performance, measure, don't guess.
+</details>
