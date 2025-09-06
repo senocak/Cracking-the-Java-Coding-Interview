@@ -7030,3 +7030,25 @@ strings.stream()
 
 One last word; there are good use cases for parallel streams and bad use cases. If your processing is not a good use case, then you may hurt your performance instead of improving them. As always, when it comes to performance, measure, don't guess.
 </details>
+
+## 283. What set operations are supported by the Collections Framework?
+<details>
+  <summary>Short Answer</summary>
+
+Actually all of them. Union, intersection, and set difference.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+These operations are defined in the Collection interface. `addAll()` is the union, `removeAll()` is the set difference, and `retainAll()` is the intersection. These methods take another collections as a parameter, mutate the Collection you are invoking the method on, and return a boolean that is true if the collection was mutated. If you plan to use these operations in your application, you need to choose your implementation wisely. As they do not perform the same, `removeAll()` calls remove on all the elements of your other collection, which is not efficient on ArrayList. It is much better on HashSet. And the same goes for `retainAll()`, which calls `contains()` instead of `remove()`. Again ArrayList is not very good at that. HashSet is much faster.
+
+``` java
+interface Collection<E> {
+    boolean addAll(Collection<E> other); // union
+    boolean removeAll(Collection<?> c); // set difference
+    boolean retainAll(Collection<?> c); // intersection
+}
+```
+
+One last word; for this kind of operations HashSet is most of the time your best choice, as long as you're okay with its distinct nature.
+</details>
