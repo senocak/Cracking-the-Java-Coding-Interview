@@ -7146,3 +7146,27 @@ try(var arena = Arena.ofConfined()) {
 
 One last word; you can write structured data in a memory segment that you can stream, which is amazing. All this using the Memory Layout API. We will talk more about it later.
 </details>
+
+## 287. What thread does a completable future use?
+<details>
+  <summary>Short Answer</summary>
+
+There is a default behavior which is to use a thread from the Common Fork/Join Pool.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+The CompletableFuture API allows you to define asynchronous pipelines of operations that are triggered by the API itself. You define this pipeline, pass your operations modeled by lambda expressions and the API processes the data when it is available. It has been designed to be non-blocking and applies the callback-based reactive approach. The thread that is executing your lambda expression is taken from the Common ForkJoinPool but the API accepts executive services for specific operations. In that case, your threads will be used.
+
+```java
+CompletableFuture
+    // In the Common Fork/Join Pool
+    .supplyAsync(() -> sometString)
+    // in executor
+    .thenApply(s -> s.toLowerCase(), executor)
+    // In the Common Fork/Join Pool again
+    .thenApply(s -> s.length())
+```
+
+One last word; this pool of threads is the same as the one used to run your parallel streams. So if you're using both APIs in your application, you will have a competition on the use of these threads, which may slow down both your streams and your completable futures. You may want to avoid this situation.
+</details>
