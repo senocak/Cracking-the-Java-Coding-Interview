@@ -6650,7 +6650,7 @@ A functional interface.
 
 A Function maps an object of a given type to an object of another type. It is used by the `map()` method of the stream interface. The Function interface also defines a method to chain and compose functions. It also defines a factory methods that return the identity function. There are also specialized functions to avoid the boxing of primitive types when you want to process numbers and the Unary Operator, that is a Function that does not change the type.
 
-``` java
+```java
 interface Function<T, R> {
     R apply(T t);
 }
@@ -6677,7 +6677,7 @@ An interface.
 
 A Spliterator is an object on which a stream is built. It has a number of methods to traverse the element of the source, to partition them, and to get information on the source. Writing your own spliterator is not an easy task, and you need to be careful about the behavior of each method. Fortunately, there are many examples in the JDK itself to help you. You can check for instance the `ArrayListSpliterator` or the `HashMap.KeySpliterator` which is the Spliterator of the HashSet.
 
-``` java
+```java
 interface Spliterator<E> {
     boolean tryAdvance(Consumer);
     void forEachRemaining(Consumer);
@@ -6700,7 +6700,7 @@ class HashMap<K, V> {
 }
 ```
 
-``` java
+```java
 class Pattern {
     Stream<String> splitAsStream(String input) {
         class MatcherIterator implements Iterator<String> {
@@ -6728,7 +6728,7 @@ A class that wraps a value.
 
 There are several examples of value-based classes in the JDK. Integer, Double and all the classes that wrap primitive types are all value-based classes. All the classes of the Date and Time API are also value-based classes as well as others like Optional for instance. A value-based class can only carry some non-modifiable information, thus its name. And since its instances should behave as values, you should not use anything related to their identity, that is their address in memory. Things like `==` (equal equal) or identity hash code, or synchronization should not be used and will fail at some point.
 
-``` java
+```java
 @ValueBased
 class Integer{}
 
@@ -6742,7 +6742,7 @@ class Instant{}
 class Optional{}
 ```
 
-``` java
+```java
 var i = Integer.valueOf(10);
 var j = Integer.valueOf(20);
 
@@ -6770,7 +6770,7 @@ A stream with the characteristics NON_NULL.
 
 NON_NULL is a characteristic that stream may have, if you have the guarantee that this stream is built on a source that cannot produce any null element. You can check these characteristics through the Spliterator your stream is built on by calling it `hasCharacteristics()` method for instance. You can rely on these characteristics when you need to collect your elements in a container for instance, that does not accept null values which is the case for most Concurrent Collections or ConcurrentHashMap.
 
-``` java
+```java
 var pattern = Pattern.compile(" ");
 var stream = pattern.splitAsStream("one two three four");
 var isNonNull = stream.spliterator().hasCharacteristics(Spliterator.NON_NULL);
@@ -6791,7 +6791,7 @@ Something that does not exist in Java.
 
 A failsafe Iterator describes a specific behavior when you iterate on a Collection that is modified while you iterate over it. Usually this modification is not done through the iterator itself from java.util. Doing that results in a `ConcurrentModificationException` to be thrown. This is called the fail-fast behavior. Concurrent Collections usually have a different behavior called weakly consistent. `CopyOnWriteArraylist` has yet another behavior called `Snapshot`. Its modification creates a copy, so you can keep iterating on your own version of this CopyOnWriteArraylist without any problem.
 
-``` java
+```java
 var ints = new ArrayList<>(List.of(1, 2, 3, 4));
 var iterator = ints.iterator();
 println(iterator.next());
@@ -6813,7 +6813,7 @@ There is a pattern for that.
 
 A sealed type needs to know its permitted extensions at compile time and all these extensions need to live in the same compilation unit, that is in the same package or if you're using the Java module system in the same module. Instead of declaring your extending types in separate class files, you can declare them as member types and in that way, the permits close becomes optional. The compiler assumes that all the member types that extend your seal type are permitted. This is a very convenient way of organizing your codebase, especially if you need to conduct a refactoring at some point.
 
-``` java
+```java
 sealed interface ServiceResponse permits Result, ResourceNotFound, ServerError {}
 // All classes are declared in their own class file in the same package or module
 
@@ -6839,7 +6839,7 @@ A problem you can easily avoid.
 
 Heap pollution has to do with generics and raw types. If you declare a List for instance, with a raw type, that is, you omit to give a value to the type parameter, you may get an exception, usually a `ClassCastException`. So don't do that. Even if you declare a List of Strings, you can still add integers to it by using raw types. This is, of course, stupid and the compiler gives you hints about that by issuing warnings. But because of backward compatibility, raw types are legal, so you can still use them.
 
-``` java
+```java
 void someLegacyMethod(List list) {
     // Legacy use of raw types :( 
     list.add("one");
@@ -6868,14 +6868,14 @@ An interface.
 
 An arena is the object you need to use to create memory segments in the memory part of the Foreign Function and Memory API. An arena is responsible for allocating this memory segment and controls how your application is using it. An arena is AutoClosable and when closed, it deallocates all the Memory Segments it created. It can control if your read and write operations are within the boundaries of this Memory Segment and what thread is accessing it.
 
-``` java
+```java
 try(var arena = Arena.ofConfined()) {
     var segment = arena.allocate(1_024L, 8L);
 }
 // deallocates the segment on close
 ```
 
-``` java
+```java
 // Use in mono-thread
 var a1 = Arena.ofConfined();
 
@@ -6931,14 +6931,14 @@ An optimization that consists in not creating the object declared in your code.
 
 Take the example of joining strings of characters. As we all know, running this code in a naive way would lead to the creation of a bunch of intermediate strings that are actually not used by your code. Well, the same could happen in this case. You end up creating a bunch of Population objects that you don't need. Since these object are not escaping the method they are created in, the simple optimization could be to avoid creating them, and just using the value they carry. This is what is called `scalarization`. You replace your object with the numbers you need to conduct your computations.
 
-``` java
+```java
 var strings = List.of(/*many strings*/);
 var joining = "";
 for (var s: strings) {
     joining += s;
 }
 ```
-``` java
+```java
 record Population(int n) {
     Population add(Population other) {
         return new Population(this.n + other.n);
@@ -6966,7 +6966,7 @@ Let us skip the short answer.
 
 First, it creates an internal mutable container that is a `StringBuilder`. Second, it accumulates the element produced by your stream in this StringBuilder. If you pass the separator prefix or a suffix, then they are added to this StringBuilder too. And third, once all the elements of the stream have been consumed, it calls `toString` on its internal StringBuilder and returns this result. If you want to write your own Collectors, taking a look at how this one is working is interesting because it has the three elements a collector has; `initializer`, `accumulator` and `finisher`. It also has a `Combiner`, but I'm not sure that you want to use this joining Collector in a parallel stream. And there is this `CH_NOID` meaning that this collector has no characteristics.
 
-``` java
+```java
 static Collector<CharSequence, ?, String> joining() {
     return new CollectorImpl<>(
         StringBuilder::new,
@@ -6995,7 +6995,7 @@ There are several patterns for that.
 
 Choosing the right pattern depends on how you want to split your string of characters. And if you think you're going to use all the elements or if you think you must be needing just the first ones. In case you need all the elements, then the good old `string.split()` split pattern creates an array with what you need in it. And in case you just need the first ones, or you're running in an environment where the memory is tight, then you could prefer a pattern that splits your string lazily, like patterns `.splitAsStream()`.
 
-``` java
+```java
 var text = ...;
 // The string is split upfront
 String[] elements = text.split(";");
@@ -7021,7 +7021,7 @@ A stream that is processed in parallel.
 
 Creating a parallel stream is super simple. You just need to call `parallel()` on your stream and you're done. The internal algorithm will then split your data in two chunks and process each of them in its own thread. Then each chunk may be split again and again and again until the algorithm decides that the chunk it has is small enough to be processed entirely. All these mechanics is managed by the stream API. You do not need to worry about anything, including race conditions, visibility issues, and the like. As long as you're not doing any side effect in your stream pipeline, you're safe. You know that side effects in a stream pipeline is a bad idea, don't you?
 
-``` java
+```java
 var strings = /*many strings*/;
 strings.stream()
         .parallel()
@@ -7042,7 +7042,7 @@ Actually all of them. Union, intersection, and set difference.
 
 These operations are defined in the Collection interface. `addAll()` is the union, `removeAll()` is the set difference, and `retainAll()` is the intersection. These methods take another collections as a parameter, mutate the Collection you are invoking the method on, and return a boolean that is true if the collection was mutated. If you plan to use these operations in your application, you need to choose your implementation wisely. As they do not perform the same, `removeAll()` calls remove on all the elements of your other collection, which is not efficient on ArrayList. It is much better on HashSet. And the same goes for `retainAll()`, which calls `contains()` instead of `remove()`. Again ArrayList is not very good at that. HashSet is much faster.
 
-``` java
+```java
 interface Collection<E> {
     boolean addAll(Collection<E> other); // union
     boolean removeAll(Collection<?> c); // set difference
@@ -7051,4 +7051,38 @@ interface Collection<E> {
 ```
 
 One last word; for this kind of operations HashSet is most of the time your best choice, as long as you're okay with its distinct nature.
+</details>
+
+## 284. Why is finalization being deprecated?
+<details>
+  <summary>Short Answer</summary>
+
+Because it was buggy from the beginning.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Finalization consists in calling the `finalized()` method on an object that is about to be garbaged. This `finalized()` method is defined on the Object class and you can override it. There are 2 main problems with this mechanism. First, the thread that is calling `finalized()` was never specified, and it was never a thread from your application. It is a thread from the Garbage Collector. So if you call `list.clear()` or `map.clear()`, for instance on an ArrayList or a HashMap, then you have a nice race-condition in a `clear()` call, which if you're unlucky, can lead to a nice `NullPointerException`. Second, because you are in the object about to be garbaged, you can actually revive it by storing this into a static field or a static container for instance, which prevents some optimizations at the Garbage Collector level.
+
+```java
+class Users {
+    private List<User> users = new ArrayList<>();
+    void finalize() {
+        // ArrayList is not a thread-safe 
+        // -> race condition! 
+        users.clear();
+    }
+}
+```
+```java
+class Users {
+    private List<User> users = new ArrayList<>();
+    void finalize() {
+        // ArrayList is not a thread-safe 
+        // -> race condition! 
+        users.clear();
+    }
+}
+```
+One last word, finalization has been deprecated and will be removed at some point. You can use the Cleaner API instead, as a replacement, which is safer and fixes the two issues we just mentioned, but that will be for another time.
 </details>
