@@ -7125,3 +7125,24 @@ double average = sum / count;
 
 One last word; I think you should favor the readability of your code in all cases. As writing readable code makes the long-term maintenance of your application less expensive. Favoring performance is a short-term view and in many cases it is just wrong.
 </details>
+
+## 286. What is a MemorySegment?
+<details>
+  <summary>Short Answer</summary>
+
+An interface.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Memory segment models the contiguous zone of memory that lives outside of the heap memory of your application. So this memory segment object lives on the heap as any Java object and has an off-heap reference to this piece of memory. A memory segment is created by an Arena object that controls several things. Among them, if you're reading and writing within the boundaries of your segment and from the right threads. Arenas are also responsible for closing your memory segments. A memory segment is indexed by a long, so it can be really large. As of now, it's probably larger than what your machine can give you.
+
+```java
+try(var arena = Arena.ofConfined()) {
+    // size can be really big!
+    var segment = arena.allocate(size);
+} // closes the memory segment
+```
+
+One last word; you can write structured data in a memory segment that you can stream, which is amazing. All this using the Memory Layout API. We will talk more about it later.
+</details>
