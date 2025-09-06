@@ -7170,3 +7170,29 @@ CompletableFuture
 
 One last word; this pool of threads is the same as the one used to run your parallel streams. So if you're using both APIs in your application, you will have a competition on the use of these threads, which may slow down both your streams and your completable futures. You may want to avoid this situation.
 </details>
+
+## 288. When is a stack trace created?
+<details>
+  <summary>Short Answer</summary>
+
+When the exception is created.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+There is no exception to this rule, as all exceptions extend `Throwable`, directly or indirectly, and the stack trace is created when this Throwable is created. This is why, as a rule of thumb, you should always create an exception where you throw it, with a `throw new MyApplicationException` pattern. In that way, the stack trace takes you directly where the error was noticed in your application. This is one of the drawback of the callback-based reactive frameworks. Since the element that calls your lambda is the framework itself, the stack trace takes you in this framework and not in your application, making debug much harder.
+
+```java
+int convert(String number) {
+    try {
+        var result = Integer.parseInt(number);
+    } catch (NumberFormatException e) {
+        return 0;
+        //throw new ConversionException("Cannot convert " + number, e);
+    }
+    return result;
+}
+```
+
+One last word; when you re-throw an existing API or language exception in one of your application exception, don't forget to pass the first exception as the cause of your application exception. In that case, you will have both stack tracers making the debug much easier.
+</details>
