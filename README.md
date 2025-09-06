@@ -7086,3 +7086,42 @@ class Users {
 ```
 One last word, finalization has been deprecated and will be removed at some point. You can use the Cleaner API instead, as a replacement, which is safer and fixes the two issues we just mentioned, but that will be for another time.
 </details>
+
+## 285. Should you favor streaming or iterating?
+<details>
+  <summary>Short Answer</summary>
+
+It really depends on your use case.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+What is important is that you understand the differences between both approaches. You can stream or iterate over your data in a lazy way as long as you write your own iterator. Depending on the processing you need to conduct, streaming may be more readable as you pass your operations and then they are applied to your data by the API. If you iterate yourself, then you need to write all this code explicitly. Streaming allows you to go parallel easily if this is what you need. But there is a caveat. Creating a stream is not free. It has a cost memory-wise and performance-wise.
+
+```java
+var users = List.of(...);
+double average = users
+        .stream()
+        //.parallel()
+        .filter(user -> user.age() > 20)
+        .mapToInt(User::age)
+        .average()
+        .orElseThrow();
+```
+
+```java
+var users = List.of(...);
+int count = 0;
+double sum = 0;
+for (var user: users){
+    if (user.age() > 20) {
+        count++;
+        sum += user.age();
+    }
+}
+// if count is not 0
+double average = sum / count;
+```
+
+One last word; I think you should favor the readability of your code in all cases. As writing readable code makes the long-term maintenance of your application less expensive. Favoring performance is a short-term view and in many cases it is just wrong.
+</details>
