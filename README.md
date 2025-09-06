@@ -7196,3 +7196,40 @@ int convert(String number) {
 
 One last word; when you re-throw an existing API or language exception in one of your application exception, don't forget to pass the first exception as the cause of your application exception. In that case, you will have both stack tracers making the debug much easier.
 </details>
+
+## 289. What's wrong with ThreadLocal?
+<details>
+  <summary>Short Answer</summary>
+
+Everything.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+In a nutshell, ThreadLocal is an API that was added to the JDK in Java 2, 1998. That is 6 years before the `Executor Service Pattern` was introduced in Java 5, 2004. And the interaction between both pattern does not work so great. A ThreadLocal variable is actually stored in a `HashMap` attached to a thread. So it shares the lifecycle of this thread. If you do not remove your ThreadLocal variables by hand, then they will stay forever, and can be read by any code running in that thread that is any code. That could lead to serious security breaches. Don't do that.
+
+A ThreadLocal variable is mutable. So it prevents the JVM to optimize it making them quite costly in your application. And last but not least, the binding is local to a thread. So if you move from one thread to the other, well, you need to tell that you want to inherit your ThreadLocal variables. But the fact is, you need thread locals, and if you think you don't, your favorite application framework does and uses them heavily.
+
+```java
+var t1 = ThreadLocal.withInitial(() -> "Hello");
+var service = Executors.newSingleThreadExecutor();
+Runnable task = () -> {
+    IO.println("TL = " + t1.get());
+    tl.set("two");
+};
+```
+
+```java
+IO.println(t1.get());
+var f1 = service.submit(t);
+f1.get();
+var f2 = service.submit(t);
+f2.get();
+IO.println(t1.get());
+// > one
+// > TL = one
+// > TL = one
+// > one
+```
+One last word; starting with the JDK 25, you can use `ScopedValues` instead of ThreadLocal variables. That fixes all these issues. We will talk more about that in a future.
+</details>
