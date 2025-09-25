@@ -7233,3 +7233,33 @@ IO.println(t1.get());
 ```
 One last word; starting with the JDK 25, you can use `ScopedValues` instead of ThreadLocal variables. That fixes all these issues. We will talk more about that in a future.
 </details>
+
+## 290. What is a stateful operation?
+<details>
+  <summary>Short Answer</summary>
+
+A special type of intermediate operation on the stream API.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Stateful means that there is a state that needs to be carried out from the processing of one element to the other. Being stateful means that the result of this operation depends on the element been processed and some mutable state that lives inside or outside of your stream. For instance, `distinct()` is a stateful operation as it stores all the element it sees in an internal HashSet. So passing an element depends on this element and the content of this HashSet. And the same goes for `limit()` that needs to count the number of elements it processed so far.
+
+```java
+interface Stream<E> {
+    // adds the elements to a set
+    // push the element
+    // if not in the set
+    Stream<E> distinct();
+    
+    // counts the elements
+    // push them until the Limit
+    // is reached
+    Stream<E> limit(long maxSize); // stateful
+    Stream<E> skip(long n); // stateful
+    Stream<E> sorted(); // stateful
+}
+```
+
+One last word, this mutable state needs to be shared among the different threads processing your stream in the case of a parallel stream. In other words, stateful operations don't play well with parallel streams. You've been warned.
+</details>
