@@ -7299,3 +7299,17 @@ printf("%+08.3f\n", 314f);
 
 One last word; you can also format elements with one of the extension of the Format abstract class from java.text which is extended by Message Format, Number Format, Date Format and some others. But that will be for another time.
 </details>
+
+## 292. What is a parallel friendly stream source?
+<details>
+  <summary>Short Answer</summary>
+
+A source of data that is easily splitable.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+A parallel streams splits it source in two chunks again and again until each chunk reaches a certain size where the algorithm decides to process it. For this way of splitting your source to work properly, your source needs to have two properties. First, the parallel streams needs to know how many elements this source will produce. If it's not known, then dividing this source in two parts of the same size is not going to work very well. Then, the size of each chunk also needs to be known for the algorithm to carry on. You may be thinking that if the size of the source is known, then it's also the case when it is split. Well, it's not always the case. For instance, if you split the internal array of a HashSet, you cannot know in advance how many elements you will have in each subarray.
+
+One last word; in a nutshell, the best source is ArrayList. Other in-memory collections like HashSet are not so good and I/O sources are all bad. `Pattern.splitAsStream()` which is a non-collection in-memory structure, is also very bad.
+</details>
