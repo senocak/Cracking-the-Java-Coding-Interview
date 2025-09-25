@@ -7313,3 +7313,28 @@ A parallel streams splits it source in two chunks again and again until each chu
 
 One last word; in a nutshell, the best source is ArrayList. Other in-memory collections like HashSet are not so good and I/O sources are all bad. `Pattern.splitAsStream()` which is a non-collection in-memory structure, is also very bad.
 </details>
+
+## 293. What is a Cleaner?
+<details>
+  <summary>Short Answer</summary>
+
+An API.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+The Cleaner API is some kind of replacement of finalization that fixes the problems this mechanism has. It allows you to execute a task when an object is about to be garbage. This task is usually a lambda. In its simplest form, it's just a Runnable. Of course, if this lambda holds a reference to the object you want to clean, this reference will prevent your object to ever be garbage and your cleaner will never be called. Be careful if you implement a cleaner with an anonymous class because anonymous classes have a sneaky reference on this, which will prevent your object from being garbaged. Your cleaners can be called by different ways, so you need to be careful with race-conditions and the like.
+
+```java
+var user = new User();
+var cleaner = Cleaner.create()
+        .register(user, () -> IO.println("Cleaning")
+);
+// some more nifty compitations
+user = null;
+
+// > Cleaning
+```
+
+One last word; The nice thing is that the cleaner cannot revive an object as finalization can. Great.
+</details>
