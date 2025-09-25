@@ -7338,3 +7338,31 @@ user = null;
 
 One last word; The nice thing is that the cleaner cannot revive an object as finalization can. Great.
 </details>
+
+## 294. What is operator overloading?
+<details>
+  <summary>Short Answer</summary>
+
+Something Java has, but not you.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Operator overloading means that a given operator like plus(+) can operate on different types of operants. For instance, in Java, you can apply plus(+) on numbers and on strings. Plus(+) can add to numbers and can concatenate strings. This is an example of overloading. Technically, adding ints and floats is also overloading. The byte code instruction plus compiles to is not the same and the addition is not the same neither. Adding ints is associative. Adding float or double is not. What you cannot do in Java is define your own overloading. For instance, you can define a Population record and could define the addition of Population objects. That could make sense. But Java does not allow this. You cannot define your own overloading of operators.
+
+```java
+String s1 = "Hello";
+String s2 = " World";
+String concat = s1 + s2; // concat
+
+int i = 1;
+int j = 2;
+int sum = i + j; // IADD
+
+double d1 = 3.14d;
+double d2 = 2.72d;
+double d3 = d1 + d2; // DADD
+```
+
+One last word; Once Valhalla brings value type to the Java platform, your Population record will become a value record and maybe adding operator overloading for value types could make sense, but that will be for later.
+</details>
