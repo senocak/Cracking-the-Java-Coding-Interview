@@ -7255,11 +7255,47 @@ interface Stream<E> {
     // counts the elements
     // push them until the Limit
     // is reached
-    Stream<E> limit(long maxSize); // stateful
-    Stream<E> skip(long n); // stateful
-    Stream<E> sorted(); // stateful
+    Stream<E> limit(long maxSize);
 }
 ```
 
-One last word, this mutable state needs to be shared among the different threads processing your stream in the case of a parallel stream. In other words, stateful operations don't play well with parallel streams. You've been warned.
+One last word; this mutable state needs to be shared among the different threads processing your stream in the case of a parallel stream. In other words, stateful operations don't play well with parallel streams. You've been warned.
+</details>
+
+## 291. How can you format a floating point number?
+<details>
+  <summary>Short Answer</summary>
+
+There is a pattern for that.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Java actually supports the same kind of ugly formatting thingy that you can use in C or C++. You know this format with sharp(#) characters and plus(+) and dot(.) and other things and numbers that you never know how it works. Yes, that's the one. To access this formatting thingy, you need to call `printf()` instead of `println()`. This `printf()` method works the same as the `printf()` from C where the 'f' means format. It takes two parameters, the format and a vararg of arguments to print which can be empty by the way. The formatter itself is implemented in a class called Formatter where you have all the documentation and the syntax you can use. So this Formatter class is the class you need to check for the documentation. You can use a Formatter directly to format a string, or you can use the `String.format()` factory method which creates and calls a formatter for you.
+
+```java
+// System.out. is ommitted
+printf("%f\n", 0f);
+printf("%f\n", 3.14f);
+printf("%f\n", 0.314f);
+printf("%f\n", 314f);
+
+// > 0.000
+// > 3.140
+// > 0.314
+// > 314.000
+
+// System.out. is ommitted
+printf("%+08.3f\n", 0f);
+printf("%+08.3f\n", 3.14f);
+printf("%+08.3f\n", 0.314f);
+printf("%+08.3f\n", 314f);
+
+// > +000.000
+// > +003.140
+// > +000.314
+// > +000.314
+```
+
+One last word; you can also format elements with one of the extension of the Format abstract class from java.text which is extended by Message Format, Number Format, Date Format and some others. But that will be for another time.
 </details>
