@@ -7450,3 +7450,44 @@ IO.println("L = " + flag.length());
 
 One last word; it has also an impact on the value returned by the `length()` method of the String class. `length()` returns the number of Unicode units, so it may actually be larger than what is printed on your screen.
 </details>
+
+## 298. Are static members inherited?
+<details>
+  <summary>Short Answer</summary>
+
+No. But yes.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+This one is actually a trick question. Inheritance is defined on instances and not for static members, so the answer is no. But there is a trick in Java which is the following. If you have a B class that extends a class A, and A defines a public static field or a public static method, then you can get a reference on these through B. In this example, you can write B A and the compiler will be happy. But if the class B defines its own public static method A, then this method will hide the method A defined on the class A.
+
+```java
+class A {
+    static long a = 314L;
+}
+
+class B extends A {
+}
+
+var l = B.a;
+IO.println("l = " + l);
+// > l = 314
+``` 
+
+```java
+class A {
+    static long a = 314L;
+}
+
+class B extends A {
+    static long a = 272L;
+}
+
+var l = B.a;
+IO.println("l = " + l);
+// > l = 272
+``` 
+
+One last word; this is confusing, but it is not inheritance or overriding. Inheritance is for instances only, not static members. Calling an instance method that can be overridden is a virtual call that is resolved at runtime. This static code is resolved at compile time.
+</details>
