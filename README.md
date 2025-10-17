@@ -7366,3 +7366,25 @@ double d3 = d1 + d2; // DADD
 
 One last word; Once Valhalla brings value type to the Java platform, your Population record will become a value record and maybe adding operator overloading for value types could make sense, but that will be for later.
 </details>
+
+## 295. How can you stream the content of a directory?
+<details>
+  <summary>Short Answer</summary>
+
+There is a method for that.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+The method is defined on the Files factory class and is called `walk()`. It needs a `Path` where the walking starts and you can give it a depth to avoid exploring super deep hierarchies. And you can even pass an argument to tell if you want to follow symbolic links or not. This algorithm is set to be depth first, meaning that it will explore directories before moving to the next element in a given directory. The result you get is a stream of paths that is lazily evaluated. So if you're looking for a specific element, you can use a `findFirst()` or `findAny() terminal operation and the stream will interrupt their exploration when it is found.
+
+```java
+Stream<Path> paths = Files.walk(path, 3);
+
+var javaFiles = paths.filter(p -> p.endsWith(".java")).toList();
+
+var duke = paths.filter(p -> p.startsWith("Duke")).findFirst().orElseThrow();
+```
+
+One last word; don't even think about going parallel on such streams. Yours can produce an unknown number of elements, so it will not work very well.
+</details>
