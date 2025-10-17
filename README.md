@@ -7491,3 +7491,17 @@ IO.println("l = " + l);
 
 One last word; this is confusing, but it is not inheritance or overriding. Inheritance is for instances only, not static members. Calling an instance method that can be overridden is a virtual call that is resolved at runtime. This static code is resolved at compile time.
 </details>
+
+## 299. What is a cache miss?
+<details>
+  <summary>Short Answer</summary>
+
+Something you want to avoid.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+A cache miss has to do with how CPU are working. All the data you are processing lives in the memory of your machine. Accessing this memory is slow, so your data is first moved to the different levels of caches you have on your CPU, so that it can be accessed quickly. This transfer operates on chunks of memories, in the hope that more than one piece of the data you need is transferred in one go. Think about an array for instance, a single chunk may hold like 8 elements of it that are transferred in one go. For your application, that's a win. If at some point your CPU checks its cache and sees that the data it needs is not there, then it needs to go back to the main memory to get it. This is what a cache miss is. As this round trip is costly, your CPU may decide to switch to another computation and remove yours from the CPU until the data is there and that may be a significant performance hit.
+
+One last word. This is why you should always favor array based in-memory structures or collections over reference-based structures because cache misses can really kill your performance.
+</details>
