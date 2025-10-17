@@ -7507,3 +7507,34 @@ One last word. This is why you should always favor array based in-memory structu
 </details>
 
 ## 300. Special Episode
+
+## 301. What is a distinct stream?
+<details>
+  <summary>Short Answer</summary>
+
+A stream where all the elements are distinct.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Distinct is actually one of these characteristics that are defined in the spliterator of your stream and that you can check. A stream created on a Set for instance has this characteristic Set. It means that if you call `distinct()` on it, nothing is done, all the elements are passed directly to the downstream. If it is created on an ArrayList, then calling `distinct()` will store them in a HashSet before pushing them, or not, to the downstream. Since calling `distinct()` returns a Distinct stream, calling `distinct()` again will not trigger any computation, which is what you want.
+
+```java
+var ints = List.of(1,2,3,4);
+var isDistinct = ints.stream()
+        .spliterator()
+        .hasCharacteristics(Spliterator.DISTINCT);
+IO.println("distinct = " + isDistinct);
+// > distinct = false
+``` 
+```java
+var ints = Set.of(1,2,3,4);
+var isDistinct = ints.stream()
+        .spliterator()
+        .hasCharacteristics(Spliterator.DISTINCT);
+IO.println("distinct = " + isDistinct);
+// > distinct = true
+``` 
+
+One last word; Unfortunately, you cannot check these characteristics from the lambdas you pass to the intermediate or terminal method of your stream. And yes, that includes Gatherers and Collectors.
+</details>
