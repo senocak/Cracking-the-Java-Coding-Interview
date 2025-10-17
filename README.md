@@ -7416,3 +7416,37 @@ try(
 ```
 One last word; be careful, because closing your File Channel does not invalidate your Byte Buffer and if you continue writing data to it, this data may still be returned to the disk. Probably not what you would expect.
 </details>
+
+## 297. How can you check if a character is a letter?
+<details>
+  <summary>Short Answer</summary>
+
+There is a method for that.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+For all these kind of things, you need to check the factory methods of the Character class. There are about 50 of them to check many things about your characters. But you still need to be careful, because a character the one that you write, may actually be encoded in two Java chars, that is 32 bits and not 16. So if your application needs to deal with non-trivial characters the answer to this question may be much more complex than what it seems.
+
+```java
+var s = "Hello World!";
+var isLetter = Character.isLetter(s.charAt(2));
+IO.println(isLetter);
+var isDigit = Character.isDigit(s.charAt(2));
+IO.println(isDigit);
+// > true
+// > false
+```
+
+```java
+var flag = """
+        \uD83C\uDFF3\uFE0F
+        \u200D\uD83C\uDF08""";
+IO.println(flag);
+IO.println("L = " + flag.length());
+// > 🏳️‍🌈
+// > L = 6
+``` 
+
+One last word; it has also an impact on the value returned by the `length()` method of the String class. `length()` returns the number of Unicode units, so it may actually be larger than what is printed on your screen.
+</details>
