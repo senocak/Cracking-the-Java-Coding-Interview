@@ -7388,3 +7388,31 @@ var duke = paths.filter(p -> p.startsWith("Duke")).findFirst().orElseThrow();
 
 One last word; don't even think about going parallel on such streams. Yours can produce an unknown number of elements, so it will not work very well.
 </details>
+
+## 296. How can you map a file to memory?
+<details>
+  <summary>Short Answer</summary>
+
+There is a pattern for that.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+There are actually 2 patterns. In both cases, you start by creating a File Channel, by providing a Path and some Open Options. Then you have 2 very similar patterns. The first one consists in calling `map()` passing another option, a position in the file you want to map and the size of the region to be mapped. This is the old-fashioned call that returns a `ByteBuffer`. The second pattern consists in passing another argument, which is an Arena. Then what you get is a Memory Segment and this pattern is much better than the first one for many reasons. Closing your arena, usually in a try-with-resources statement, invalidates your Memory Segment and flushes your modifications to the disk if needed.
+
+```java
+try(var channel = FileChannel.open(path, StandardOpenOption.READ)){
+    var byteBuffer = channel.map(FileChannel.MapMode.READ_ONLY, 0L, size);
+}
+```
+
+```java
+try(
+    var arena = Arena.ofConfined(),
+    var channel = FileChannel.open(path, StandardOpenOption.READ)
+){
+    var memorySegment = channel.map(FileChannel.MapMode.READ_ONLY, 0L, size, arena);
+}
+```
+One last word; be careful, because closing your File Channel does not invalidate your Byte Buffer and if you continue writing data to it, this data may still be returned to the disk. Probably not what you would expect.
+</details>
