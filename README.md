@@ -7508,7 +7508,7 @@ One last word. This is why you should always favor array based in-memory structu
 
 ## 300. Special Episode
 
-## 301. What is a distinct stream?
+## 300. What is a distinct stream?
 <details>
   <summary>Short Answer</summary>
 
@@ -7537,4 +7537,39 @@ IO.println("distinct = " + isDistinct);
 ``` 
 
 One last word; Unfortunately, you cannot check these characteristics from the lambdas you pass to the intermediate or terminal method of your stream. And yes, that includes Gatherers and Collectors.
+</details>
+
+## 301. What is dependency injection?
+<details>
+  <summary>Short Answer</summary>
+
+A mechanism to inject dependencies into an object.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Especially in large applications, the initialization of some objects can be really complex with complex dependency graphs like object A needs object B to work that needs object B1 and B2, etc. And this initialization requires to be made in a precise order to work properly. To organize this initialization, your best bet is for each object to declare what it needs to work and let some external elements to initialize everything. It could be some third-party framework or some internal tool that you've developed yourself. In simple cases, it could even be a simple `main()` method. The easiest and safest way to declare that an object A needs object A1, A2, and A3 to work is to create a constructor in A that takes an instance of A1, A2, and A3. By using reflection, a third-party framework can discover that and do the wiring of all your objects for you. This is called constructor injection and this is the way you should favor.
+
+```java
+class A {
+    private B b;
+}
+class B {
+    private B1 b1;
+    private B2 b2;
+}
+``` 
+
+```java
+class A {
+    private A1 a1;
+    private A2 a2;
+    private A3 a3;
+    public A(A1 a1, A2 a2, A3 a3) {
+        // initialization
+    }
+}
+``` 
+
+One last word; the type of your dependencies should always be interfaces. It allows you to easily create dummy implementations and you can even use frameworks for that.
 </details>
