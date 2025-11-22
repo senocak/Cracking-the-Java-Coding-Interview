@@ -7654,3 +7654,17 @@ invokeVirtual // String.hashCode
 
 One last word; You can now switch on types. This is one of the cornerstones of data-oriented programming, and switching on primitive types may also come in the future, but that will for another time.
 </details>
+
+## 305. What is a design pattern?
+<details>
+  <summary>Short Answer</summary>
+
+A recipe to write clean code.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+It is actually a term that refers to a book published in 1994 called Design Patterns, Elements of Reusable Object Oriented Software. Also called the Gang of Four, due to its four authors. Its influence on programming is still immense, even if some of the proposed implementations are a little dated. The book is written in C++ because it was published before Java was released in 1995. There are 23 design patterns in it, each to solve a particular problem in programming. Some are still very well known, like Iterator, Factory, Singleton or Strategy. Some less used like Memento. The Gang of Four also gives you 2 principles in programming. Favor object composition over class inheritance and program to an interface, not an implementation.
+
+One last word; other authors created more design patterns in other books, but I don't think that any of them could reach the popularity and the influence of the Gang of Four.
+</details>
