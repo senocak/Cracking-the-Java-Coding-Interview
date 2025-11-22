@@ -7773,3 +7773,31 @@ class B extends A {
 
 One last word, by the way, if you have a final static method in a class, A, it also prevents a non-static method with the same name in any standing class. And the reverse is also true. A final instance method in a prevents any static method with the same name in its extending classes.
 </details>
+
+## 310. What is a LocalDateTime?
+<details>
+  <summary>Short Answer</summary>
+
+A class from the Date and Time API.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+The Date and Time API has several classes to represent dates and times. All final and LocalDateTime is one of them. Local means that the date it represents is not bound to any time zone. LocalDateTime carries both a date and a time with a nanosecond precision. There are several factory methods to create instances that takes the year, month and day of the month plus an hour, minute, seconds and even nanosecond. There are 2 methods to bind this date to a time zone, `atOffset()` and `atZone()`, and plenty of others to add temporal amounts like days or hours. LocalDateTime objects are non-modifiable. So all these methods return new objects.
+
+```java
+var d = LocalDateTime.of(
+        2025,   // year
+        Month.SEPTEMBER,    // month
+        16, // day of month
+        12, // hour
+        0,  // minute
+        0,  // second
+        0   // nanosecond
+);
+var d2 = d.plusDays(2);
+ // > 2025-09-18T12:00
+``` 
+
+One last word; all these objects from the Date and Time API are good candidates to become value types when Valhalla makes it as a final feature. As such, they are already annotated with `@ValueBased`, but that will be for another time.
+</details>
