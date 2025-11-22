@@ -7735,3 +7735,41 @@ A thread is a piece of code that is executed independently of other threads. Whi
 
 One last word; Virtual Threads are using a specific Virtual Threads Scheduler that is not preemptive. Reason why you should never conduct long running in-memory computations in your Virtual Threads. If you do, you could block your entire voted system.
 </details>
+
+## 309. What is a final method?
+<details>
+  <summary>Short Answer</summary>
+
+A method with the final keyword on its declaration.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+The use of the final keyword there prevents any kind of overriding or hiding from the extending classes. So for static method, it means that you cannot create a static method with the same signature in any extending class, that would hide this method and it is forbidden. So final static method cannot be hidden in any extending class.
+
+```java
+class A {
+    static final void a() {}
+}
+
+class B extends A {
+    // compiler error!
+    static void a() {}
+}
+``` 
+
+For instance method, it's the same. It means that this method cannot be overridden in any extending class. So you cannot create a method with the same signature in any extending class. In both cases, it is possible to have a method with the same name and different parameters in the same class or in any extending class.
+
+```java
+class A {
+    final void a() {}
+}
+
+class B extends A {
+    // compiler error!
+    void a() {}
+}
+``` 
+
+One last word, by the way, if you have a final static method in a class, A, it also prevents a non-static method with the same name in any standing class. And the reverse is also true. A final instance method in a prevents any static method with the same name in its extending classes.
+</details>
