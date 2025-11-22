@@ -7721,3 +7721,17 @@ var mary = new User("Mary");
 
 One last word; statements are grouped into blocks that are delimited by curly braces. Such blocks can be used wherever a single statement can be used, and sometimes making a block even for a single statement can make your code more readable.
 </details>
+
+## 308. What is a Thread Scheduler?
+<details>
+  <summary>Short Answer</summary>
+
+An object that schedules threads.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+A thread is a piece of code that is executed independently of other threads. While doing so, it uses some CPU resource. At some point, if there are many threads running at the same time, you need to be able to suspend this thread so that the others get a chance to run. This suspension should happen if this thread is blocked, for instance waiting from some data coming from the disk or the network, or waiting for some monitor that is preventing it from executed a synchronized piece of code. That is the role of the Thread Scheduler making sure that the CPU resource is evenly shared among threads, and that the active threads are indeed using the CPU resource and not waiting on the CPU doing nothing. This capacity of suspending a thread is called preemptiveness. A Thread Scheduler can be preemptive or non-preemptive.
+
+One last word; Virtual Threads are using a specific Virtual Threads Scheduler that is not preemptive. Reason why you should never conduct long running in-memory computations in your Virtual Threads. If you do, you could block your entire voted system.
+</details>
