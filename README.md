@@ -7573,3 +7573,51 @@ class A {
 
 One last word; the type of your dependencies should always be interfaces. It allows you to easily create dummy implementations and you can even use frameworks for that.
 </details>
+
+## 302. What is an object monitor?
+<details>
+  <summary>Short Answer</summary>
+
+Something that has to do with synchronization.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Objects have been designed in Java so that each of them can act as a monitor for synchronization. You can use any object, even just a simple `new Object()`, to synchronize the block of code. This is due to the fact that every object carries a monitor which is stored in the header of any instance of Object. To be able to enter this block of code, a thread needs to hold this monitor. So when a thread enters a synchronized block, it takes this monitor and gives it back when it exits the block. Then if another thread tries to enter the same block at the same time, it will discover that the monitor is absent, so it will have to wait until it is available again.
+
+```java
+Object key = new Object();
+public void someMethod() {
+    synchronized(key) {
+        // your sync code
+    }
+}
+``` 
+
+One last word; having a monitor for each object has 2 consequences. First, it consumes memory. Even if it is not much, it is still an overhead. And second, it prevents some optimizations, like inlining or flattening of objects. Reason why Value Types will not have any monitor, but that will be for another.
+time.
+</details>
+
+## 303. What is the Epoch?
+<details>
+  <summary>Short Answer</summary>
+
+A special date in Operating Systems and API.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Measuring time is actually harder than it seems, especially when all you have are 16-bits integers. So at some point, when the first operating systems were created, people decided that the time would be measured in seconds, starting on January 1st, 1970. It could be different from one OS to the other. So this definition may vary. Of course, this used to have limitations and could generate bugs, especially if you were working with a language which would define an epoch different than the one in your operating system. But now things have been sorted out, well, mostly.
+
+```java
+var epocInstant = Instant.EPOCH;
+IO.println(epocInstant);
+// > 1970-01-01T00:00:00Z
+
+var localDateEpoch = LocalDate.EPOCH;
+IO.println(localDateEpoch);
+// > 1970-01-01
+``` 
+
+One last word; If you need it in your application, you have 2 constants in the Java API to model this epoch, `LocalDate.EPOCH` and `Instant.EPOCH`.
+</details>
