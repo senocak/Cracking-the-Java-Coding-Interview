@@ -7621,3 +7621,36 @@ IO.println(localDateEpoch);
 
 One last word; If you need it in your application, you have 2 constants in the Java API to model this epoch, `LocalDate.EPOCH` and `Instant.EPOCH`.
 </details>
+
+## 304. How is switch on String working?
+<details>
+  <summary>Short Answer</summary>
+
+Switching on String actually switches on integer.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+The possibility to switch on string was added in the JDK 7 in 2011, and it uses a trick. It actually computes the hash code of your selector variable, along with the hash codes of your case labels and switches on these integers. And the `hashCode()` method that is used is the one of the String class, which has an unfortunate consequence. It carves in marble the `hashCode()` method of the String class. Changing it would require to recompile all the existing Java code, since the output of this method is hardcoded in the bytecode of your switch statements on Strings. Too bad.
+
+```java
+void switchOnString(String s) {
+    switch(s) {
+        case "one": // do something
+        case "two": // do something
+        case "three": // do something
+    }
+}
+
+invokeVirtual // String.hashCode
+    lookupSwitch {
+        110182: // hash code of one
+        115276: // hash code of two
+        110339486: // hash code of three
+        default:
+    }
+}
+``` 
+
+One last word; You can now switch on types. This is one of the cornerstones of data-oriented programming, and switching on primitive types may also come in the future, but that will for another time.
+</details>
