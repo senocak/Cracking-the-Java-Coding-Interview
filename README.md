@@ -7699,3 +7699,25 @@ interface Stream<T> {
 
 One last word; this is probably the most tricky part of generics. And if you check the methods of Comparator, you may even come across multiple bounded type parameters. That will be for another time.
 </details>
+
+## 307. What is a statement?
+<details>
+  <summary>Short Answer</summary>
+
+Almost anything is a statement.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+A statement is a generic term that represent a complete unit of execution. An expression can be made a statement if you add the semicolon after it. Assignments, method invocations, incrementations or decrementations, object creations are called expression statements. There are also control flow statement. If-then-else, switch, for, while even, return, all these are control flow statements.
+
+```java
+// these are expression statements
+var message = "Hello";
+var length = message.length();
+length++;
+var mary = new User("Mary");
+``` 
+
+One last word; statements are grouped into blocks that are delimited by curly braces. Such blocks can be used wherever a single statement can be used, and sometimes making a block even for a single statement can make your code more readable.
+</details>
