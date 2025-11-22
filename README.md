@@ -7668,3 +7668,34 @@ It is actually a term that refers to a book published in 1994 called Design Patt
 
 One last word; other authors created more design patterns in other books, but I don't think that any of them could reach the popularity and the influence of the Gang of Four.
 </details>
+
+## 306. What are bounded type parameters?
+<details>
+  <summary>Short Answer</summary>
+
+Some ugly stuff, you never know how it is working.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+You know this bizarre `<? super E>` syntax or `<? extends R>`. Yes, this is what we're talking about. This syntax was added with generics to manage type inheritance. On the one hand, we need it and on the other hand, we never know what to put and end up trying stuff until the compiler is happy. So in a nutshell, `<? super T>` represents all the types that are super types of T. For instance, the method `Collection.forEach()` takes a consumer of `<? super T>`. So that when you write `strings.forEach()`, you can pass `IO.println()` that takes instances of Object which is indeed a super type of the type String.
+
+On the other hand, `stream.map()` takes a Function that returns `<? extends R>` and produces a `Stream<R>`. Meaning that this Function can return any subtype of R so that it can be cast into R. One piece of advice, if you're struggling with all this, you can check the signatures of the method of the Stream interface. There are plenty of examples that will help you understand all that.
+
+```java
+interface Collection<T> {
+    // accepts any super type of T
+    void forEach(Consumer<? super T> action);
+}
+
+interface Stream<T> {
+    Stream<R> map(
+            // accepts any subtype of T
+            Function<? super T,
+                    // produces any subtype of R
+                    ? extends R> mapper);
+}
+``` 
+
+One last word; this is probably the most tricky part of generics. And if you check the methods of Comparator, you may even come across multiple bounded type parameters. That will be for another time.
+</details>
