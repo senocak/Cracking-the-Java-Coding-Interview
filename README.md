@@ -7801,3 +7801,49 @@ var d2 = d.plusDays(2);
 
 One last word; all these objects from the Date and Time API are good candidates to become value types when Valhalla makes it as a final feature. As such, they are already annotated with `@ValueBased`, but that will be for another time.
 </details>
+
+## 311. When does a switch checks for exhaustiveness?
+<details>
+  <summary>Short Answer</summary>
+
+Not always.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+This question is actually a little trickier than it seems because the switch changed over time. What does it mean for a switch to check for exhaustiveness? It means that, if for some values of your selector variable, you can traverse your switch block without matching anything, you will get a compiler error. In its initial version, the switch was a statement that did not check for exhaustiveness, and they still don't for backward compatibility reasons. But the switch was refactored in Java 14, and now you can get a compiler error if your switch is not exhaustive. The original switch is a statement. It's labels are non-null constants, and the selector variable can only be a byte, short, char or int, and the corresponding wrapper types, String or enum, and that's it. So no long, boolean, float or double. If you're switching on any other type, or have a case label with null or patterns, then your switch statement is an enhanced switch that checks for exhaustiveness.
+
+```java
+// non exhaustive 
+switch(i) {
+    case 0: IO.println(0); break;
+    case 1: IO.println(1); break;
+}
+
+enum DayOfWeek {
+    MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY
+}
+// statement, non exhaustive
+switch(dayOfWeek){
+    case MONDAY:IO.println(0); break;
+    case TUESDAY:IO.println(5); break;
+}
+
+// expression with case null needs to be exhaustive!
+var result = switch(someString) {
+    case null: yield -1;
+    case MONDAY: yield 0;
+    case SATURDAY: yield 5;
+    default: yield 10;
+};
+
+// expression needs to be exhaustive!
+var result = switch(someString) {
+    case MONDAY: yield 0;
+    case SATURDAY: yield 5;
+    default: yield 10;
+};
+``` 
+
+One last word; a guarded pattern is never part of the set of case labels that contribute to exhaustiveness. Unless it is guarded by true, which is a corner case taken care of by the specification.
+</details>
