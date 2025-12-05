@@ -7847,3 +7847,27 @@ var result = switch(someString) {
 
 One last word; a guarded pattern is never part of the set of case labels that contribute to exhaustiveness. Unless it is guarded by true, which is a corner case taken care of by the specification.
 </details>
+
+## 312. What is wrong with ThreadLocal variables?
+<details>
+  <summary>Short Answer</summary>
+
+Almost everything.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+ThreadLocal is a class from Java 2 1998. It was a time where there was no Executor Service, which is a feature of Java 5 2004, so that's 6 years later and if you carefully check the API, you will see that in Java 5, a `remove()` method was also added to the ThreadLocal class. Because before the Executor Service pattern, you would create a thread on demand and let it die and so it's ThreadLocal variables along with it. The Executor Service pattern puts an end to this golden era. Now you reuse your platform threads and you need to take care of the removal of your thread local variables. If you don't, all what you put in them can be reused by any other code that is running in the thread you were previously using. Probably not what you want.
+
+```java
+var t1 = new ThreadLocal<String>();
+t1.set("Secret Key");
+
+var secretKey = t1.get();
+
+// Don't forget to protect your secrets!
+t1.remove();
+``` 
+
+One last word; ThreadLocal variables are fully supported by virtual threads. But starting with Java 25, you can use `Scoped Values` instead. They work much better. They can be optimized by the JVM, and you don't need to remove them.
+</details>
