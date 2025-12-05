@@ -7871,3 +7871,27 @@ t1.remove();
 
 One last word; ThreadLocal variables are fully supported by virtual threads. But starting with Java 25, you can use `Scoped Values` instead. They work much better. They can be optimized by the JVM, and you don't need to remove them.
 </details>
+
+## 313. What is a guarded pattern?
+<details>
+  <summary>Short Answer</summary>
+
+A pattern with a guard.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+A guarded pattern is something you can use in a case label. Such a label starts with a type pattern or a record pattern and is followed by your check on the type variables that you created. For instance, you can create a case where you only select circles that are blue and another one for the circles that are green. And a last one for all the other circles. Two elements you need to be aware of. First, a case label with a guarded pattern never counts when it comes to see if your switch is exhaustive or not. And second, a guarded pattern can never dominate any other pattern. So most of the time you will need a case where you check the type or the record with no guard for your switch to be exhaustive.
+
+```java
+record Circle(int radius, Color color) {}
+var result = switch(circle) {
+    case Circle(int _, Color c) when c == Color.BLUE -> 1;
+    case Circle(int _, Color c) when c == Color.WHITE -> 1;
+    // for exhaustiveness
+    case Circle(int _, Color c) -> -1;
+};
+``` 
+
+One last word; there is an exception to all this for the guided pattern with true, but please avoid doing that in your code.
+</details>
