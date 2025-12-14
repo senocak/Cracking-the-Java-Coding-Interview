@@ -7895,3 +7895,17 @@ var result = switch(circle) {
 
 One last word; there is an exception to all this for the guided pattern with true, but please avoid doing that in your code.
 </details>
+
+## 314. What does work stealing mean?
+<details>
+  <summary>Short Answer</summary>
+
+Probably not what you think.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+It is a pattern that is used in a Fork/Joint Pools, where you have several waitlists that can accept tasks. Each waitlist is bound to a special thread that picks tasks from this list. There may come a time where the list is empty and the other lists in the pool are not. In that case, the starving thread can steal a task from another list and this is called work stealing. This pattern is used in parallel streams where the main thread creates the first tasks which are stolen by other threads from the Common Fork/Join Pool. It's also used in virtual threads where a virtual thread that is coming back to the thread it was unmounted from can still be taken by another kernel thread in case the first one is busy.
+
+One last word all this is transparent for you as an application developer. You do not need to take care of anything, which is a good thing because it comes with issues when it comes to race conditions and visibility, that are all taken care of by the API.
+</details>
