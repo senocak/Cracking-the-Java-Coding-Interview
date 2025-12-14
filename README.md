@@ -7909,3 +7909,27 @@ It is a pattern that is used in a Fork/Joint Pools, where you have several waitl
 
 One last word all this is transparent for you as an application developer. You do not need to take care of anything, which is a good thing because it comes with issues when it comes to race conditions and visibility, that are all taken care of by the API.
 </details>
+
+## 315. How can you get a substring from a String?
+<details>
+  <summary>Short Answer</summary>
+
+There is a method for that.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+There are actually 2 overloads of this method. The first one takes only the starting index and gives you all the rest of the String. And the second one gives you the String between a starting index and an end index, excluded. You will get an `IndexOutOfBoundException` if you provide bad indexes.
+
+```java
+var line = "Hello World!";
+var s1 = line.substring(6);
+// > World!
+var s2 = line.substring(6,11);
+// > World
+var s3 = line.substring(6,20);
+// > StringIndexOutOfBoundsException
+``` 
+
+One last word; there was a time back in the days where the string that was returned would share the same char array as the original string. And this was seen as a memory optimization. First, strings are now built on byte arrays, not char arrays anymore. And second, this was removed a long time ago. Just because if you select just two characters from a very large string that you don't need anymore, keeping this original array was not really a memory optimization.
+</details>
