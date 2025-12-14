@@ -7933,3 +7933,29 @@ var s3 = line.substring(6,20);
 
 One last word; there was a time back in the days where the string that was returned would share the same char array as the original string. And this was seen as a memory optimization. First, strings are now built on byte arrays, not char arrays anymore. And second, this was removed a long time ago. Just because if you select just two characters from a very large string that you don't need anymore, keeping this original array was not really a memory optimization.
 </details>
+
+## 316. How is the Collectors.toMap() working?
+<details>
+  <summary>Short Answer</summary>
+
+This Collector is used to build maps from keys and values.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+It takes 2 parameters, both are Functions that take the elements of the stream. The first one is used to build the key and the second one to build the value. If you're sure that no duplicate will be generated from your keys, then you can stop there and each element will generate a key value pair in the final Map. If you think that you may have duplicates, or you're sure you will have, then you can provide the third argument, which is a merging Function. It is called by the implementation with the two values that are bound to the same key and you should return a merged value. And if you don't, you will have an exception.
+
+```java
+record User(int primaryKey, String name, int age) {}
+var users = List.of(u1, u2, ...);
+Map<Integer, User> registry1 = users.stream()
+        .collect(Collectors.toMap(
+                User::primaryKey,
+                Function.identity(),
+                (u1, u2) -> u1
+        ));
+        //.collect(Collectors.groupingBy(User::age));
+``` 
+
+One last word; If merging consists in adding the elements to a List, then you may consider using a `Collectors.groupingBy()` instead of `.toMap()`, which can create this List for you.
+</details>
