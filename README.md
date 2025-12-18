@@ -7959,3 +7959,17 @@ Map<Integer, User> registry1 = users.stream()
 
 One last word; If merging consists in adding the elements to a List, then you may consider using a `Collectors.groupingBy()` instead of `.toMap()`, which can create this List for you.
 </details>
+
+## 317. What is an object header?
+<details>
+  <summary>Short Answer</summary>
+
+A header that the JVM needs to manage your objects in memory.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Each object in Java has a header that carries information that the JVM needs. The size of this header can be as big as 16 bytes. So something significant for small objects like instance of Integer. Several things are stored in this header. The monitor used for looking takes two bits. Four bits are used by the garbage collector. 31 bits for the identity hash code and 32 bits for a pointer to the class of this object. And some of the bits are not used.
+
+One last word; This is a lot of memory and not all of it is actually used. Some objects never get an identity hash code. Most of them are never used for locking. That's the goal of the project `Lilliput`, to compress things and reduce the size of this header. But that will be for another time.
+</details>
