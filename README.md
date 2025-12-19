@@ -7973,3 +7973,24 @@ Each object in Java has a header that carries information that the JVM needs. Th
 
 One last word; This is a lot of memory and not all of it is actually used. Some objects never get an identity hash code. Most of them are never used for locking. That's the goal of the project `Lilliput`, to compress things and reduce the size of this header. But that will be for another time.
 </details>
+
+## 318. What is data alignment?
+<details>
+  <summary>Short Answer</summary>
+
+Something that has to do with storing elements at specific addresses in memory to read them efficiently.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Most CPU require your data to be aligned in a specific way in memory. Your shorts,(2 bytes), should be aligned on addresses that are multiples of two. your int,(4 bytes), on addresses that are multiple of 4 and so on. Any short, or int or long that does not comply is set to be not properly aligned or misaligned. It does not mean that you cannot read it anymore of course. It only means that you may need 2 CPU cycles instead of 1 to read it.
+
+0x00FFA000 | byte | byte  | -     | byte
+--- |------|-------|-------| -
+0x00FFA004 |      |       | short |short
+0x00FFA008 |      | int   | int   |int
+0x00FFA00C | -    |       |       |
+0x00FFA010 |     | short | short |
+
+One last word; it depends on the way your CPU communicates with your memory. A safe approach would be to always align your data properly, but dealing with misaligned data is always possible. This can be configured if you use the Memory API to read this data, but that will be for another time.
+</details>
