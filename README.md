@@ -7994,3 +7994,42 @@ Most CPU require your data to be aligned in a specific way in memory. Your short
 
 One last word; it depends on the way your CPU communicates with your memory. A safe approach would be to always align your data properly, but dealing with misaligned data is always possible. This can be configured if you use the Memory API to read this data, but that will be for another time.
 </details>
+
+## 319. What is a Reference?
+<details>
+  <summary>Short Answer</summary>
+
+That one is actually a trick question.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Every variable in your Java code that is not a primitive type, is a reference variable. A reference is a reference to an object. It is implemented by a pointer which contains an address, but that is not itself an address. If we had a `sizeOf()` method in Java, the `sizeOf()` of any reference variable would be the memory needed to store the object this reference is pointing to. Whereas the `sizeOf()` a pointer would be 4 bytes or 8 bytes, depending on your machine. We do not have pointers in Java, only references. And of course, no possibility to add anything to a pointer as it is a case in C or C++.
+
+```java
+// this is a value
+int i1 = 0;
+// this is a reference
+Integer i2 = Integer.valueOf(0);
+``` 
+
+```java
+// this is a reference
+String s1 = "Hello";
+// this is a reference
+String s2 = "Hello";
+// compares references
+boolean s = (s1 == s2);
+``` 
+
+```java
+// this is a reference
+int i1 = 1;
+// this is a reference
+int i2 = 2;
+// compares references
+boolean s = (i1 == i2);
+``` 
+
+One last word; as you know, if you compare 2 reference variables with ==, what you're comparing are the values of these references, not the object that these references are pointing to. So the pointers are still there, just under the surface. This may change with value types and Valhalla. That will be for another time.
+</details>
