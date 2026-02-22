@@ -8077,3 +8077,33 @@ class Double {
 
 One last word; there is no plan to add any more primitive types to the Java language, but with Valhalla and value types, there will be more wrapper types, like `Float16` for instance, and that is already there as a preview feature.
 </details>
+
+## 321. How can you insert a List into another List?
+<details>
+  <summary>Short Answer</summary>
+
+You can use `subList()` for that.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+`subList()` is a method from the List interface, which gives you a sublist from a list. It takes 2 arguments, a begin index and an end index. And another point is; this sublist is a view on the first List and this view is modifiable. So if you call `addAll()` on this sublist, it will insert the Collection you pass in a main List after the end index. If you're using ArrayList, as you should, you should also favor a single `addAll()` over several `add()` calls as each of them will call a `System.arrayCopy()` on the internal array.
+
+```java
+// doesn't work for non-modifiable lists!
+var ints = new ArrayList<>(List.of(1, 2, 3));
+ints.subList(1, 1)
+    .addAll(List.of(0, 0));
+// > [1, 0, 0, 2, 3]
+``` 
+
+```java
+// doesn't work for non-modifiable lists!
+var ints = new ArrayList<>(List.of(1, 2, 3, 4, 5));
+ints.subList(2, 4)
+    .clear()
+// > 1, 2, 5
+``` 
+
+One last word; this pattern also works with `clear()` that can deletate a range of elements in a List. Neat.
+</details>
