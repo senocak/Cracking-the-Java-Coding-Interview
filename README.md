@@ -8033,3 +8033,47 @@ boolean s = (i1 == i2);
 
 One last word; as you know, if you compare 2 reference variables with ==, what you're comparing are the values of these references, not the object that these references are pointing to. So the pointers are still there, just under the surface. This may change with value types and Valhalla. That will be for another time.
 </details>
+
+## 320. What is a wrapper class?
+<details>
+  <summary>Short Answer</summary>
+
+A class that wraps a primitive type.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+6 of them are extensions of the `Number` abstract class; `Byte`, `Short`, `Integer`, `Long` and then `Float` and `Double`. The 2 others are not, and they are `Character` and `Boolean`. They are all very convenient as they carry utility methods, for instance to pass strings of characters or check for some properties of the wrapped value. And they also define constants; `MAX_VALUE` and `MIN_VALUE` for the integer types, `Boolean.TRUE`, `Boolean.FALSE`, and the floating point numbers also have `NaN`, which stands for Not a Number, `POSITIVE_INFINITY`, `NEGATIVE_INFINITY`, and some others. And they also have a type constant that return the class of their primitive type used in a Reflection API.
+
+```java
+class Integer {
+    public static Integer parseInt(String s){...}
+    public static Integer valueOf(int i){...}
+    public static final int MAX_VALUE = ...
+    public static final int MIN_VALUE = ...
+}
+```
+
+```java
+class Boolean {
+    public static final Boolean TRUE = ...
+    public static final Boolean FALSE = ...
+}
+``` 
+
+```java
+class Float {
+    public static final float NaN = ...
+    public static final float POSITIVE_INFINITY = ...
+    public static final float NEGATIVE_INFINITY = ...
+}
+``` 
+
+```java
+class Double {
+    public static final Class<Double> TYPE = ...
+}
+``` 
+
+One last word; there is no plan to add any more primitive types to the Java language, but with Valhalla and value types, there will be more wrapper types, like `Float16` for instance, and that is already there as a preview feature.
+</details>
