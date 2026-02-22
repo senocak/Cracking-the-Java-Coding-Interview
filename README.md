@@ -8107,3 +8107,31 @@ ints.subList(2, 4)
 
 One last word; this pattern also works with `clear()` that can deletate a range of elements in a List. Neat.
 </details>
+
+## 322. What is polymorphism?
+<details>
+  <summary>Short Answer</summary>
+
+One of the principles of object-oriented programming.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Inheritance makes it so that when you call an instance method on an object, the real method that your program is going to use can only be known at runtime and not at compile time. Why? Because at runtime, you can pass an extension of the class that is declared in your code that overrides the method you are calling and that is not known by the compiler. This overriding method is the one that should be called. So the method that is executed when you run your application can only be resolved at runtime. This is obvious when you think about interfaces because there you may not have any implementation but it's also the case for regular classes.
+
+```java
+void display(Object o) {
+    // at compile time the Object.toString() method is called
+    IO.println(o.toString());
+}
+display(new String("Hello"));
+// at runtime String.toString() is called
+// > Hello
+
+display(new User("Maria", 27));
+// at runtime User.toString() is called
+// > User[name=Maria, age=27]
+``` 
+
+One last word; overriding is only defined for instance method. The static method can also hide another static method but it is a different mechanism that is resolved at compile time.
+</details>
