@@ -8353,3 +8353,46 @@ var cities = countries.stream()
 
 One last word; you can also implement the flat-mapping feature with the `mapMulti() method. In that case, you do not create any intermediate streams, the one that are flattened. And in some cases, it can be more efficient to use this method.
 </details>
+
+## 331. What is a Memory Layout?
+<details>
+  <summary>Short Answer</summary>
+
+An API from the Memory API.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+A Memory Layout is an API that allows you to describe how your data is organized in a file for instance, or in the off-heap memory of your application. Think about the structs you have in C for instance, where you state that a Color is made of 4 components Cyan, Magenta, Yellow and Black. And a Pixel is made of 2 coordinates and a Color. Well, the Memory Layout API gives you the elements you need so that you can describe this kind of thing in Java. You can create these Memory Layouts by hand or use a tool for that that is called `Jextract`. Jextract can analyze `.h` file that contains a C struct and generate the corresponding Memory Layout objects for you. Plus it will generate the `VarHandle` that you need to read and write these struck-like elements in your memory.
+
+```c
+struct Color {
+    int cyan;
+    int magenta;
+    int yellow;
+    int black;
+}
+struct Pixel {
+    int x;
+    int y;
+    Color color;
+}
+``` 
+
+```java
+MemoryLayout COLOR_LAYOUT = MemoryLayout.structLayout(
+        ValueLayout.JAVA_INT.withName("cyan"),
+        ValueLayout.JAVA_INT.withName("magenta"),
+        ValueLayout.JAVA_INT.withName("yellow"),
+        ValueLayout.JAVA_INT.withName("black")
+    ).withName("color");
+
+MemoryLayout PIXEL_LAYOUT = MemoryLayout.structLayout(
+        COLOR_LAYOUT.withName("color"),
+        ValueLayout.JAVA_INT.withName("x"),
+        ValueLayout.JAVA_INT.withName("y")
+    ).withName("color");
+``` 
+
+One last word; Once you have these Memory Layout objects, you can use them to create VarHandle precisely to access this data in files or in the off-heap memory of your application. But that would be for another time.
+</details>
