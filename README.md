@@ -8243,3 +8243,33 @@ var formatted = format.format(java26);
 
 One last word, it also uses this horrible Y, M, d, and other letters based formats, but also provides a bunch of standard formats that follow the ISO recommendations.
 </details>
+
+## 327. How is the Collectors.mapping() working?
+<details>
+  <summary>Short Answer</summary>
+
+This is a factory method from the Collectors factory class that creates a Collector that can do a mapping and that needs to push the result to another Collector.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+A mapping is an intermediate operation of the Stream API and a Collector is used in a terminal operation. So this factory method needs a downstream collector which will receive the result of the mapping of the elements pushed by the upstream. Of course, this downstream collector can itself be a composition of more collectors. You need to be careful there because composing too many collectors may lead to some code that is hard to read and hard to understand.
+
+```java
+var strings = List.of("1", "2", "3");
+var ints = strings.stream()
+        .collect(Collectors.mapping(Integer::parseInt, Collectors.toList()));
+// > [1, 2, 3]
+``` 
+
+```java
+var users = List.of(maria, john, susan, mark);
+var namesByAge = users.stream()
+        .collect(Collectors.groupingBy(User::age, Collectors.mapping(User::getName, Collectors.toList())));
+// > 22 -> [Maria]
+//   24 -> [John, Susan]
+//   23 -> [Mark]
+``` 
+
+One last word, Collector composition is a very powerful feature of the Stream API. You can use it when you build maps with `groupingBy() for instance to create the exact histogram you need to analyze your data.
+</details>
