@@ -8305,3 +8305,17 @@ var javaFiles = paths
 
 One last word, you should always prefer the patterns from the Files class. They are based on the use of the Path variable that support different file systems, among other things. The File class is mostly a wrapper on a String of characters with less possibilities than the Path interface.
 </details>
+
+## 329. What is the difference between a value and an object?
+<details>
+  <summary>Short Answer</summary>
+
+A value is a value whereas an object is an object.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+A value is something that is inherently unmodifiable and as a consequence can be defined by a name that fully qualifies it. For instance, 1 is a value. Its name qualifies it. And by the way, this name is not related to any programming language. And trying to modify one doesn't make any sense. If you assign this value to a variable, then you can change the value of this variable to 2, for instance. It changes the value of your variable, but neither 1 nor 2. A value can safely be flattened and inlined where you use it. Whereas an object is something that can carry a state and this state can be defined by a set of possible values and can be modifiable. In that case, if your code needs to check these states, it needs to read a specific piece of memory. No inlining, no flattening, no scalarization. An object can also have a behavior in the form of methods as well as a value. By the way, in Java, primitives do not have behavior, but wrapper types do.
+
+One last word, if an object cannot be modified, then it may define a value that can be inlined, scalarized, or flattened. And this is exactly what Valhalla is doing.
+</details>
