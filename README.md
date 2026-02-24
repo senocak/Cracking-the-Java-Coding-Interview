@@ -8319,3 +8319,37 @@ A value is something that is inherently unmodifiable and as a consequence can be
 
 One last word, if an object cannot be modified, then it may define a value that can be inlined, scalarized, or flattened. And this is exactly what Valhalla is doing.
 </details>
+
+## 330. How is flatMap() working?
+<details>
+  <summary>Short Answer</summary>
+
+Very well, but you can do better.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Flat-map is an intermediate method from the Stream interface. It works like a mapping, except that the mapping Function needs to return a Stream instead of any object. So each element of the upstream is mapped to its own stream by the flat-mapping Function, and then all these streams are flattened in the resulting Stream. Flat-map can be used to concatenate streams and is actually more efficient than `Stream.concat() that you should use with caution.
+
+```java
+var countries = List.of(france, germany, spain);
+var cities = countries.stream()
+        .flatMap(
+            // creates a stream for each country
+            country -> country.cities().stream()
+        )
+        .toList();
+```
+
+```java
+var countries = List.of(france, germany, spain);
+var cities = countries.stream()
+        .<City>mapMulti(
+            // no stream creation, downstream is a Consumer
+            (country, downstream) -> country.cities().forEach(downstream)
+        )
+        .toList();
+``` 
+
+One last word; you can also implement the flat-mapping feature with the `mapMulti() method. In that case, you do not create any intermediate streams, the one that are flattened. And in some cases, it can be more efficient to use this method.
+</details>
