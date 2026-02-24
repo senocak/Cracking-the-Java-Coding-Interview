@@ -8214,3 +8214,32 @@ An arena is the object from which you can create `Memory Segments` in a Memory A
 
 One last word, if you're just exploring the API and write some code you will throw away after that, you can safely use the Auto or the Global Arena. But for your application, you should favor the Confined Arena, which is the easiest one to close, or the Shared Arena if you need the multi-thread access. But in that case, closing it will take longer.
 </details>
+
+## 326. How can you format a date?
+<details>
+  <summary>Short Answer</summary>
+
+There are pattern for that.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+There is a `SimpleDateFormat` in `java.text` that extends a Format, which is the legacy way of formatting dates. This is the class that carries the JavaDoc for these Date and Time patterns based on the use of `y`, `M`, `d` and other letters that you never know how it is working. And be careful because this class carries a mutable state. So trying to put an instance of it as a constant in a class so that you can reuse it is a mistake that will give you race conditions. The Date and Time API from Java 8 has its own class to format and parse dates and times called `DateTimeFormatter`. It is non-modifiable so it can be safely shared between threads.
+
+```java
+var java26 = new Date(1773619200000L);
+var format = new SimpleDateFormat("MM/dd/yyyy");
+var formatted = format.format(java26);
+// > 03/16/2026
+``` 
+
+```java
+var java26 = LocalDate.of(2026, Month.MARCH, 16);
+//var format = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+var format = DateTimeFormatter.ISO_DATE;
+var formatted = format.format(java26);
+// > 03/16/2026
+``` 
+
+One last word, it also uses this horrible Y, M, d, and other letters based formats, but also provides a bunch of standard formats that follow the ISO recommendations.
+</details>
