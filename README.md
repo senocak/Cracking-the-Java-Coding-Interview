@@ -8192,3 +8192,25 @@ loader
 
 One last word, this mechanism was added in Java 6. That was a long time ago. So you can check the JARs as examples to see how this ServiceLoader is working.
 </details>
+
+## 325. What are the different kind of Arenas?
+<details>
+  <summary>Short Answer</summary>
+
+There are 4 of them.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+An arena is the object from which you can create `Memory Segments` in a Memory API. You can construct 4 types of Arenas with the 4 factory methods on the Arena interface. They are the Global, the Auto, the Confined, and the Shared arenas. The Global arena shares the life cycle of your application. The Auto arena can be garbage collected, but as for the global arena, calling `close()` on it throws an exception. The Confined and the Shared arenas can be closed by calling `close()` on them, which closes the Memory Segments you created with them. And from all these 4 Arenas, the Confined Arena is the only one that cannot be shared among different threads, meaning that the Memory Segments you created from it can only be used in the thread that created this arena.
+
+| Arena        | Bounded lifetime | Closed by the user | Shared among threads |
+|--------------|------------------|--------------------|----------------------|
+| ofGlobal()   | no               | no                 | yes                  |
+| ofAuto()     | no (GC)          | no                 | yes                  |
+| ofShared()   | yes              | yes                | yes                  |
+| ofConfined() | yes              | yes                | no                   |
+
+
+One last word, if you're just exploring the API and write some code you will throw away after that, you can safely use the Auto or the Global Arena. But for your application, you should favor the Confined Arena, which is the easiest one to close, or the Shared Arena if you need the multi-thread access. But in that case, closing it will take longer.
+</details>
