@@ -8135,3 +8135,33 @@ display(new User("Maria", 27));
 
 One last word; overriding is only defined for instance method. The static method can also hide another static method but it is a different mechanism that is resolved at compile time.
 </details>
+
+## 323. What is a module?
+<details>
+  <summary>Short Answer</summary>
+
+A notion that is very useful and that you probably don't use.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Modules were added in Java 9 in 2016. A module is a set of classes and other things that can live in a jar once compiled and that has a descriptor in the form of a `module-info.java` file. This descriptor defines several things like the modules this module depends on and which classes this module exposes to the outside world. This point is very interesting because it adds a level of protections for your classes. You can choose the ones you need to make public and the one you prefer to keep private. So if you're a framework developer, you can change them without breaking your users' application as they just can't see these classes which is super convenient.
+
+```java
+// in module-info.java
+module java.base {
+    exports java.io;
+    // and many others!
+}
+``` 
+
+```java
+// in module-info.java
+module jdk.zipfs {
+    // requires java.base is implict
+    provides java.nio.file.spi.FileSystemProvider with jdk.nio.zipfs.ZipFileSystemProvider;
+}
+``` 
+
+One last word, the nice thing with this system is that it's completely optional to use it. You can stick to the classical classpath and continue writing your application as if it was not there. Backward compatibility is preserved as it should be.
+</details>
