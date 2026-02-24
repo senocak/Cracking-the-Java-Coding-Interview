@@ -8447,3 +8447,42 @@ var evenLengthes = map.get(true);
 
 One last word; there is no overload of this method that would take a Map Supplier to create the instance of the Map you want, as you have on other factories for the Collectors factory class like `groupingBy()` or `toMap()`. for `partitionningBy()` what you get is an implementation specific to implement `Map<Boolean, T>`
 </details>
+
+## 334. What is the identity hash code?
+<details>
+  <summary>Short Answer</summary>
+
+An int, that is the identity of this object.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+The `System.identityHashCode() static method is a native method, meaning that the implementation is not written in Java. It guarantees that for a given object, it will always return the same value, meaning that this value cannot be created from the field of this object, since they can be mutated. The value of this identity hashcode has to do with the address where this object is stored in the heap memory of your application. Which is a little more complicated than it seems, because the garbage collector would probably like to move it around while doing its job.
+
+```java
+class System {
+    static native int identityHashCode(Object o);
+}
+
+class User {
+    String name;
+}
+
+var mary = new User("mary");
+System.identityHashCode(mary);
+// > 791452441
+
+mary.name = "Maria";
+System.identityHashCode(mary);
+// > 791452441
+``` 
+
+```java
+value record User(String name) {}
+var mary = new User("mary");
+// throws an Exception
+System.identityHashCode(mary);
+``` 
+
+One last word; with Valhalla, instances of value classes do not have an identity, so this method will throw an exception in that case.
+</details>
