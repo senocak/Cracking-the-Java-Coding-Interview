@@ -8165,3 +8165,30 @@ module jdk.zipfs {
 
 One last word, the nice thing with this system is that it's completely optional to use it. You can stick to the classical classpath and continue writing your application as if it was not there. Backward compatibility is preserved as it should be.
 </details>
+
+## 324. What is a ServiceLoader?
+<details>
+  <summary>Short Answer</summary>
+
+A service that can tell you what implementation was loaded for any given interface.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+If you build a JAR with an interface implementation like JDBC driver for instance, you can add a declaration in this JAR telling that you're providing this implementation. This declaration is a simple text file that sits in the `META-INF` directory of your JAR file. Its name is the full name of the interface you implement and its content is the name of the class that implements that interface. Note that you can put several class names if you have more than one. Then you can use this `ServiceLoader.load()` factory method and pass it the interface you want. It returns a ServiceLoader object that can give you an iterator or a Stream to find the implementations you're looking for.
+
+```java
+// in META-INF/services file java.sql.Driver
+com.mysql.cj.jdbc.Driver
+
+var loader = ServiceLoader.load(java.sql.Driver.class);
+loader
+    .stream()
+    .map(ServiceLoader.Provider::get)
+    .map(Driver::getClass)
+    .forEach(IO::println)
+// > class com.mysql.cj.jdbc.Driver
+``` 
+
+One last word, this mechanism was added in Java 6. That was a long time ago. So you can check the JARs as examples to see how this ServiceLoader is working.
+</details>
