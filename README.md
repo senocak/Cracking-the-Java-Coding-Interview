@@ -8396,3 +8396,31 @@ MemoryLayout PIXEL_LAYOUT = MemoryLayout.structLayout(
 
 One last word; Once you have these Memory Layout objects, you can use them to create VarHandle precisely to access this data in files or in the off-heap memory of your application. But that would be for another time.
 </details>
+
+## 332. How is String hash code calculated?
+<details>
+  <summary>Short Answer</summary>
+
+It is a polynom where the coefficients are the characters of the String and the degree is the length of the String, and it is computed for the value 31.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Why 31? Well, because it's a prime number, and because 31 minus 2 is also a prime number which is 29. And I'm not kidding. But don't worry, there is an iterative algorithm to compute that. And if the string is too long, there is even an implementation that leverages the SIMD kernel of your CPU. In a nutshell, this hash code is quite expensive to compute. Fortunately, a string is non-modifiable. So this hashcode is computed once when you first need it and then cached for later use.
+
+```java
+class String {
+    // mutable!
+    int hash = 0;
+    // mutable!
+    boolean hashIsZero;
+    int hashCode() {
+        if (hash = 0 && !hashIsZero) {
+            // compute hash code and cache it
+        }
+    }
+}
+``` 
+
+One last word; unfortunately, this caching makes the string class modifiable because it has 2 fields, hashCode and the flag hashIsZero that are modified if you need this hashcode. So for that, and probably other things, the String class cannot be a value class as it is now.
+</details>
