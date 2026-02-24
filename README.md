@@ -8273,3 +8273,35 @@ var namesByAge = users.stream()
 
 One last word, Collector composition is a very powerful feature of the Stream API. You can use it when you build maps with `groupingBy() for instance to create the exact histogram you need to analyze your data.
 </details>
+
+## 328. How can you get the content of a directory?
+<details>
+  <summary>Short Answer</summary>
+
+There are several patterns for that.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+There is a legacy pattern available on the File class. It consists in several methods, `list()` or `listFiles()` that return arrays of Strings that are file names or arrays of files. You can also give a FileNameFilter object that can be a lambda by the way, which will filter the elements of your directory before adding them to the result. But if you need to visit sub-directories, you need to do that by hand. The preferred patterns are on the Files factory class. The `walkFileTree()` method takes a `FileVisitor` as a parameter that is called for every element visited and that can visit sub-directories. And a `walk()` method returns a `Stream<Path>` that contains all the elements of these directories and which can also visit sub-directories.
+
+```java
+// Legacy, avoid if you can
+var currentDir = new File(".");
+String[] fileNames = currentDir.list();
+File[] javaFiles = currentDir.list((dir, name) -> name.endsWith(".java"));;
+``` 
+
+```java
+// prefer this pattern
+var currentDir = Path.of(".");
+var maxDepth = 3;
+Stream<Path> paths = Files.walk(currentDir, maxDepth);
+var javaFiles = paths
+        .filter(Files::isRegularFile)
+        .filter(p -> p.toString().endsWith(".java"))
+        .toList();
+``` 
+
+One last word, you should always prefer the patterns from the Files class. They are based on the use of the Path variable that support different file systems, among other things. The File class is mostly a wrapper on a String of characters with less possibilities than the Path interface.
+</details>
