@@ -8424,3 +8424,26 @@ class String {
 
 One last word; unfortunately, this caching makes the string class modifiable because it has 2 fields, hashCode and the flag hashIsZero that are modified if you need this hashcode. So for that, and probably other things, the String class cannot be a value class as it is now.
 </details>
+
+## 333. How is the Collectors.partitionningBy() working?
+<details>
+  <summary>Short Answer</summary>
+
+It partitions your data on a Predicate and puts the result in a Map.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+`Collectors.partitionningBy()` by is a factory method of the Collectors factory class that builds a Map with keys that are Booleans. It is built on a predicate that is evaluated for all the elements that your stream processes and are put in a Map, where the keys are the 2 boolean, true and false. So, once your data is processed, you can call `map.get() and pass false or true to get the 2 partition. This is useful when you need to filter your data, but still need to work with the elements that were rejected by your Predicate.
+
+```java
+var string = ...;
+// NOT a HashMap!!!
+var map = strings.stream()
+        .collect(Collectors.partitioningBy(s -> s.length() % 2 == 0));
+var oddLengthes = map.get(false);
+var evenLengthes = map.get(true);
+``` 
+
+One last word; there is no overload of this method that would take a Map Supplier to create the instance of the Map you want, as you have on other factories for the Collectors factory class like `groupingBy()` or `toMap()`. for `partitionningBy()` what you get is an implementation specific to implement `Map<Boolean, T>`
+</details>
