@@ -8486,3 +8486,33 @@ System.identityHashCode(mary);
 
 One last word; with Valhalla, instances of value classes do not have an identity, so this method will throw an exception in that case.
 </details>
+
+## 335. How can you use Stream.peek()?
+<details>
+  <summary>Short Answer</summary>
+
+with caution!
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Unless you use it to debug your stream processing, stay away from this method. It's event written in the JavaDoc. This method mainly exist to support debugging. It takes a consumer and returns the object processed by this stream without changing them. Unless you do that in your Consumer, but please don't. You have mappers for that. If you're doing side effects in this method and you're in a parallel stream, you're on your own when it comes to synchronizing your data. And if you do that, you will probably lose all the benefits of going parallel.
+
+```java
+java.util.stream.Stream<T>
+
+@Contract(pure = true)
+Stream<T> peek(Consumer<? super T> action);
+// Returns a stream consisting of the elements of this stream, additionally performing the provided action on each element as elements are consumed from the resulting stream.
+// API Note: This method exists mainly to support debugging, where you want to see the elements as they flow past a certain point ia pipeline:
+var ints = List.of(1, 2, 3);
+ints.stream()
+    .map(i -> i * i)
+    // NOT in production!!!
+    .peek(IO::println)
+    .toList();
+// > 1 4 9
+``` 
+
+One last word; stick to the documentation. If you want to understand the objects that are flowing through your stream, this method is useful, but don't use it in a production environment
+</details>
