@@ -8516,3 +8516,17 @@ ints.stream()
 
 One last word; stick to the documentation. If you want to understand the objects that are flowing through your stream, this method is useful, but don't use it in a production environment
 </details>
+
+## 336. What is a Singleton?
+<details>
+  <summary>Short Answer</summary>
+
+A pattern from the GoF.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+In a nutshell, the Singleton is implemented by classes that can have only one instance. And implementing singletons correctly is actually not that simple. There are 2 constraints on singletons. First, you want to initialize them lazily, only if they are needed and when they are needed. Why? Because in large applications, you may have many singletons, and if you decide to initialize all of them before your application is available for doing anything, then you may have to wait for some time. And second, you want this initialization to be thread-safe. And if it's not handled correctly, you may end up with several instances instead of one, which could be a problem. So people came with many solutions to implement singletons correctly. But in the end, you need one class per singleton, which is not that great.
+
+One last word; implementing singleton with enumeration is probably as of now, your best bet. Avoid this horrible double-check locking pattern and keep an eye on the lazy constants that are coming to the JDK. That could be the solution you need, but that will be for another time.
+</details>
