@@ -8530,3 +8530,36 @@ In a nutshell, the Singleton is implemented by classes that can have only one in
 
 One last word; implementing singleton with enumeration is probably as of now, your best bet. Avoid this horrible double-check locking pattern and keep an eye on the lazy constants that are coming to the JDK. That could be the solution you need, but that will be for another time.
 </details>
+
+## 337. What is double-check locking?
+<details>
+  <summary>Short Answer</summary>
+
+Something that looks like a good idea, but that is not that great.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+It is a complex pattern, error prone, and odds are that you don't need it. This pattern was first created to implement the Singleton pattern. It can initialize your Singleton lazily and in a safe way, but the code you need to write for that is just horrible, and performance wise it's not so great. Your field needs to be volatile, meaning that every time you read it, there is a check to make sure that it is not modified by some other thread, which is not supposed to happen.
+
+```java
+static class Singleton {
+    static volatile Singleton instance;
+    
+    static Singleton instance() {
+        if (instance != null) {
+            return instance;
+        } else {
+            synchronized(Singleton.class) {
+                if (instance != null) {
+                    instance = new Singleton();
+                    return instance;
+                }
+            }
+        }
+    }
+}
+```
+
+One last word; using enumeration was proposed by the excellent book, `Effective Java`, written by Josh Bloch and it is still the simplest way to create singletones in your application, used in a JDK itself. For an example, you can check the `Comparator.naturalOrder()` factory method, for instance.
+</details>
