@@ -8563,3 +8563,29 @@ static class Singleton {
 
 One last word; using enumeration was proposed by the excellent book, `Effective Java`, written by Josh Bloch and it is still the simplest way to create singletones in your application, used in a JDK itself. For an example, you can check the `Comparator.naturalOrder()` factory method, for instance.
 </details>
+
+## 338. What is the String pool?
+<details>
+  <summary>Short Answer</summary>
+
+A pool of strings.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Strings of characters may take a lot of space in your memory and since you cannot change the value of a String of characters during its lifetime, it may be an optimization to try to cache them. You can do so by calling the `intern()` method on the String that returns a string. Calling this method will check if an instance already in a pool has the same value as your String. If it's not the case, then it will add it. And in both cases, it returns the instance that is in a pool. In the end, you may save memory by doing that. No duplication is possible in a pool. Putting all your string in a pool may sound like something you should be doing. Actually, you need to be a little more cautious than that because putting a string in a pool is interesting only if you have many references to it. If it is a specific String that could be garbaged soon, don't put it in a pool.
+
+```java
+var string = "Used everywhere";
+// may become a different instance
+string = string.intern();
+```
+
+```java
+var string = "Used once or twice";
+// don't bother
+string = string.intern();
+```
+
+One last word; you need to be very cautious when it comes to optimization or possible performance gain. Whatever you do, you need to carefully observe the effects on your application in a production environment.
+</details>
