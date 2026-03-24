@@ -8589,3 +8589,21 @@ string = string.intern();
 
 One last word; you need to be very cautious when it comes to optimization or possible performance gain. Whatever you do, you need to carefully observe the effects on your application in a production environment.
 </details>
+
+## 339. What is the off-heap memory?
+<details>
+  <summary>Short Answer</summary>
+
+A portion of memory that is not in the heap memory.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+The heap memory is the realm of the garbage collector. The garbage collector can give you pieces of this memory and then when you don't need them anymore, it will take them back. In a nutshell, that's what the garbage collector is doing. The off-heap memory is not managed by the garbage collector. To get pieces of it, you need to use the old `ByteBuffer` API or better the `Memory` API. You can get very large segments in it, that will not be moved around by the garbage collector activity. So it's great to map files in memory, for instance.
+
+```java
+
+```
+
+One last word, the ByteBuffer API is an API from Java 4 that was in 2002 and it can give you access to the off-memory. It was superseded in 22 by the Memory API, which is safer to use and can index the memory segments with longs instead of ints for the ByteBuffer. Much better for 64-bit systems.
+</details>
