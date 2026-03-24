@@ -8621,8 +8621,36 @@ Because you need to share the state between the multiple threads.
 Some stream operations are said to be stateful. That's the case for `limit()` or `skip()`, for instance. Limit() needs to interrupt your stream after it saw a given amount of elements. And if your stream is ordered, it should return the N first elements of the upstream, not N elements randomly chosen. Even if your stream is not ordered, it still needs an internal counter that is shared among the different threads that are computing your stream in parallel. This added synchronization can only slow down your computation, something you probably want to avoid.
 
 ```java
-
+var ints = List.of(/* lots of */);
+var result = ints.stream()
+        // don't go parallel in that case
+        .parallel()
+        // the counter is shared among threads.
+        .limit(100)
+        .toList();
 ```
 
 One last word; you need to be careful when you use parallel streams. In general, parallel stream will use all the cores of your CPU to conduct their operations and may slow down your other processes. When it comes to performance, as usual, measure, don't guess.
+</details>
+
+## 341. How does dropWhile() work?
+<details>
+  <summary>Short Answer</summary>
+
+It acts like a door that is closed at first and that opens on a Predicate.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+`dropWhile()` is an intermediate method of the Stream API. It takes a Predicate as a parameter that is evaluated for the elements of the streamer. While the predicate results to false, no element is pushed to the downstream. When the predicates resolve to true then the door opens meaning that all the remaining elements are pushed to the downstream, and the Predicate is not evaluated anymore. If your stream is ordered, then dropWhile() drops the first elements of your stream. But if your stream is not ordered, then this notion of first element is not defined, so the results may vary. The implementation can actually drop any subset of your source.
+
+```java
+var ints = List.of(1, 5, 3, 0, 2, 6, 8, 3, 2, 5);
+ints.stream()
+    .dropWhile(n -> n < 6)
+    .toList();
+// > 6, 8, 3, 2, 5
+```
+
+One last word; dropWhile() is a stateful operation, meaning that it does not play well with parallel streams, especially if your stream is ordered. Actually, using dropWhile() on an ordered parallel stream will probably slow down your operation, so it's probably not a good idea.
 </details>
