@@ -8654,3 +8654,22 @@ ints.stream()
 
 One last word; dropWhile() is a stateful operation, meaning that it does not play well with parallel streams, especially if your stream is ordered. Actually, using dropWhile() on an ordered parallel stream will probably slow down your operation, so it's probably not a good idea.
 </details>
+
+## 342. What is String deduplication?
+<details>
+  <summary>Short Answer</summary>
+
+A feature that may save some memory in your application.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+String deduplication consists in detecting if two Strings of characters have the same value in your application and then create only one instance of their internal arrays. You can share Strings in Java because once you created one, you cannot change its value. This deduplication feature was added to the G1 garbage collector back in the days of Java 8 and the deduplication actually operates on the byte array of the String, not on the String object itself. And because there is some CPU time involved, the deduplication is attempted only on Strings that have a certain age.
+
+```java
+var s1 = new String("Hello");
+var s2 = new String("Hello");
+```
+
+One last word; String deduplication is also supported by ZGC since Java 18. You need to add the option `-XX:UseStringDeduplication` to activate it.
+</details>
