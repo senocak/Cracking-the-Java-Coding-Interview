@@ -8602,8 +8602,27 @@ A portion of memory that is not in the heap memory.
 The heap memory is the realm of the garbage collector. The garbage collector can give you pieces of this memory and then when you don't need them anymore, it will take them back. In a nutshell, that's what the garbage collector is doing. The off-heap memory is not managed by the garbage collector. To get pieces of it, you need to use the old `ByteBuffer` API or better the `Memory` API. You can get very large segments in it, that will not be moved around by the garbage collector activity. So it's great to map files in memory, for instance.
 
 ```java
+var user = new User("Patricia");
+var memorySegment = Arena.ofAuto().allocate(1_000_000_000_000L);
+```
+
+One last word; the ByteBuffer API is an API from Java 4 that was in 2002 and it can give you access to the off-memory. It was superseded in 22 by the Memory API, which is safer to use and can index the memory segments with longs instead of ints for the ByteBuffer. Much better for 64-bit systems.
+</details>
+
+## 340. Why do stateful operations don't play well with parallel streams?
+<details>
+  <summary>Short Answer</summary>
+
+Because you need to share the state between the multiple threads.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Some stream operations are said to be stateful. That's the case for `limit()` or `skip()`, for instance. Limit() needs to interrupt your stream after it saw a given amount of elements. And if your stream is ordered, it should return the N first elements of the upstream, not N elements randomly chosen. Even if your stream is not ordered, it still needs an internal counter that is shared among the different threads that are computing your stream in parallel. This added synchronization can only slow down your computation, something you probably want to avoid.
+
+```java
 
 ```
 
-One last word, the ByteBuffer API is an API from Java 4 that was in 2002 and it can give you access to the off-memory. It was superseded in 22 by the Memory API, which is safer to use and can index the memory segments with longs instead of ints for the ByteBuffer. Much better for 64-bit systems.
+One last word; you need to be careful when you use parallel streams. In general, parallel stream will use all the cores of your CPU to conduct their operations and may slow down your other processes. When it comes to performance, as usual, measure, don't guess.
 </details>
