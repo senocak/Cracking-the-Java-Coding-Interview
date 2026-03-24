@@ -8697,7 +8697,6 @@ synchronized (key) {
 }
 ```
 
-
 ```java
 @jdk.internal.ValueBased
 final class Integer extends Number {}
@@ -8714,4 +8713,53 @@ final class SetN<E> {}
 ```
 
 One last word; this annotation is internal to the JDK. You can see it if you check the source code, but you cannot use it for your own classes.
+</details>
+
+## 344. How does the Collectors.teeing() work?
+<details>
+The `teeing()` Collector is a rather complex collector added in JDK 12.
+<details>
+  <summary>Short Answer</summary>
+
+They are not the same.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+The `teeing()` collector consists in collecting your stream with two different collectors that will produce two different results and then merging these results with a merging function. These two collectors are the first two parameters of the teeing() method and you need to know your Collector API pretty well to write them. That being said, this collector is very useful when you need to apply two different algorithms on the same stream without going through it twice.
+
+```java
+var strings = List.of("1", "2", "three", ...);
+// first return the conversion
+Function<String, Stream<Integer>> parseIntSuccess = s -> {
+    try {
+        return Stream.of(Integer.parseInt(s));
+    } catch (Exception _) {
+        return Stream.empty();
+    }
+};
+
+// Second return the conversion
+Function<String, Stream<Integer>> parseIntFailure = s -> {
+    try {
+        var _ = Integer.parseInt(s);
+        return Stream.empty();
+    } catch (Exception e) {
+        return Stream.empty(e);
+    }
+};
+
+// specify the result
+record Result(List<Integer> parsingResult, List<Exception> e) {}
+
+// then collect the result
+var result = strings.stream()
+        .collect(Collectors.teeing(
+            flatMapping(parseIntSuccess, toList()),
+            flatMapping(parseIntFailure, toList()),
+            Result::new
+        ));
+```
+
+One last word; avoiding the streaming of your data twice is especially useful when your streaming can only be done once, like you're streaming an I/O source for instance. And you need to avoid buffering everything in memory. In that case, the teeing() collector may be extremely useful.
 </details>
