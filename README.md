@@ -8673,3 +8673,45 @@ var s2 = new String("Hello");
 
 One last word; String deduplication is also supported by ZGC since Java 18. You need to add the option `-XX:UseStringDeduplication` to activate it.
 </details>
+
+## 343. What is the difference between a wrapper class and a value-based class?
+<details>
+  <summary>Short Answer</summary>
+
+They are not the same.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+A wrapper class is a value-based class, but not the contrary. A wrapper class is a class that wraps a primitive type and they have been in a JDK since the beginning and that's all there is to it. A value-based class is a notion that is coming from `Valhalla` and that appeared in JDK 16. Technically speaking, it is an annotation added on some classes. The wrapper classes have it, but also some classes from the Date and Time API for instance, or Optional and even some non-modifiable collections are annotated with `@ValueBased`. This annotation triggers some warnings at compile time. If you do things with these classes, that will fail once Valhalla is there, like using their instances for synchronization for instance.
+
+```java
+@jdk.internal.ValueBased
+class Integer extends Number {
+}
+
+Integer key = ...;
+
+// Warning: synchronizing on instance of a value-based class
+synchronized (key) {
+}
+```
+
+
+```java
+@jdk.internal.ValueBased
+final class Integer extends Number {}
+
+@jdk.internal.ValueBased
+final class Duration {}
+
+@jdk.internal.ValueBased
+final class Optional<T> {}
+
+@jdk.internal.ValueBased
+// returned by Set.of(...)
+final class SetN<E> {}
+```
+
+One last word; this annotation is internal to the JDK. You can see it if you check the source code, but you cannot use it for your own classes.
+</details>
