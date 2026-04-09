@@ -8796,14 +8796,26 @@ There is a method for that.
 You can just call `List.of()` and pass the elements you need in that list. Just be aware that there are restrictions on the implementation you get. First, you cannot have null values in this list. Why would you put null values in a list? And then the list you get is non-modifiable. The implementations you get are specific to these factory methods and optimized in several ways so that the operations on these lists are fast. And by the way, the implementations you get are also Serializable.
 
 ```java
-var ints = List.of(1, 2, 3);
-ints.stream()   // empty
-    .map(n -> n * 2)  // empty
-    .filter(n -> n <= 5>)  // empty
-    .flatMap(n -> Stream.iterate(0, p -> p < n, p -> p + 1))  // empty
-    .distinct()  // buffer!
-    .toList()  // no more stream
+var empty = List.of();
+var singleton = List.of(1);
+// NullPointerException
+var nope = List.of(1, null);
+// UnsupportedOperationException
+var neither = singleton.add(2);
 ```
 
 One last word; this `List.of()` factory method was added in JDK9 as part of the Convenience factory methods for Collections feature. So there is an equivalent method for `Set` and even if it's not mentioned in the name of the feature also for `Map`s.
+</details>
+
+## 347. What is hashcode collision?
+<details>
+  <summary>Short Answer</summary>
+Something that can happen when two different objects have the same hash code.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+From a technical point of view, a hashcode is an int encoded on 32 bits, and you can have way more different objects than 2^32. So there has to be collisions. By the way, that's the reason why the specification says that `two objects that are equals need to have the same hash code` but the opposite is not true. In fact, it cannot be true. Having hash collisions can have unexpected effects on your application, including bad effects. For instance, if you store your objects in a Set, they are actually added to an internal Map where the keys are the hashcode of these objects. In case of many collisions, calling `contains()`, for instance, may not be an `O(1)` operation anymore, but an `O(log(n))`. Not that bad, but still not as fast.
+
+One last word; one more reason to avoid parallel streams on Set is that if you have too many collisions, your set may not be split properly, and going parallel may hurt your performance instead of improving it,
 </details>
