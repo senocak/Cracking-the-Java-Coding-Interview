@@ -8717,11 +8717,9 @@ One last word; this annotation is internal to the JDK. You can see it if you che
 
 ## 344. How does the Collectors.teeing() work?
 <details>
-The `teeing()` Collector is a rather complex collector added in JDK 12.
-<details>
   <summary>Short Answer</summary>
 
-They are not the same.
+The `teeing()` Collector is a rather complex collector added in JDK 12.
 </details>
 <details>
   <summary>Less Short Answer</summary>
@@ -8762,4 +8760,27 @@ var result = strings.stream()
 ```
 
 One last word; avoiding the streaming of your data twice is especially useful when your streaming can only be done once, like you're streaming an I/O source for instance. And you need to avoid buffering everything in memory. In that case, the teeing() collector may be extremely useful.
+</details>
+
+## 345. How many objects are there in a Stream?
+<details>
+  <summary>Short Answer</summary>
+Zero
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+The Stream is a pipeline that pulls objects from a source and pushes them to a downstream or a terminal operation. So the rule is, there is no object in a Stream. That being said, some streams are managing an internal mutable state that may be storing the elements it consumes for processing. That's the case of the `distinct()` operation that stores the element of the stream in a `Set` and the `sorted() operation that needs to store them before sorting them. But a mapping, a filtering, a flat-mapping, all these regular operations do not store any object.
+
+```java
+var ints = List.of(1, 2, 3);
+ints.stream()   // empty
+    .map(n -> n * 2)  // empty
+    .filter(n -> n <= 5>)  // empty
+    .flatMap(n -> Stream.iterate(0, p -> p < n, p -> p + 1))  // empty
+    .distinct()  // buffer!
+    .toList()  // no more stream
+```
+
+One last word; this feature makes the Stream API very powerful. A Stream can consume a reasonable amount of memory while still being able to process very large amounts of data, much larger than what you could store in the memory of your application.
 </details>
