@@ -8784,3 +8784,26 @@ ints.stream()   // empty
 
 One last word; this feature makes the Stream API very powerful. A Stream can consume a reasonable amount of memory while still being able to process very large amounts of data, much larger than what you could store in the memory of your application.
 </details>
+
+## 346. How can you create a pre-filled List?
+<details>
+  <summary>Short Answer</summary>
+There is a method for that.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+You can just call `List.of()` and pass the elements you need in that list. Just be aware that there are restrictions on the implementation you get. First, you cannot have null values in this list. Why would you put null values in a list? And then the list you get is non-modifiable. The implementations you get are specific to these factory methods and optimized in several ways so that the operations on these lists are fast. And by the way, the implementations you get are also Serializable.
+
+```java
+var ints = List.of(1, 2, 3);
+ints.stream()   // empty
+    .map(n -> n * 2)  // empty
+    .filter(n -> n <= 5>)  // empty
+    .flatMap(n -> Stream.iterate(0, p -> p < n, p -> p + 1))  // empty
+    .distinct()  // buffer!
+    .toList()  // no more stream
+```
+
+One last word; this `List.of()` factory method was added in JDK9 as part of the Convenience factory methods for Collections feature. So there is an equivalent method for `Set` and even if it's not mentioned in the name of the feature also for `Map`s.
+</details>
