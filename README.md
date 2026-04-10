@@ -8817,5 +8817,18 @@ Something that can happen when two different objects have the same hash code.
 
 From a technical point of view, a hashcode is an int encoded on 32 bits, and you can have way more different objects than 2^32. So there has to be collisions. By the way, that's the reason why the specification says that `two objects that are equals need to have the same hash code` but the opposite is not true. In fact, it cannot be true. Having hash collisions can have unexpected effects on your application, including bad effects. For instance, if you store your objects in a Set, they are actually added to an internal Map where the keys are the hashcode of these objects. In case of many collisions, calling `contains()`, for instance, may not be an `O(1)` operation anymore, but an `O(log(n))`. Not that bad, but still not as fast.
 
-One last word; one more reason to avoid parallel streams on Set is that if you have too many collisions, your set may not be split properly, and going parallel may hurt your performance instead of improving it,
+One last word; one more reason to avoid parallel streams on Set is that if you have too many collisions, your set may not be split properly, and going parallel may hurt your performance instead of improving it.
+</details>
+
+## 348. What is dependency inversion?
+<details>
+  <summary>Short Answer</summary>
+Inversion means that the dependency between two modules, for instance, at compile time is the opposite of the dependency at runtime.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+You may be wondering how is this even possible? Well, it's actually very simple and very common too. If you have a module A that uses some classes of a module B, then A depends on B at compile time and also at runtime. If you want to make B depends on A at compile time, then what you need to do is create an interface in A with what A needs from B, and this interface can use records to transport the data from B to A. And then B needs to implement this interface. Now, B depends on A at compile time. This is exactly how the JDBC API works for instance. Most of what it contains are interfaces implemented by drivers that are specific to the database you're using.
+
+One last word; the nice thing with this approach is that when you need to update B for whatever reason, there is no need to recompile A. Why? Because A does not even know B. One less pain point in your application.
 </details>
