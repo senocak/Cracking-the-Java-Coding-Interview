@@ -8830,5 +8830,33 @@ Inversion means that the dependency between two modules, for instance, at compil
 
 You may be wondering how is this even possible? Well, it's actually very simple and very common too. If you have a module A that uses some classes of a module B, then A depends on B at compile time and also at runtime. If you want to make B depends on A at compile time, then what you need to do is create an interface in A with what A needs from B, and this interface can use records to transport the data from B to A. And then B needs to implement this interface. Now, B depends on A at compile time. This is exactly how the JDBC API works for instance. Most of what it contains are interfaces implemented by drivers that are specific to the database you're using.
 
+```java
+
+```
+
 One last word; the nice thing with this approach is that when you need to update B for whatever reason, there is no need to recompile A. Why? Because A does not even know B. One less pain point in your application.
+</details>
+
+## 349. What is the first thing a constructor does?
+<details>
+  <summary>Short Answer</summary>
+It calls another constructor. 
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+You can issue this call manually, which is handy if you need to call a specific constructor, either from the same class with `this()` or from the superclass with `super()`. And if you do not write this code yourself, then a call to `super()` is added for you by the compiler. Reason why, if your superclass does not have a no-arg constructor, you need to call one by hand or suffer a compiler error. If you don't write any constructor, then the compiler adds one for you that does not take any argument and that just calls `super()`.
+
+```java
+class A extends B {
+    A() {
+        super(); // too bad
+        if (isInvalid) {
+            throw new IllegalArgumentException();
+        }
+    }
+}
+```
+
+One last word; you cannot prevent the execution of these super constructors, and it can be an overhead if in the end you decide not to create this object because the arguments you get are not valid. Well, until now, because this change in JDK25, you can now call `super()` whenever you want, but that will be for another time.
 </details>
