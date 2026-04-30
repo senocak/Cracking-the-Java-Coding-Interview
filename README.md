@@ -8860,3 +8860,55 @@ class A extends B {
 
 One last word; you cannot prevent the execution of these super constructors, and it can be an overhead if in the end you decide not to create this object because the arguments you get are not valid. Well, until now, because this change in JDK25, you can now call `super()` whenever you want, but that will be for another time.
 </details>
+
+## 350. What is the JavaDoc?
+<details>
+  <summary>Short Answer</summary>
+A very handy tool to write and render the documentation of your code because you always write some documentation for your code, don't you? 
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+From the beginning, Java thought about documenting all the elements you can write: classes, interfaces, and the like. You can write your JavaDoc in special comments and use special tags to document what the method is doing, what are the parameters it takes and what is their users or what exceptions it may throw. You can add some Java do on classes, methods, fields, but also on packages, using a special file called `package-info.java` very handy. All the JDK JavaDoc is written in that way, and you can check it out, for examples.
+
+```java
+/**
+ * The root interface in the <i>collection hierarchy</i>. A collection represents a group of objects, known as its <i>elements</i>.
+ *
+ * @param <E> the types of elements
+ *
+ * @author Josh Bloch
+ * @author Neal Gafter
+ */
+interface Collection<E> extends Iterable<E> {
+    /**
+     * Returns {@code true} if this collection contains no elements.
+     *
+     * @return {@code true} if this collection contains no elements
+     */
+    boolean isEmpty();
+}
+```
+
+```java
+class ArrayList<E> implements List<E> {
+    /**
+     * The size of the ArrayList (the number of elements it contains).
+     *
+     * @serial 
+     */
+    private int size;
+}
+```
+
+```java
+// in the package-info.java file in the corresponding package
+
+/**
+ * This package contains various utility classes for my application.
+ */
+package com.myapp.util;
+```
+
+One last word; back in the days it was written in HTML and it was great because you could read it from a browser. Now you can also write it in Markdown. That's a feature from JDK23, but that will be for another time.
+</details>
