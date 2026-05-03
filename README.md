@@ -8941,3 +8941,23 @@ forkJoinPool.submit(task);
 
 One last word; Is it a good idea? Well, you need to think about it very carefully because having a gazillion Fork/Join Pool in your application hammering your CPU like crazy, is most certainly a very, very bad idea. Does running your stream in parallel bring better performance to your application? When it comes to performance, measure. Don't guess.
 </details>
+
+## 352. What is the difference between ByteBuffer and MemorySegment?
+<details>
+  <summary>Short Answer</summary>
+They are not the same.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+ByteBuffer is a class from Java 4 designed in 2002 that gives you access to the off-heap memory of your application. Memory Segment is an interface from Java 22, from 2024, that kind of does the same thing. A ByteBuffer has a 32-bit indexes, where memory segment has 64-bit indexes. You cannot free a ByteBuffer yourself, which may lead to OutOfMemoryExceptions without you being able to do anything about it. A MemorySegment is obtained from an Arena that is auto-closable, so you can free them on demand. You can control how different threads can access your MemorySegment and even prevent any other thread than yours to access them with ByteBuffer, when it comes to concurrency, you're on your own.
+
+```bash
+ByteBuffer            MemorySegment
+32 bits indexes       64 bits indexes
+Freed by the GC       Freed on demand
+Open to concurrency   Controlled concurrent access
+```
+
+One last word; in case I have not been explicit enough, using ByteBuffer in any place other than legacy code is really not a good idea. Learn how to use Arenas, MemorySegments, and MemoryLayouts. It will be much better for your application. I even have a JEP Cafe on this subject.
+</details>
