@@ -8912,3 +8912,32 @@ package com.myapp.util;
 
 One last word; back in the days it was written in HTML and it was great because you could read it from a browser. Now you can also write it in Markdown. That's a feature from JDK23, but that will be for another time.
 </details>
+
+## 351. How can you run a parallel Stream in a specific pool of threads?
+<details>
+  <summary>Short Answer</summary>
+There is a pattern for that.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+The fact is this pattern is a little hidden. As you know, a parallel stream runs in a `Common Fork/Join Pool` by default. There is only one such pool in your application, and the number of threads is set to the number of virtual cores that you have on your CPU. There may be situations where you need to decrease this number of threads because you want to keep some CPU cycles for other things than running your parallel streams. You can do that with a JVM option called `java.util.concurrent.ForkJoinPool.common.parallelism`. If you set this property to 3, it will create three threads in a Common Fork/Join Pool on your application. So, your parallel streams will work on three threads. But, you can do better. If you run a stream in a thread that is part of a Fork-Join Pool and this stream is a parallel stream, then it will run in this Fork/Join Pool and not the Common Fork/Join Pool. So, the trick is to create a Callable that will carry your parallel stream computation and submit this Callable to a Fork/Join Pool that you created yourself, and that's it.
+
+```bash
+# restricts the size of the Common Fork/Join pool to 3
+java -Djava.util.concurrent.ForkJoinPool.common.parallelism=3 MyParallelStreamComputation
+```
+
+```java
+Callable<Map<String, Data>> task = () -> {
+    data.parallelStream()
+        .map(...)
+        .filter(...)
+        .collect(...)
+};
+var forkJoinPool = new ForkJoinPool(3);
+forkJoinPool.submit(task);
+```
+
+One last word; Is it a good idea? Well, you need to think about it very carefully because having a gazillion Fork/Join Pool in your application hammering your CPU like crazy, is most certainly a very, very bad idea. Does running your stream in parallel bring better performance to your application? When it comes to performance, measure. Don't guess.
+</details>
