@@ -9024,3 +9024,22 @@ enum FileVisitResult{
 ```
 One last word; you need to keep in mind that a file system can be modified while you explore the content of a directory. So, you can come across weird errors, if it takes too long. Competing with other processors accessing your file system, that's another level of concurrency issues.
 </details>
+
+## 355. What is an EnumMap?
+<details>
+  <summary>Short Answer</summary>
+A Map.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+An EnumMap is a map where the keys are the values of a single enum that allows for a very efficient implementation both memory-wise and CPU-wise. Since the enumerated values are known before the map is created, and these values have an index, you can simply store the values in an array which size is known upfront. You will never need to resize this array once it has been created. And using this index makes it so that you do not need to compute any hash code.
+
+```java
+enum DayOfWeek{
+    MON, TUE, WED, THU, FRI, SAT, SUN
+}
+var map = new EnumMap<DayOfWeek, Data>(DayOfWeek.class);
+```
+One last word; this map does not support null keys. Why would you put a null key in a map? But it does support null values(come on, seriously?). Trying to add a null key will throw a `NullPointerException, but you can still check for the presence or try to remove a null key and get false as a result.
+</details>
