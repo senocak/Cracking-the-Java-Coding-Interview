@@ -8961,3 +8961,28 @@ Open to concurrency   Controlled concurrent access
 
 One last word; in case I have not been explicit enough, using ByteBuffer in any place other than legacy code is really not a good idea. Learn how to use Arenas, MemorySegments, and MemoryLayouts. It will be much better for your application. I even have a JEP Cafe on this subject.
 </details>
+
+## 353. What is a ScopedValue?
+<details>
+  <summary>Short Answer</summary>
+A value that you can pass around in your application without relying on method arguments.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Passing elements from one method to another method without using method parameters is something you need when you write callbacks. `ThreadLocal` variables were created exactly for that, to pass elements from one servlet to the other that was in Java 2 in 1998. ThreadLocal variables have several issues; They are mutable, they are bound to a thread. You need to call `remove()` on them when you're done with them, and if you don't, the next task this thread will execute will have access to it, something you want to avoid. ScopeValues are a replacement that is bound to a task namely, a Runnable or a Callable, and not bound to any thread. You don't need to remove them because they are not transmitted to other threads unless created by a structured task scope. So, they cannot escape your method call.
+
+```java
+static final ScopedValue KEY_1 = ScopedValue.instance();
+static final ScopedValue KEY_2 = ScopedValue.instance();
+Runnable task = () -> ...;
+// You can create several bindings
+// The bindings ca no escape the task
+ScopedValue
+        .where(KEY_1, "Value 1")
+        .where(KEY_1, "Value 2")
+        .run(task);
+```
+
+One last word; be careful because the API does not give you thread safety. So, if you share a mutable ScopedValue among different threads, then you need to manage the synchronization yourself. Sticking to non-modifiable ScopedValues is probably your best choice.
+</details>
