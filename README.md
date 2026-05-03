@@ -9043,3 +9043,44 @@ var map = new EnumMap<DayOfWeek, Data>(DayOfWeek.class);
 ```
 One last word; this map does not support null keys. Why would you put a null key in a map? But it does support null values(come on, seriously?). Trying to add a null key will throw a `NullPointerException, but you can still check for the presence or try to remove a null key and get false as a result.
 </details>
+
+## 356. How can you use Markdown in your JavaDoc?
+<details>
+  <summary>Short Answer</summary>
+There is a pattern for that.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Writing JavaDoc may not be your thing, but it is still a very interesting feature of the Java platform. In 1995, people chose to use HTML for the JavaDoc, and it was probably an excellent choice at the time. And somehow that's still the case, you can easily read your JavaDoc in a browser. But 1995, that was a long time ago, and nowadays writing Markdown is probably easier to do and as efficient. To write some Markdown code in your JavaDoc, all you need to do is to add this triple slash(///) at the beginning of each line. Several Markdown features are supported, including titling and links, which is great.
+
+```java
+/**
+ * This service takes a String and returns an instance of User corresponding to this index and name.
+ *
+ * @param index the index of the user
+ * @param name the name of the user
+ * @return the instance of corresponding user
+ */
+User service(int index, String name) {
+    return new User("Jose");
+}
+```
+
+```java
+/// ## Definition of the Service
+/// This service takes a [java.lang.String] and returns an instance of [org.myapp.model.User] corresponding to this index and name.
+/// ## How to use the Service
+/// ### A first, simple case
+/// ### A more complex case
+/// @param index the index of the user
+/// @param name the name of the user
+/// @return the instance of corresponding user
+/// 
+User service(int index, String name) {
+    return new User("Jose");
+}
+```
+
+One last word; you can also include snippets of code in your JavaDoc, so that the examples you show are tested during the building process of your application. Another great addition to this old feature. But that will be for another time.
+</details>
