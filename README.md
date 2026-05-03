@@ -8986,3 +8986,41 @@ ScopedValue
 
 One last word; be careful because the API does not give you thread safety. So, if you share a mutable ScopedValue among different threads, then you need to manage the synchronization yourself. Sticking to non-modifiable ScopedValues is probably your best choice.
 </details>
+
+## 354. How can you explore a tree of directories?
+<details>
+  <summary>Short Answer</summary>
+There is a pattern for that.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+There are actually two patterns. You can use the method `Files.directoryStream()` that gives you access to all the entries of a directory. You can then filter them with a regular expression, and when you find a directory, recursively explore this directory. Using recursion is always a little dangerous. You can get StackOverflowExceptions, while doing that something you usually want to avoid. So, there is another method, `Files.walkFileTree() that takes a `FileVisitor` as a parameter. It implements a `Visitor` pattern, so you can give a callback for every entry that is found. It visits the content of a directory, and when it finds a subdirectory, you can tell this method to explore this subdirectory or not.
+
+```java
+var rootDir = Path.of("");
+try(var entries = Files.newDirectoryStream(rootDir)) {
+    for (var entry : entries) {
+        var isDirectory = Files.isDirectory(entry);
+        var isFile = Files.isRegularFile(entry);
+    }
+}
+```
+
+```java
+try(Files.walkFileTree(rootDir, new SimpleFileVisitor<>())) {
+    FileVisitResult preVisitDirectory(dir, dirAttrs) {}
+    FileVisitResult postVisitDirectory(dir, ioException) {}
+    FileVisitResult visitFile(file, fileAttributes) {}
+    FileVisitResult visitFileFailed(file, ioException) {}
+});
+
+enum FileVisitResult{
+    CONTINUE,
+    TERMINATE,
+    SKIP_SUBTREE,
+    SKIP_SIBLINGS
+}
+```
+One last word; you need to keep in mind that a file system can be modified while you explore the content of a directory. So, you can come across weird errors, if it takes too long. Competing with other processors accessing your file system, that's another level of concurrency issues.
+</details>
