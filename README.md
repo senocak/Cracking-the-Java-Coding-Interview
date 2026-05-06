@@ -9084,3 +9084,52 @@ User service(int index, String name) {
 
 One last word; you can also include snippets of code in your JavaDoc, so that the examples you show are tested during the building process of your application. Another great addition to this old feature. But that will be for another time.
 </details>
+
+## 357. How should you check if a value is null?
+<details>
+  <summary>Short Answer</summary>
+There is a pattern for that.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+You can always write a test with equal equal(==) that will work of course, but a better pattern is to call `Objects.requireNonNull()`. It has three advantages. First, this simple factory method throws the `NullPointerException` for you explicitly. Second, it returns the object you pass, so you can inline this null check with the use of the variable you want to check. And third, it can take a custom error message if you want to give context or information to debug the problem.
+
+```java
+boolean isEmpty(String value) {
+    return value.isEmpty();
+}
+```
+
+```java
+boolean isEmpty(String value) {
+    return Objects.requireNonNull(value).isEmpty();
+}
+```
+
+```java
+boolean isEmpty(String value) {
+    return Objects.requireNonNull(value, "You gave me a null value").isEmpty();
+}
+```
+
+```java
+boolean isEmpty(String value) {
+    return Objects.requireNonNull(value, () -> "You gave me a null value").isEmpty();
+}
+```
+
+```java
+boolean isEmpty(String value) {
+    return Objects.requireNonNullElse(value, "Default value").isEmpty();
+}
+```
+
+```java
+boolean isEmpty(String value) {
+    return Objects.requireNonNullElse(value, () -> "Default value").isEmpty();
+}
+```
+
+One last word; there is also an overload of this method that can return a default value instead of throwing the `NullPointerException`. You can pass this value as an argument, or if it's expensive to create, pass a Supplier to build it. Neat.
+</details>
