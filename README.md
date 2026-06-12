@@ -9264,3 +9264,30 @@ class Main {
 
 One last word; `Thread.currentThread()` returns the platform thread or the virtual thread that is running your task. And in that case, you don't have access to the underlying platform thread.
 </details>
+
+## 363. How can you generate the JavaDoc?
+<details>
+  <summary>Short Answer</summary>
+There is a tool for that.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+The Javadoc tool is a tool that you have in the standard JDK distribution and that you can use even if most of the time your IDE uses it for you. Javadoc can analyze all your class files and will take the so-called Javadoc comments to generate a set of HTML pages that you can distribute along with your application. As all the tools available in the JDK, Javadoc is also available as a service that you can use programmatically. You need to check the `ToolProvider` interface for more detail. To invoke this tool, just type `javadoc` then give it some option. The trick is the Javadoc tool works with your source files and not your class files because it needs to read them for comments. Then it generates a lot, I mean really a lot! of HTML files and JavaScript files that contains the documentation of your application.
+
+```java
+record User(String name, int age) {}
+// > javadoc java/dev/User.java
+// Generating java/dev/User.html...
+// Generating java/dev/package-summary.html...
+// Generating java/dev/package-tree.html...
+// Generating overview-tree.html...
+// Generating allclasses-index.html...
+// Generating index-all.html...
+// Generating search.html...
+// Generating index.html...
+// Generating help-doc.html...
+```
+
+One last word; Javadoc is an old tool but that still gets some attention. You can now write your Javadoc using markdown and add external snippets of code in it that can be tested when you build your application. But that will be for another time.
+</details>
