@@ -9334,3 +9334,54 @@ class LinkedList<E> extends AbstractList<E> {
 
 One last word; the same goes for Maps. There is one class to extend, AbstractMap, with one abstract method, `entrySet()`. The two methods you need to override to make your implementation mutable are `put(K, V)` and `Entry.setValue()`. This template method pattern is really great and it can really make your life much easier.
 </details>
+
+## 365. How does the calling of super() work?
+<details>
+  <summary>Short Answer</summary>
+It calls the super constructor of your class.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Calling an other constructor is the first thing any constructor does. It can be a constructor from the same class or a constructor from a superclass. This pattern is actually problematic. As you can access fields from a subclass, when you are in a constructor from a superclass. And these fields may not be initialized even if they are final. So, it means that during the construction process of an object, you can observe the transition of a final field from their initial null value to their final value, which kind of defeats the point of being final. The `JEP 513` changed that. You can now execute some code before the call to the other constructor. Meaning that you can and you should conduct any initialization of your object before calling the super constructor. There is a restriction on what you can do. You cannot call any instance method before calling this super constructor. Eliminating the risk of executing some code from a subclass.
+
+```java
+class A {
+    A() {
+        IO.println("Message = " + message());
+    }
+    String message() {
+        return "Hello";
+    }
+}
+```
+```java
+class B extends A {
+    final String message;
+    B(String message) {
+        this.message = message;
+    }
+    String message() {
+        return this.message;
+    }
+}
+// > var b = new B();
+// Message = null 
+```
+```java
+class B extends A {
+    final String message;
+    B(String message) {
+        this.message = message;
+        super();
+    }
+    String message() {
+        return this.message;
+    }
+}
+// > var b = new B();
+// Message = Hello 
+```
+
+One last word; instead of letting the compiler calling the super constructor first for you, the good practice is to not call `super()` explicitly after you have initialized your object. One less place for bugs to hide. Neat.
+</details>
