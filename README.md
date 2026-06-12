@@ -9223,7 +9223,7 @@ No.
 If you need comments to explain your code, it means that it is not readable enough. So, instead of writing comments, you should work on the readability of your code. That should be your first reflex and it's much harder to do. Comments are not documentation. Documentation is written using the Javadoc and Javadoc is of paramount importance. It should be precise, accurate, it should give you example on how to use your code and explain what is happening if something goes wrong. Your Javadoc should be proofread during your code reviews to make sure it has the right level of quality. Comments, on the other hand, live their own life and your code also lives its own life, but both are not always related. Sometimes comments are just useless and sometimes you fix bugs in your code or change what it's doing, leaving the comments as they are. And at some point, what the comments tell you about your code is no longer related to what your code is actually doing. So, no one reads them anymore and they just stay there rotting, polluting your code base.
 
 ```java
-class USer {
+class User {
     String firstName;
     String firstName() {
         // returns the name
@@ -9237,4 +9237,30 @@ class USer {
 ```
 
 One last word; there are exceptions to this rule. For instance, when you need to give some detail on a complex algorithm, your code implements. You can check the `ConcurrentHashMap` or the `ConcurrentSkipListMap` classes, for instance.
+</details>
+
+## 362. How can you know what thread is running your code?
+<details>
+  <summary>Short Answer</summary>
+There is a method for that.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+The method you need to call is a factory method from the `Thread` class called `currentThread()`. It gives you a reference on the thread that is running your code. There are several cases where you need to call this method apart from debugging or analyzing purposes. If you execute a long-running task and you need to manage the interruption of this task yourself, then you need to monitor the interrupted status of the thread that is executing your task. You can do that by calling `Thread.currentThread().isInterrupted()`. If this method returns true, then you need to stop your task.
+
+```java
+class Main {
+    void main() {
+        var currentThread = Thread.currentThread();
+    }
+}
+// For a platform thread
+// > Thread[#3,main,5,main]
+
+// For a virtual thread
+// > VirtualThread[#42]/runnable@ForkJoinPool-1-worker-1
+```
+
+One last word; `Thread.currentThread()` returns the platform thread or the virtual thread that is running your task. And in that case, you don't have access to the underlying platform thread.
 </details>
