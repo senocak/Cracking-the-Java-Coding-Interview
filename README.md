@@ -9159,3 +9159,32 @@ ints.set(1, 20);
 
 One last word; whatever you do, if you need an unmodifiable list built from a regular list, you need to make a defensive copy. `Collections.unmodifiableList()` is a very good first choice, but you can also use one of the `List.of()` patterns.
 </details>
+
+## 359. How can you use regular expressions?
+<details>
+  <summary>Short Answer</summary>
+There are several classes for that.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+All these classes are in the `java.util.regex` package. First, you need to create a `Pattern` with the Pattern class using the `of()` factory method. You can use this pattern to split the text lazily with the `splitAsStream()` method, passing this text as an argument. What you get is a stream that you can analyze with the traditional stream patterns. Second, you can also call `matcher()` and pass your text to match against this pattern. What you get is a `Matcher` object. You can then call `matcher.find()` and then `matcher.group()` to jump from one matching subsequence to the other. Calling `matcher.start()` and `matcher.end()` gives you the position of this subsequence in the text. And you can also call `replace()` on this matcher to replace the matching subsequences with what you need.
+
+```java
+var pattern = Pattern.of("[a-z]");
+// someText is split lazily
+Stream<String> stream = pattern.splitAsStream(someText);
+```
+```java
+var pattern = Pattern.of("[a-z]");
+var matcher = pattern.matcher(someText);
+while (matcher.find()) {
+    var element = matcher.group();
+    var startIndex = matcher.start();
+    var endIndex = matcher.end();
+}
+var replaced = matcher.replace(replacement);
+```
+
+One last word; the regular expression engine also supports groups and named groups with method to explore them directly. But that will be for another time.
+</details>
