@@ -9133,3 +9133,29 @@ boolean isEmpty(String value) {
 
 One last word; there is also an overload of this method that can return a default value instead of throwing the `NullPointerException`. You can pass this value as an argument, or if it's expensive to create, pass a Supplier to build it. Neat.
 </details>
+
+## 358. Is Collections.unmodifiableList() non-modifiable?
+<details>
+  <summary>Short Answer</summary>
+That's a trick question. 
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+The answer should be an obvious yes, and in a way it is. `Collections.unmodifiableList()` returns a list that you cannot modify, calling `add()`, `remove()`, `clear()`, and all these kind of methods will throw an `UnsupportedOperationException`. But this non-modifiable list is actually a wrapper on the list you pass as an argument. No defensive copy is made. So, if you keep a reference to this list and modify it, you will see these modifications in the unmodifiable list.
+
+```java
+var ints = Arrays.asList(1, 2, 3, 4, 5);
+var unmodifiableInts = Collections.unmodifiableList(ints);
+IO.println(unmodifiableInts);
+// > [1, 2, 3, 4, 5]
+
+// UnsupportedOperationException
+unmodifiableInts.set(1, 20);
+
+ints.set(1, 20);
+// > [1, 20, 3, 4, 5]
+```
+
+One last word; whatever you do, if you need an unmodifiable list built from a regular list, you need to make a defensive copy. `Collections.unmodifiableList()` is a very good first choice, but you can also use one of the `List.of()` patterns.
+</details>
