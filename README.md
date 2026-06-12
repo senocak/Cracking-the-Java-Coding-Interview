@@ -9188,3 +9188,26 @@ var replaced = matcher.replace(replacement);
 
 One last word; the regular expression engine also supports groups and named groups with method to explore them directly. But that will be for another time.
 </details>
+
+## 360. How can you gather statistics on a Stream?
+<details>
+  <summary>Short Answer</summary>
+There is a Collector for that.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+There are actually three, depending on the type of the statistics you need. You can get them with the `summarizing()` factory methods from the `Collectors` class. There is one for integers, one for longs, and one for doubles. So, `summarizingDouble` is for double. There return is summary statistics object, one for each type, that computes the `count()`, the `sum()`, the `min()`, the `max()`, and the `average()` in one pass over your data.
+
+```java
+var stream = ...;
+DoubleSummaryStatistics stats = stream.collect(Collectors.summarizingDouble(someToDoubleFunction));
+long count = stats.getCount();
+long sum = stats.getSum();
+long min = stats.getMin();
+long max = stats.getMax();
+double average = stats.getAverage();
+```
+
+One last word, these summary statistics objects are in fact Consumers, and all the statistics are computed in the `accept()` method of these Consumers. So, if you need other statistics than these, copying this pattern is very easy. You just need to create your own Summary Statistics object, and copy the pattern from one of the factory methods. And it even supports parallelism.
+</details>
