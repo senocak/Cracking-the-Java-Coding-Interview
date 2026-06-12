@@ -9291,3 +9291,46 @@ record User(String name, int age) {}
 
 One last word; Javadoc is an old tool but that still gets some attention. You can now write your Javadoc using markdown and add external snippets of code in it that can be tested when you build your application. But that will be for another time.
 </details>
+
+## 364. What is a Template Method?
+<details>
+  <summary>Short Answer</summary>
+A pattern from the gang of four.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+The template method pattern is very simple. It is about creating an abstract class with an abstract method. This abstract method is the template method itself. Then, you need to extend your abstract class and provide a specific implementation for the template that is used at runtime by all the other methods of your abstract class. Both `ArrayList` and `LinkedList` apply this pattern. They extend `AbstractList` and `AbstractCollection`. AbstractCollection has two abstract methods; `size()` and `iterator()`. And one method that throws an `UnsupportedOperationException`; `add(E e)`, that takes an element. So, implementing your own collection is very simple. You just need to extend AbstractCollection, implement `size()` and `iterator()`, and override `add(element)` if what you want to make is a mutable implementation. AbstractList extends AbstractCollection, and adds one abstract method, `get(int index)`, and three methods that throw an `UnsupportedOperationException`, `set(int, E)`, `remove(int)`, and `add(int, E)`. Same, implementing List is super simple. Just extend AbstractList. You have three methods to implement and four to override if you need to make it a mutable implementation.
+
+```java
+abstract class AbstractCollection<E> {
+    abstract Iterator<E> iterator();
+    abstract int size();
+    boolean add(E e) {
+        throw new UnsupportedOperationException();
+    }
+}
+```
+
+```java
+abstract class AbstractList<E> extends AbstractCollection<E> {
+    abstract E get(int index);
+    
+    // the following throw UnsupportedOperationException
+    E set(int index, E e) {}
+    E remove(int index) {}
+    boolean add(int index, E e) {}
+}
+```
+
+```java
+class ArrayList<E> extends AbstractList<E> {
+    // implements iterator() and size() overrides add(E)
+}
+class LinkedList<E> extends AbstractList<E> {
+    // implements iterator() and size() overrides add(E)
+}
+```
+
+One last word; the same goes for Maps. There is one class to extend, AbstractMap, with one abstract method, `entrySet()`. The two methods you need to override to make your implementation mutable are `put(K, V)` and `Entry.setValue()`. This template method pattern is really great and it can really make your life much easier.
+</details>
