@@ -9211,3 +9211,30 @@ double average = stats.getAverage();
 
 One last word, these summary statistics objects are in fact Consumers, and all the statistics are computed in the `accept()` method of these Consumers. So, if you need other statistics than these, copying this pattern is very easy. You just need to create your own Summary Statistics object, and copy the pattern from one of the factory methods. And it even supports parallelism.
 </details>
+
+## 361. Should you comment your code?
+<details>
+  <summary>Short Answer</summary>
+No.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+If you need comments to explain your code, it means that it is not readable enough. So, instead of writing comments, you should work on the readability of your code. That should be your first reflex and it's much harder to do. Comments are not documentation. Documentation is written using the Javadoc and Javadoc is of paramount importance. It should be precise, accurate, it should give you example on how to use your code and explain what is happening if something goes wrong. Your Javadoc should be proofread during your code reviews to make sure it has the right level of quality. Comments, on the other hand, live their own life and your code also lives its own life, but both are not always related. Sometimes comments are just useless and sometimes you fix bugs in your code or change what it's doing, leaving the comments as they are. And at some point, what the comments tell you about your code is no longer related to what your code is actually doing. So, no one reads them anymore and they just stay there rotting, polluting your code base.
+
+```java
+class USer {
+    String firstName;
+    String firstName() {
+        // returns the name
+        if (this.firstName != null) {
+            return this.firstName;
+        } else {
+            return "";
+        }
+    }
+}
+```
+
+One last word; there are exceptions to this rule. For instance, when you need to give some detail on a complex algorithm, your code implements. You can check the `ConcurrentHashMap` or the `ConcurrentSkipListMap` classes, for instance.
+</details>
