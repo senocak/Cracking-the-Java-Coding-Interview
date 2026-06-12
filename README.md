@@ -9432,3 +9432,34 @@ ints
 
 One last word; in the case of an ORDERED parallel stream, `takeWhile()` has to manage an internal counter, shared among the different threads running your stream. It will hurt your performance. One more reason to think twice before using parallel streams.
 </details>
+
+## 368. What is padding?
+<details>
+  <summary>Short Answer</summary>
+Padding is about adding unused bytes in memory.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+It has to do with memory alignment. Some CPUs are connected to their memory in a way that makes accessing some words, like 32-bit words or 64-bit words, faster if they are stored at addresses divisible by 4 or by 8. The JVM knows that and to optimize the read and write performance adds bytes when needed to make sure that all the old data is properly aligned in memory. It can also optimize the layout of your object in memory to make sure that padding is kept minimal.
+
+```java
+class Key {
+    String name;
+    short value;
+    byte flag;
+    int age;
+    byte data
+}
+```
+
+| Address      | Byte 0      | Byte 1 | Byte 2 | Byte 3      |
+|--------------|-------------|--------|--------|-------------|
+| 0x00BDE000   | Ref to name | Ref to name | Ref to name | Ref to name |
+| 0x00BDE004   | value       | value  | flag   | padding     |
+| 0x00BDE008   | age         | age    | age    | age         |
+| 0x00BDE00C   | data        |        |        |             |
+| 0x00BDE010   |             |        |        |             |
+
+One last word; when you need to read a file that is not using any padding, you may come across alignment issues. Reason why, you can specifically read unaligned data with the Memory API from JDK 22. And that will be for another time.
+</details>
