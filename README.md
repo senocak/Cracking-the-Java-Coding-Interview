@@ -9410,3 +9410,25 @@ class ForkJoinPool implements ExecutorService {}
 
 One last word; there are two Fork / Join Pools running in your JVM. The Common Fork / Join Pool that runs your parallel streams and another one that runs your virtual threads. And they don't work exactly in the same way. But that's for for another time.
 </details>
+
+## 367. How does takeWhile() work?
+<details>
+  <summary>Short Answer</summary>
+It acts like a door that closes on a Predicate.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+`takeWhile()` is an intermediate method of the Stream interface, and it takes a Predicate as a parameter. If your stream is not parallel, then it will evaluate the predicate for all the elements one by one. As long as the predicate evaluates to true, the elements are pushed to the downstream, but when it becomes false, then the stream is interrupted. If your stream is not ORDERED, and possibly parallel, then `takeWhile()` may push any subset of elements to the downstream that matches the predicate and interrupt the stream when it finds an element that does not. If your stream is ORDERED, then this subset is the longest sequence of matching elements, starting at the first element of your stream.
+
+```java
+var ints = Stream.of(2, 4, 1, 0, 1, 6, 3, 6, 2, 7);
+ints
+    .stream()
+    .takeWhile(n -> n < 6)
+    .toList();
+// > [2, 4, 1, 0, 1]
+```
+
+One last word; in the case of an ORDERED parallel stream, `takeWhile()` has to manage an internal counter, shared among the different threads running your stream. It will hurt your performance. One more reason to think twice before using parallel streams.
+</details>
