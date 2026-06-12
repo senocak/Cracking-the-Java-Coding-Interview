@@ -9385,3 +9385,28 @@ class B extends A {
 
 One last word; instead of letting the compiler calling the super constructor first for you, the good practice is to not call `super()` explicitly after you have initialized your object. One less place for bugs to hide. Neat.
 </details>
+
+## 366. What is the difference between an Executor Service and a Fork / Join Pool?
+<details>
+  <summary>Short Answer</summary>
+A Fork / Join Pool is an Executor Service.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Executor service is an interface and Fork / Join Pool is a class that implements this interface. The first interface is the Executor interface. It defines the submission of a Runnable and the Executor Service extends Executor. It supports Callables, returns the Future on a submission of a Callable, and defines two shutdown strategies. Usually, the implementation of Executor Services have one wait list in which they store the tasks you submit and a pool of thread. Each thread takes a task from this wait list and executes it. A Fork / Join Pool has one wait list per thread and each task is supposed to split itself, spawning at least two other tasks that are stored in the same wait list. Then, it implements the work stealing pattern, meaning that if a thread has an empty wait list, it can steal a task from another wait list. This has a cost when it comes to visibility issues and cache misses, but is necessary to keep all your threads busy.
+
+```java
+interface Executor {
+    void submit(Runnable task);
+}
+interface ExecutorService extends Executor {
+    <T> Future<T> submit(Callable<T> task);
+    void shutdown();
+    List<Runnable> shutdownNow();
+}
+class ForkJoinPool implements ExecutorService {}
+```
+
+One last word; there are two Fork / Join Pools running in your JVM. The Common Fork / Join Pool that runs your parallel streams and another one that runs your virtual threads. And they don't work exactly in the same way. But that's for for another time.
+</details>
