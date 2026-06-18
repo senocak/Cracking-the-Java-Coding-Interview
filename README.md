@@ -9463,3 +9463,23 @@ class Key {
 
 One last word; when you need to read a file that is not using any padding, you may come across alignment issues. Reason why, you can specifically read unaligned data with the Memory API from JDK 22. And that will be for another time.
 </details>
+
+## 369. How can you compare objects for equality?
+<details>
+  <summary>Short Answer</summary>
+Your best choice is to use the `Objects.equals()` factory method.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Of course, the most obvious choice would be to call `a.equals(b)`, but it can fail if a is null. So, if you want your code to be robust, you first need to check if a is null, and then if b is also null, then you may want to return true. And suddenly, something that was supposed to be super simple becomes a mess in your application. JDK 7 added this small utility class: `Objects`, that has an `equals()` method that does all this for you. It's not a revolution, it's just so much simpler.
+
+```java
+var u1 = null;
+var u2 = new User(...);
+var equals = u1.equals(u2); // :(
+var equals = Objects.equals(u1, u2); // :)
+```
+
+One last word; Objects also has a `hashCode()` method that takes an object, and if this subject is null, it returns zero. Simple and useful.
+</details>
