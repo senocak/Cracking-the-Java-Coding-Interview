@@ -9494,12 +9494,46 @@ A set of principles for object-oriented programming that you should know and fol
 
 The SOLID acronym was coined by Ken Beck, author of several books on Test Driven Development and eXtreme Programming, among others. The `S` is for the Single Responsibility Principle. One reason to change your class or your method. One stakeholder, two is already too much. The `O` is the Open-Closed Principle. Open for extension and Closed for modification. You can implement it with composition, which makes it even more powerful. The `L` principle is the Liskov Substitution Principle, named after Barbara Liskov. It defines what inheritance is. If an instance of B behaves the same as an instance of A, to a point that you cannot tell which one is which, then B extends A. `I` is for Interface Segregation. In a nutshell, an interface should not have methods that you don't use. And `D` is for Dependency Inversion. If a module A depends on a module B at runtime, then B should depend on A at compile time. The two dependency arrows are opposite. This is what inversion means.
 
-```java
-var u1 = null;
-var u2 = new User(...);
-var equals = u1.equals(u2); // :(
-var equals = Objects.equals(u1, u2); // :)
+```md
+SOLID Principle:
+S: Single Responsibility Principle
+O: Open-Closed Principle
+L: Liskov Substitution Principle
+I: Interface Segregation Principle
+D: Dependency Inversion Principle
 ```
 
 One last word; all this may sound like old stuff, and it is. These principles have been around for more than 25 years, but applying them will help you make your legacy code much easier to manage.
+</details>
+
+## 371. What is a megamorphic call?
+<details>
+  <summary>Short Answer</summary>
+A method call that the JVM has a hard time optimizing.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+You write your code against interfaces, right? Like when you need a List, you make it a List and not an ArrayList. So, it means that at run time, the JVM needs to find the implementation you're calling because it's not in the bytecode. This is called a `virtual call` and it happens every time you call a method that can be overridden somewhere. But then, if the JVM realizes that at runtime, a particular virtual call always called the same implementation, then it can optimize things and make it like a non-virtual call, a regular call, which will be much faster. A megamorphic call is a call that cannot be optimized in that way because you have too many overriding versions of the method you're calling, and the JVM needs to check which one you are calling. And the bad news is that too many starts at three. So, a megamorphic call is a virtual call with at least three possible implementation.
+
+```java
+abstract class Shape {
+    abstract double surface();
+}
+class Square extends Shape {
+    double surface() { ... }
+}
+class Rectangle extends Shape {
+    double surface() { ... }
+}
+class Triangle extends Shape {
+    double surface() { ... }
+}
+
+double computeSurface(List<Shape> shapes) {
+    return shapes.stream().mapToDouble(Shape::surface).sum();
+}
+```
+
+One last word; with sealed types and pattern matching, you can eliminate all the virtual calls of your application. Will it be better performance-wise? Well, it is something worth checking. When it comes to performance, measure, don't guess.
 </details>
