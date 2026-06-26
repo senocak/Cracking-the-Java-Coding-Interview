@@ -9537,3 +9537,35 @@ double computeSurface(List<Shape> shapes) {
 
 One last word; with sealed types and pattern matching, you can eliminate all the virtual calls of your application. Will it be better performance-wise? Well, it is something worth checking. When it comes to performance, measure, don't guess.
 </details>
+
+## 372. How can you read and write unaligned elements?
+<details>
+  <summary>Short Answer</summary>
+There is a pattern for that.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+You need to use the `Memory API` for that, from the Panama project. First, you create an Arena and then create a Memory Segment from this Arena. This Memory Segment can represent a portion of memory from the off-heap memory of your application or an array that lives on the heap. You can use the `set()` method to write some data to this Memory Segment that takes a Memory Layout, and offset and of course, a value. The Memory Layout and the offset you pass needs to be compatible. If you need to write some unaligned data, then you need to pass an unaligned Memory Layout. If you don't and you try to write at an offset that is not aligned, then you will get an IllegalArgumentException.
+
+```java
+try(var arena = Arena.openConfined()){
+var segment = arena.allocate(10);
+    segment.set(
+        OfInt.JAVA_INT,
+        0L, // aligned object
+        10);
+    segment.set(
+        OfInt.JAVA_INT,
+        1L, // unaligned object -> IllegalStateException
+        10);
+    segment.set(
+        OfInt.JAVA_INT_UNALIGNED,
+        1L, // unaligned offset -> OK
+        10);
+    
+}
+```
+
+One last word; you need to keep in mind that there is an overhead when you read and write unaligned data. So, you should use this feature only if you absolutely need it.
+</details>
