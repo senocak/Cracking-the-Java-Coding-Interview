@@ -9483,3 +9483,23 @@ var equals = Objects.equals(u1, u2); // :)
 
 One last word; Objects also has a `hashCode()` method that takes an object, and if this subject is null, it returns zero. Simple and useful.
 </details>
+
+## 370. What are the SOLID principles?
+<details>
+  <summary>Short Answer</summary>
+A set of principles for object-oriented programming that you should know and follow.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+The SOLID acronym was coined by Ken Beck, author of several books on Test Driven Development and eXtreme Programming, among others. The `S` is for the Single Responsibility Principle. One reason to change your class or your method. One stakeholder, two is already too much. The `O` is the Open-Closed Principle. Open for extension and Closed for modification. You can implement it with composition, which makes it even more powerful. The `L` principle is the Liskov Substitution Principle, named after Barbara Liskov. It defines what inheritance is. If an instance of B behaves the same as an instance of A, to a point that you cannot tell which one is which, then B extends A. `I` is for Interface Segregation. In a nutshell, an interface should not have methods that you don't use. And `D` is for Dependency Inversion. If a module A depends on a module B at runtime, then B should depend on A at compile time. The two dependency arrows are opposite. This is what inversion means.
+
+```java
+var u1 = null;
+var u2 = new User(...);
+var equals = u1.equals(u2); // :(
+var equals = Objects.equals(u1, u2); // :)
+```
+
+One last word; all this may sound like old stuff, and it is. These principles have been around for more than 25 years, but applying them will help you make your legacy code much easier to manage.
+</details>
