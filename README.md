@@ -9569,3 +9569,32 @@ var segment = arena.allocate(10);
 
 One last word; you need to keep in mind that there is an overhead when you read and write unaligned data. So, you should use this feature only if you absolutely need it.
 </details>
+
+## 373. How much memory does an object consume?
+<details>
+  <summary>Short Answer</summary>
+It depends.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+It really depends!. It is even dependent on the machine that is running your application. If it is a 64-bit machine, odds are that an object will need more memory than on a 32-bit machine. Each object has a header that is made of one 32-bit and one 64-bit words on 32-bit machine or on a 64-bit machine, but your application lives in a heap up to 32 GB and two 64-bit words on 64-bit machine and heaps above 32 GB. Then there is a second overhead, which is due to alignment. For instance: an integer in an application that has a 64 GB heap on the 64-bit machine takes two 64-bit words. Then the integer itself, so 32 bits, and then 32 more bits of padding to preserve alignment. That's six 32-bit words, to carry one 32-bit word of information.
+
+```java
+var index = Integer.valueOf(10);
+
+// 64 bits OS with > 32GB heap
+// Header: 64 + 64 bits
+// value = 10: 32 bits
+// alignment: 32 bits
+// total = 6 x 32 bits
+
+// 32 bits OS or 64 bits OS with < 32GB heap
+// Header: 32 + 64 bits
+// value = 10: 32 bits
+// Already aligned
+// total = 4 x 32 bits
+```
+
+One last word; there are two ways of optimizing that. The first one is the project `Lilliput`, which consists in drastically reducing the size of the header, and the second one is the `Valhalla` project that removes the header completely for Value objects. But that will be for another time.
+</details>
