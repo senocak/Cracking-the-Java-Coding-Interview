@@ -9700,3 +9700,16 @@ It has to do with concurrency. Doing too many context switches in an application
 
 One last word; using Virtual Threads help you preventing context switching to happen, since blocking a virtual thread does not block the kernel thread that is running it. One less bug to take care of in your application.
 </details>
+
+## 377. What is a SUBSIZED stream?
+<details>
+  <summary>Short Answer</summary>
+A good candidate to be executed in parallel.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+SIZED means that you know how many elements the stream will process. For instance, a stream opened on any Collection is SIZED because you just need to call `size()` on the Collection to get this information. SUBSIZED means that if you split this stream in two sub-streams, then you still know how many elements each sub-stream will process. Not all Collections give you SUBSIZED streams. List do, if you split a list in two, you know how many elements you have in each sub-list, but Sets do not. Splitting a Set consists in splitting its internal array, and you do not know how many elements you have in the two sub-arrays you get. If you're unlucky, you may have zero element in the first one, and all the elements in the second one.
+
+One last word; splitting a source is what parallel streams do. So, do not use parallel streams with a source of data that is not easily splittable. And even if it is, think twice before using parallel streams. It may hurt your application instead of improving it.
+</details>
