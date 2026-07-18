@@ -9713,3 +9713,30 @@ SIZED means that you know how many elements the stream will process. For instanc
 
 One last word; splitting a source is what parallel streams do. So, do not use parallel streams with a source of data that is not easily splittable. And even if it is, think twice before using parallel streams. It may hurt your application instead of improving it.
 </details>
+
+## 378. How can you get the number of characters in a String?
+<details>
+  <summary>Short Answer</summary>
+You probably think that's an easy answer. Well, it's harder than what you think.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+It depends on what you call a character. You have a `length()` method on the String class. And if you check the JavaDoc carefully, you will see that it returns the number of Unicode Code Unit this String has. A Code Unit is used for 16-bit chars, but some Unicode characters may be encoded on two code units and even more than that. So, if your application is playing with characters encoded on two chars, then length does not return the number of characters of your string and you may end up with a string that displays only one character on your screen, but with a length of two or more.
+
+```java
+var string = "Hello";
+var length = string.length();
+// > 5
+
+var string = "🍉";
+IO.println("This is water melon: " + 🍉);
+// > This is water melon: 🍉
+var length = string.length();
+// > 2
+// \uD83C
+// \uDF48
+```
+
+One last word, there are two notions; Code unit, which is a char, and Code Point, which is an int. And not all values of this int are valid. That will be for another time.
+</details>
