@@ -9654,3 +9654,36 @@ public class AugmentTest {
 
 One last word; and all this also works if you write your JavaDoc in Markdown. Neat.
 </details>
+
+## 375. What is an EnumSet?
+<details>
+  <summary>Short Answer</summary>
+A Set.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+An EnumSet is a set that can hold some values of a single enum. The implementation stores them in a bit vector, which is very efficient both memory-wise and CPU-wise. There are several factory methods that you can use to create an EnumSet. `allOf()` puts all the enum values in the Set. `noneOf()`, gives you an empty EnumSet of the right type. Then you can choose the values you want to add one by one, and then you have this `complementOf()` method that takes another Set and that gives you the complement of this other Set.
+
+```java
+enum Colors {
+    RED, YELLOW, GREEN, CYAN, BLUE, MAGENTA
+}
+var set = EnumSet.allOf(Color.class);
+// > [RED, YELLOW, GREEN, CYAN, BLUE, MAGENTA]
+
+var set = EnumSet.noneOf(Color.class);
+// > []
+
+var set = EnumSet.of(Color.RED, Color.BLUE);
+// > [RED, BLUE]
+
+var set1 = EnumSet.range(Color.RED, Color.CYAN);
+// > [RED, YELLOW, GREEN, CYAN]
+
+var set2 = EnumSet.complementOf(set1);
+// > [BLUE, MAGENTA]
+```
+
+One last word; an EnumSet is modifiable, but you cannot add null elements to it. Why would add null elements to a Set? Which is expected, since it can only contain value from enums and enums cannot have null values.
+</details>
