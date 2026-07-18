@@ -9687,3 +9687,16 @@ var set2 = EnumSet.complementOf(set1);
 
 One last word; an EnumSet is modifiable, but you cannot add null elements to it. Why would add null elements to a Set? Which is expected, since it can only contain value from enums and enums cannot have null values.
 </details>
+
+## 376. What is Context Switching?
+<details>
+  <summary>Short Answer</summary>
+Something you want to avoid.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+It has to do with concurrency. Doing too many context switches in an application is something that will hurt your performance badly. Reason why you need to avoid that. When a thread is running on one of the cores of your CPU, it is there with all the information it needs to run, the code, the data, and some other stuff. All this is stored in a cache and the registers of this core. This is what the context of this thread is. At some point, the operating system may decide to pause this thread and to give a hand to another one. So, all the data this thread uses is removed from the core to be brought back at a later time. Doing this takes in the order of 100 microseconds, which is quite a lot. It will happen, for instance, if this thread is executing some network call and is waiting for the data to be there, doing nothing. Reason why you should never do that with kernel threads.
+
+One last word; using Virtual Threads help you preventing context switching to happen, since blocking a virtual thread does not block the kernel thread that is running it. One less bug to take care of in your application.
+</details>
