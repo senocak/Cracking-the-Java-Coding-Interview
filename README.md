@@ -9598,3 +9598,59 @@ var index = Integer.valueOf(10);
 
 One last word; there are two ways of optimizing that. The first one is the project `Lilliput`, which consists in drastically reducing the size of the header, and the second one is the `Valhalla` project that removes the header completely for Value objects. But that will be for another time.
 </details>
+
+## 374. How can you add a snippet of code in your JavaDoc?
+<details>
+  <summary>Short Answer</summary>
+There is a pattern for that.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+There are actually several. The first one consists in adding the snippet directly in your Java doc comment. It's nice, it works well, but you cannot validate this snippet at runtime like it was a unit test. So, there is a better way which consists in including a region of a class. You reference that class with a class tag and then the region you want to include in your JavaDoc. This class needs to live in a snippet-files directory of the package where the class that references the snippet lives. On the one hand, it's convenient because your IDE can read this class and render your JavaDoc on the fly, but on the other hand, Maven will have a hard time running all these classes as unit tests. So, you can also use a special option when you run your JavaDoc tool, which is `--snippet-path`.
+
+```java
+/**
+ * The following method can be used in that way
+ * {@snippet :
+ *      var augmented = augment(List.of(1, 2, 3));
+ * }
+ */
+List<Integer> augment(List<Integer> ints) {
+    var newInts = new ArrayList<>(ints);
+    var element = ints.getLast();
+    newInts.add(element + 1);
+    return newInts;
+}
+```
+
+```java
+/// 
+/// The following method can be used in that way
+/// {@snippet
+///      file "AugmentTest.java"
+///      class AugmentTest
+///      region = "show-augment"
+/// }
+/// 
+List<Integer> augment(List<Integer> ints) {
+    var newInts = new ArrayList<>(ints);
+    var element = ints.getLast();
+    newInts.add(element + 1);
+    return newInts;
+}
+```
+
+```java
+// in a snippet-files directory
+public class AugmentTest {
+    public id sometMethod() {
+        // @start region = "show-augment"
+        var augmented = augment(List.of(1, 2, 3));
+        // @end
+    }
+}
+```
+
+One last word; and all this also works if you write your JavaDoc in Markdown. Neat.
+</details>
