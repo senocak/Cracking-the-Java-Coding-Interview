@@ -9807,3 +9807,56 @@ var indexOf5 = Collections.binarySearch(5);
 
 One last word; if the object is not in the list, then you will get `-index-1`, where index is the index at which this object would have been inserted without breaking the sorted order. Note that this number is negative to denote that the object was not found. And one very last word; Only use this pattern on `ArrayList` because this `log(n)` complexity is achieved only if you can access any element in constant time.
 </details>
+
+## 381. How can you compare arrays for equality?
+<details>
+  <summary>Short Answer</summary>
+There is a pattern for that.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+When you think about it, it can be a little more complex than what you may think at first. As you know, Array itself is an object in Java, so it has an `equals()` method. But, this `equals()` method compare the two references of the arrays. So, in that sense, an array can only be equal to itself. Most of the time, what you need is to compare the content of your arrays. Saying, two arrays are equal, if the elements they contain are equal and in the same order. So, what you need in that case is one of the `Arrays.equals()` method. These methods take two arrays and can also take indexes to compare only a portion of the first array to a portion of the second array. And, you think you're done, well, you're not. Because an array can itself contain sub-arrays, and if you want to compare them with the same `Arrays.equals()` method, then you need to call another method, which is `Arrays.deepEquals()`. So, for simple arrays, you call `Arrays.equals()`, and for multi-dimensional arrays, you call `Arrays.deepEquals()`.
+
+```java
+var ints1 = new int[] { 1, 2, 3 };
+var ints2 = new int[] { 1, 2, 3 };
+var equals = ints1.equals(ints2);
+IO.println(equals);
+// > false
+```
+
+```java
+var ints1 = new int[] { 1, 2, 3 };
+var ints2 = new int[] { 1, 2, 3 };
+var equals = Arrays.equals(int1, int2);
+IO.println(equals);
+// > true
+```
+
+```java
+var ints1 = new int[] { 1, 2, 3 };
+var ints11 = new int[] { ints1 };
+
+var ints2 = new int[] { 1, 2, 3 };
+var ints21 = new int[] { ints2 };
+
+var equals = Arrays.equals(int11, int21);
+IO.println(equals);
+// > false
+```
+
+```java
+var ints1 = new int[] { 1, 2, 3 };
+var ints11 = new int[] { ints1 };
+
+var ints2 = new int[] { 1, 2, 3 };
+var ints21 = new int[] { ints2 };
+
+var equals = Arrays.deepEquals(int11, int21);
+IO.println(equals);
+// > true
+```
+
+One last word; all these methods support null values in your arrays. Why would you put null values in an array? So, they will not fail in case of nulls and work with the following convention, two null values are equal. Again, don't put null values in your arrays.
+</details>
