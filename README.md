@@ -9860,3 +9860,46 @@ IO.println(equals);
 
 One last word; all these methods support null values in your arrays. Why would you put null values in an array? So, they will not fail in case of nulls and work with the following convention, two null values are equal. Again, don't put null values in your arrays.
 </details>
+
+## 382. How can you get the max of a Collection?
+<details>
+  <summary>Short Answer</summary>
+There are patterns for that.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+There are actually several patterns with different pros and cons. If what you need is just to extract the max without transforming the elements of your collection or without filtering them, then `Collections.max()` is a good choice. It is a factory method, so you need to pass your collection and pass a Comparator if you need to get the max. Note that if your collection has null elements, you will get a `NullPointerException`. And if your collection is empty, you will get a `NoSuchElementException`. The second pattern is, of course, based on streams. Just call `stream()`, then `max()`, and pass your Comparator. And you will also get a `NullPointerException` if there is a null value in your stream. But if your stream is empty, you will get an empty Optional because `max()` returns an Optional, which is probably better when it comes to error handling.
+
+```java
+var ints1 = List.of(1, 2, 3, 4);
+var max = Collections.max(ints, Comparator.<Integer>naturalOrder().reversed());
+// > 1
+```
+
+```java
+var ints1 = List.of(1, null, 3, 4);
+var max = Collections.max(ints);
+// > NullPointerException
+```
+
+```java
+var ints1 = List.of();
+var max = Collections.max(ints);
+// > NoSuchElementException
+```
+
+```java
+var stream = Stream.of(1, null, 3);
+var max = stream.max(Comparator.naturalOrder());
+// > NullPointerException
+```
+
+```java
+var stream = Stream.<Integer>of();
+var max = stream.max(Comparator.naturalOrder());
+// > Optional.empty
+```
+
+One last word; be careful with the Stream pattern because you still need to pay the price of the creation of the stream, which is an overhead that you may want to avoid. So, unless there are specific stream features that you need, using the good old `Collections.max()` is probably your best choice.
+</details>
