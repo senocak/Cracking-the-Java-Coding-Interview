@@ -9740,3 +9740,36 @@ var length = string.length();
 
 One last word, there are two notions; Code unit, which is a char, and Code Point, which is an int. And not all values of this int are valid. That will be for another time.
 </details>
+
+## 379. How can you limit the number of concurrent requests?
+<details>
+  <summary>Short Answer</summary>
+That's the job of the Semaphore.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+There is indeed a `Semaphore` class in the JDK that you can use for that, and this is the nice way of doing that because your code is then saying what it does: "I want to limit the number of requests on this server". A wrong way of doing it would be to use a specific Executor Service for that and to fix the number of threads to your limit. It will also work, but it's a hidden way to achieve the same result, and it's dangerous for your application. But there is yet a third way, which consists in using a `Gatherer`. Stream your requests call `gatherer()`, pass a `Gatherers.mapConcurrent()`, which takes a max Concurrency integer and a mapper. Each mapping is executed in a Virtual Thread, perfect for IO requests, and the number of active mappings at a given time is limited by this max Concurrency integer. So, you have a free Semaphore doing the job for you internally.
+
+```java
+var semaphore = new Semaphore(10);
+try {
+    semaphore.acquire();
+    scope.fork(Service::readData);
+} finally {
+    semaphore.release();
+}
+```
+
+```java
+var executor = Executors.newFixedThreadPool(10);
+executor.submit(Service::readData);
+```
+
+```java
+var requests = List.of(/* your requests */);
+var result = requests.stream().gather(Gatherers.mapConcurrent(10, Service::readData)).toList();
+```
+
+One last word; do not use this pattern in a parallel stream because it will be a complete disaster. Stick to a normal stream, your code will be simpler and will work as intended.
+</details>
