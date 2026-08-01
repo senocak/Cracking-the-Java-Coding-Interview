@@ -9773,3 +9773,37 @@ var result = requests.stream().gather(Gatherers.mapConcurrent(10, Service::readD
 
 One last word; do not use this pattern in a parallel stream because it will be a complete disaster. Stick to a normal stream, your code will be simpler and will work as intended.
 </details>
+
+## 380. How can you search for an element in a list?
+<details>
+  <summary>Short Answer</summary>
+There is a very good pattern for that.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Of course, you can call `list.contains()`, which will tell you if the object you pass is present or not, or `indexOf()`, which will give you the first index of this object. These methods are slow because they scan all the elements of your list, one after the other, so if you have many elements in your list, it may take some time. If what you have is a list that was previously sorted, then you can call `Collections.binarySearch()`. It works if your objects are `Comparable`, or it can take a `Comparator` as an argument. The implementation uses a binary search algorithm that has a `log(n)` complexity. Two caveats. First, if your list is not sorted, it will not throw any exception and will return something, but it may take some time. Second, if the object you're looking for is present several times in the list, then you will get any one of the valid indexes.
+
+```java
+var ints = List.of(0, 2, 4, 6, 8);
+var isPresent = ints.contains(4);
+// > true
+```
+
+```java
+var ints = List.of(0, 2, 4, 6, 8);
+var isPresent = ints.indexOf(4);
+// > 2
+```
+
+```java
+var ints = List.of(0, 2, 4, 6, 8);
+var indexOf4 = Collections.binarySearch(4);
+// > 2
+
+var indexOf5 = Collections.binarySearch(5);
+// > -3
+```
+
+One last word; if the object is not in the list, then you will get `-index-1`, where index is the index at which this object would have been inserted without breaking the sorted order. Note that this number is negative to denote that the object was not found. And one very last word; Only use this pattern on `ArrayList` because this `log(n)` complexity is achieved only if you can access any element in constant time.
+</details>
