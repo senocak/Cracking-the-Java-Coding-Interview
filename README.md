@@ -9962,3 +9962,38 @@ public class MyClass {
 
 One last word, this preview feature mechanism is useful because you can activate them on demand without having to download some separate elements of the JDK. So, it's easy to check for them, to play with them, and to provide feedback on the OpenJDK mailing list. If you feel something is missing or wrong. This is something you should definitely do.
 </details>
+
+## 385. What is a group in regular expessions
+<details>
+  <summary>Short Answer</summary>
+Something very useful to analyze strings of characters.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Groups are actually a feature of regular expressions specified outside of the JDK. A group is just a portion of your regular expression between parentheses, like on this example. With such a regular expression, you can analyze a string of characters, match it to get a Matcher, and if you have a match, then get the different elements you need from it. The nice thing is that you can give names to groups to make your code more expressive. You can specify the name of this group in that way, in your regular expression, and then if you have a match, you can get the values of the different groups by their names, which makes your code much more readable.
+
+```java
+var pattern = Pattern.compile("(\d+);([ a-zA-Z]+);([\\d]+)$");
+var line = "12;New York;2 000 000";
+var matcher = pattern.matcher(line);
+if(matcher.matches()) {
+    IO.println("id=" + matcher.group(1));
+    IO.println("city=" + matcher.group(2));
+    IO.println("population=" + matcher.group(3));
+}
+```
+
+```java
+var pattern = Pattern.compile("(?<id>\d+);(?<city>[ a-zA-Z]+);(?<population>[\\d]+)$");
+var line = "12;New York;2 000 000";
+var matcher = pattern.matcher(line);
+if(matcher.matches()) {
+    IO.println("id=" + matcher.group("id"));
+    IO.println("city=" + matcher.group("city"));
+    IO.println("population=" + matcher.group("population"));
+}
+```
+
+One last word; Remember that you have a Stream pattern to analyze a long text with a regular expression, in a lazy way. If what you're looking for is the first occurrence of something, then this pattern is the one you want to use.
+</details>
