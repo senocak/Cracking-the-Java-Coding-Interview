@@ -9903,3 +9903,30 @@ var max = stream.max(Comparator.naturalOrder());
 
 One last word; be careful with the Stream pattern because you still need to pay the price of the creation of the stream, which is an overhead that you may want to avoid. So, unless there are specific stream features that you need, using the good old `Collections.max()` is probably your best choice.
 </details>
+
+## 383. What is jlink?
+<details>
+  <summary>Short Answer</summary>
+A standard tool of the JDK.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+The JDK gives you two tools that work together to package and distribute your application as an executable or as an installer. The first tool is called `jlink`. It is part of the JDK distribution and it does exactly what it means. If your application is a modular application, it lists all the modules your application depends on and it does that even for the modules of the JDK itself. So, you get only the modules you need, stripping the ones you do not depend on. It also means that you need to be careful with the module you depend on, depending on a several megabytes module when all you need is a single class or two may not be the best idea.
+
+```bash
+> jlink
+ --module-path \
+    target/classes; \
+    target/dependency \
+ --add-modules \
+    org.myapp.mymodule \ // your module
+ --bind-services \
+ --strip-debug \
+ --no-header-files \
+ --no-man-pages \
+ --output myapp-image  // the output directory
+```
+
+One last word; once you have that, you can use `jpackage` to create an installer to distribute your application. It works on Windows, MacOS and various flavors of Linux. But, that will be for another time.
+</details>
