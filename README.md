@@ -9997,3 +9997,29 @@ if(matcher.matches()) {
 
 One last word; Remember that you have a Stream pattern to analyze a long text with a regular expression, in a lazy way. If what you're looking for is the first occurrence of something, then this pattern is the one you want to use.
 </details>
+
+## 386. What is a canonical constructor?
+<details>
+  <summary>Short Answer</summary>
+A constructor.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+A canonical constructor has to do with `Records`. When you declare a record, you do not need to write its constructor. You just declare the components of this record and the compiler generates the constructor that takes these components for you. This constructor that takes all the components is called the canonical constructor. Records have been designed in such a way that you cannot create a record instance without calling its canonical constructor. Even if you create more constructors for your record, then you need to call this canonical constructor. And even deserialization follows this specification. So, if you have validation rules in a canonical constructor, you have the guarantee that they will be executed for all the instances of this record without any exception.
+
+```java
+record Point(int x, int y) {
+    // another constructor...
+    Point() {
+        // ...needs to call the canonical constructor
+        this(0, 0);
+    }
+}
+// calls the canonical constructor
+var p0 = new Point(1, 1);
+var p1 = new Point();
+```
+
+One last word; when you think about it, record is the only kind of class that offers this guarantee. For regular classes, deserialization does not call any constructor and so it's not possible to validate your instances in that case.
+</details>
