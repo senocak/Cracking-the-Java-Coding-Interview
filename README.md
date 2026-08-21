@@ -10023,3 +10023,35 @@ var p1 = new Point();
 
 One last word; when you think about it, record is the only kind of class that offers this guarantee. For regular classes, deserialization does not call any constructor and so it's not possible to validate your instances in that case.
 </details>
+
+## 387. What is the stack of a thread?
+<details>
+  <summary>Short Answer</summary>
+A portion of memory.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Fortunately, this is something you do not need to take care of in Java, as it is managed for you by the API. In a nutshell: the stack of a thread is the portion of memory used by a thread to store everything it needs. It stores all the local variables created by the code it executes and can have references to the heap. References themselves live on the stack and the memory referenced lives on the heap. What lives on the stack is not shared. Each thread has its own and it's not the case for the heap, of course, where all the threads of your application can read and write data. The heap is where race conditions can happen. No race condition for what you have on the stack.
+
+```mermaid
+flowchart TB
+
+    T1["Thread 1<br/><br/>Register<br/><br/>Program Counter<br/><br/>Stack"]
+    T2["Thread 2<br/><br/>Register<br/><br/>Program Counter<br/><br/>Stack"]
+    T3["Thread 3<br/><br/>Register<br/><br/>Program Counter<br/><br/>Stack"]
+
+    HEAP["Heap<br/><br/>(shared by all threads)"]
+
+    T1 --- HEAP
+    T2 --- HEAP
+    T3 --- HEAP
+
+    style T1 fill:#f57c00,color:white,stroke:white,stroke-width:2px
+    style T2 fill:#69b342,color:white,stroke:white,stroke-width:2px
+    style T3 fill:#888888,color:white,stroke:white,stroke-width:2px
+    style HEAP fill:#4778c5,color:white,stroke:white,stroke-width:2px
+```
+
+One last word, threads are a system resource and the size of the stack is fixed at your system level. It may vary from one operating system to the other, but it's typically several megabytes of memory.
+</details>
