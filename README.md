@@ -9930,3 +9930,35 @@ The JDK gives you two tools that work together to package and distribute your ap
 
 One last word; once you have that, you can use `jpackage` to create an installer to distribute your application. It works on Windows, MacOS and various flavors of Linux. But, that will be for another time.
 </details>
+
+## 384. How can you use the preview features?
+<details>
+  <summary>Short Answer</summary>
+There are two options for that. One for the compiler and another one for the JVM.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+You need to activate preview features at two levels. The first one is the compiler level. You add `--enable-preview` and then you need to specify either the version of the source you're using with `-source`, which could be between 8 and the version of the JDK you're using, or the version of the ByteCode you want to generate with `--target`, followed by the version between 8 and the version of the JDK you're using. And then you need to specify that you wish to run this code with the preview feature enabled, by adding the same option: `--enable-preview` to the Java command. So, in a nutshell, you cannot use preview features by accident. You need to tell the compiler that you want to activate them and at runtime you need to tell the JVM that you want to run them.
+
+```java
+public class MyClass {
+    // lazyConstant is a preview feature of 26
+    static final LazyConstant<String> CONST = LazyConstant.of(() -> "Hello World!");
+    void main() {
+        IO.println(CONST.get());
+    }
+}
+// > javac MyClass.class
+// error: LazyConstant is a preview API and is disabled by default.
+
+// > javac --enable-preview MyClass.class
+// error: --enable-preview must be used with either -source or --release
+
+// > javac --enable-preview -source 26 MyClass.class
+// Note: MyClass.java uses preview features of Java SE 26.
+// Note: Recompile with -Xlint:preview for details.
+```
+
+One last word, this preview feature mechanism is useful because you can activate them on demand without having to download some separate elements of the JDK. So, it's easy to check for them, to play with them, and to provide feedback on the OpenJDK mailing list. If you feel something is missing or wrong. This is something you should definitely do.
+</details>
