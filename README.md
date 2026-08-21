@@ -10055,3 +10055,31 @@ flowchart TB
 
 One last word, threads are a system resource and the size of the stack is fixed at your system level. It may vary from one operating system to the other, but it's typically several megabytes of memory.
 </details>
+
+## 388. How can you format a String of characters?
+<details>
+  <summary>Short Answer</summary>
+There is a method for that.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+There are several solutions given to you by the JDK. The simplest one is probably the `format()` factory method of the String class. It takes a format as a first argument, and then the objects you want to pass to this format to render them as a String. This format is inspired by this horrible format from the C `printf()` function that everybody knows. It is described in the Javadoc of the Formatter class, and there are some differences between the C `printf()` and the Java Formatter. For instance, the errors are not handled in the same way, and some customization has been made.
+
+```java
+var format = "d = %+6.4f%n";
+String.format(format, Math.PI);
+// > d = +3.1416
+
+String.format(format, Math.E);
+// > d = +2.7183
+```
+
+```java
+var format = "d = %+6.4f%n";
+String.format(Locale.FRANCE, format, 10);
+// > IllegalFormatConversionException
+```
+
+One last word; thread safety, may be an issue when it comes to formatting strings. You may think that sharing your formats is a good idea and will save you some resources, but you need to be careful because they carry some mutable state, something you need to be aware of.
+</details>
