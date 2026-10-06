@@ -10233,3 +10233,36 @@ String process() {
 
 One last word; ScopedValue are a great replacement for ThreadLocal variables that you should now use. They do not work in the same way, and because you can control their lifecycle when you bind them, they are much safer for your application.
 </details>
+
+## 394. Can you build an object without calling its constructor?
+<details>
+  <summary>Short Answer</summary>
+No
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Actually you can. The Java language is designed in such a way that calling a constructor is the only way to create an object. Of course, you can create factory methods that you call from your application code so that this constructor call does not appear in this application code, but this factory method does call the constructor. This is how Java was designed from the beginning. But, there is one exception to that, which is `Serialization`. When you deserialize an object, the deserialization mechanism does not call the constructor of that object. It bypasses it, which is actually a security issue because if you have some validation rules in your constructor, they will be bypassed by the deserialization mechanism, allowing corrupted objects to live in your application.
+
+```java
+class User {
+    User() { /* not called */}
+}
+var path = Path.of("object.ser");
+try (var ois = new ObjectInputStream(Files.newInputStream(path))) {
+    User user = ois.readObject();
+} catch(/* exeptions */) {}
+```
+
+```java
+record User {
+    User() { /* called */}
+}
+var path = Path.of("object.ser");
+try (var ois = new ObjectInputStream(Files.newInputStream(path))) {
+    User user = ois.readObject();
+} catch(/* exeptions */) {}
+```
+
+One last word, records were created after serialization was implemented, and they are an exception to the exception. Deserialization does call your record constructors and their validation rules. There is no way you can create a record without calling its canonical constructor. One more reason to use them wherever you can.
+</details>
