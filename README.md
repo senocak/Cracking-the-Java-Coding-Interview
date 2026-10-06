@@ -10139,3 +10139,34 @@ Okay, let me go through some of them. When your object are non-modifiable, you d
 
 One last word; immutability will even bring better performance when Valhalla delivers value classes. And stop making fun of Valhalla not coming anytime soon because it is coming sooner than you expect.
 </details>
+
+## 391. How can you reverse the elements of a List?
+<details>
+  <summary>Short Answer</summary>
+It's a little more tricky than what it seems. 
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+There is a factory method in the Collections factory class, simply called `reversed()`, that does exactly that. Note that there are several traps in this method. First, this method takes a List and not a Collection. Just because a collection is not ordered, so it does not make sense to try to reverse the Collection. Second, this method modifies your list. So, your list needs to be modifiable. And it also needs to have a ListIterator that supports the set operation. It's the case for ArrayList, LinkedList, and even the list you get when you call `Arrays.asList()`, but this is still something you need to keep in mind if your application uses other implementations. But you also have a `reversed()` method added as part of the SequentialList interface extended by List. This `reversed()` method returns a view on your original List without modifying it. So, it also works on non-modifiable lists. Note that this view is modifiable if the original list is itself modifiable. And in that case, modifying the view modifies the original List.
+
+```java
+var ints = List.of(1, 2, 3, 4);
+ints = new ArrayList<>(ints);
+var reversed = Collections.reversed(ints);
+IO.println(ints);
+// > [1, 2, 3, 4]
+
+IO.println(reversed);
+// > [4, 3, 2, 1]
+
+reversed.clear();
+IO.println(reversed);
+// > []
+
+IO.println(ints);
+// > []
+```
+
+One last word, using `Collections.reversed()` may be costly as it needs to process all your list to reverse it. Creating a view is a lightweight process because what you get is a wrapper that operates lazily on your List.
+</details>
