@@ -10294,3 +10294,31 @@ interface Spliterator<E> {
 
 One last word; connecting a stream to a custom source of data is not that hard. You need to implement the Spliterator interface, which is not easy but not impossible, and to pass the Spliterator to the `StreamSupport.stream()` factory class. Neat.
 </details>
+
+## 396. Why should you favor composition over inheritance?
+<details>
+  <summary>Short Answer</summary>
+Because it's written in the manual.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+You read the f*** manual, didn't you? The question you should ask yourself is the following. When you need to add a given behavior to an object, should you create a method on that object, or should you create a delegate that would implement this behavior? Imagine this is the year 2005, and you need to marshal your object in XML. Solution one: you create a `toXML()` method on that class. And solution two: you create this `toXML()` method in a factory class somewhere else. Now, this is 2025, 20 years later, and you do not need this XML anymore, what you need is JSON. In the solution one, you add a `toJSON()` method, but the real question is what do you do with this now useless `toXML()` method? From a functional point of view, this is dead code. Odds are that you will decide to keep it because it would be too costly to refactor your application to remove all the calls to this method. In solution two, you just throw away the class because nobody should be calling it anymore. Composition makes the decoupling of the different modules of your application much easier. And if you think this is just about organizing your application in a better way, well, you may think again. This is about making your code easier to dispose of when you do not need it anymore, thus preventing dead code to stay there and to plague your application.
+
+```java
+interface Spliterator<E> {
+    boolean tryAdvance(Consumer action);
+
+    int characteristics();
+    // may return null
+    Spliterator<T> trySplit();
+
+    // may return Long.MAX_VALUE
+    long estimateSize();
+
+    // And some default methods
+}
+```
+
+One last word; it was written in the manual more than 30 years ago. The GoF was published in 1994, and even if it's always better to fully understand the rules you need to follow, sometimes it's more important to just follow them even if you do not fully understand them.
+</details>
