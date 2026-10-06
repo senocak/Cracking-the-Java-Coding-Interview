@@ -10266,3 +10266,31 @@ try (var ois = new ObjectInputStream(Files.newInputStream(path))) {
 
 One last word, records were created after serialization was implemented, and they are an exception to the exception. Deserialization does call your record constructors and their validation rules. There is no way you can create a record without calling its canonical constructor. One more reason to use them wherever you can.
 </details>
+
+## 395. What are the differences between Collections and Streams?
+<details>
+  <summary>Short Answer</summary>
+They are different interfaces.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+The two concepts are in fact fundamentally different, in the way that a Collection carries elements where a Stream does not. The Collection interface defines how you can add and remove elements and how you can iterate on them. The Stream interface on the other hand defines how you can process elements, typically map, filter, and reduce them. So, the two concerns, managing elements and processing them, are very cleanly separated in two different interfaces. This separation is very powerful because it allows streams to connect to any source of data, Collections of course, but also String of characters, regular expressions, files, file systems, network sockets. The limit is your imagination.
+
+```java
+interface Spliterator<E> {
+    boolean tryAdvance(Consumer action);
+
+    int characteristics();
+    // may return null
+    Spliterator<T> trySplit();
+
+    // may return Long.MAX_VALUE
+    long estimateSize();
+
+    // And some default methods
+}
+```
+
+One last word; connecting a stream to a custom source of data is not that hard. You need to implement the Spliterator interface, which is not easy but not impossible, and to pass the Spliterator to the `StreamSupport.stream()` factory class. Neat.
+</details>
