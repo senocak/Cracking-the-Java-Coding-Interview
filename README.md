@@ -10386,3 +10386,22 @@ var collector = Collector.<String, StringBuilder, String>of(
 
 One last word; the Collector interface does not depend on the stream API. It is completely independent. So, you can use a Collector to collect your data as you see fit. And by the way, that's also the case for the `Gatherer` interface. But, that will be for another time.
 </details>
+
+## 400. Can you bind mutable objects to ScopedValues?
+<details>
+  <summary>Short Answer</summary>
+Yes, but I don't think you should.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Mutability always comes with race condition problems. The only way you can be sure that there is no possible race condition in your code is when you have only one thread that executes everything. And it is true for ScopedValues. ScopedValues are not related to multi-threading. You can call a task modeled by a Runnable or a Callable and define a binding for ScopedValues variable that is available in the scope of this task. If you are sure that no thread is created in this task, then binding a mutable variable is safe. If not, then you need to manage the possible race conditions yourself.
+
+```bash
+1. ScopedValues bindings can be accessed concurrently
+2. If so, thread safety is your reponsibility
+3. Keeping the bound variables non-modifiable is much safer
+```
+
+One last word; stay safe. Stay away from binding mutable values. It's not because you can do something that you should do it.
+</details>
