@@ -10083,3 +10083,40 @@ String.format(Locale.FRANCE, format, 10);
 
 One last word; thread safety, may be an issue when it comes to formatting strings. You may think that sharing your formats is a good idea and will save you some resources, but you need to be careful because they carry some mutable state, something you need to be aware of.
 </details>
+
+## 389. How can you replace all the elements of a list?
+<details>
+  <summary>Short Answer</summary>
+There is a method for that.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+There is a factory method in the Collections factory class, called `replaceAll()`, which, as its name suggests, replaces all the elements of a collection with another one. It takes a List as a first parameter, and then the value you want to replace, and the value you want to replace the old value with. And that's basically it. It supports the replacement of null values, which is great because you can use this pattern to replace the null values you may have in your list with a default value, for instance. If you check the implementation of the method, you will see that it's also kind of optimized. Depending on the size and the nature of your list, it may use indexes to access your elements or a ListIterator.
+
+```java
+var ints = Arrays.asList(1, 1, 0, 0, 3, 3);
+var b = Collections.replaceAll(ints, 0, 2);
+// > true
+IO.println(ints);
+// > [1, 1, 2, 2, 3, 3]
+```
+
+```java
+var ints = Arrays.asList(1, 1, null, null, 3, 3);
+var b = Collections.replaceAll(ints, null, 2);
+// > true
+IO.println(ints);
+// > [1, 1, 2, 2, 3, 3]
+```
+
+```java
+var ints = Arrays.asList(1, 1, 2, 2, 3, 3);
+var b = Collections.replaceAll(ints, 2, 5);
+// > true
+IO.println(ints);
+// > [1, 1, 5, 5, 3, 3]
+```
+
+One last word; this method returns true if the element to be replaced was found in the list, which does not mean that your list was modified because you could have asked to replace it with the same element. Why would you do that? I don't know, but the API designers thought about it.
+</details>
