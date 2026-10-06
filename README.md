@@ -10305,20 +10305,19 @@ Because it's written in the manual.
 
 You read the f*** manual, didn't you? The question you should ask yourself is the following. When you need to add a given behavior to an object, should you create a method on that object, or should you create a delegate that would implement this behavior? Imagine this is the year 2005, and you need to marshal your object in XML. Solution one: you create a `toXML()` method on that class. And solution two: you create this `toXML()` method in a factory class somewhere else. Now, this is 2025, 20 years later, and you do not need this XML anymore, what you need is JSON. In the solution one, you add a `toJSON()` method, but the real question is what do you do with this now useless `toXML()` method? From a functional point of view, this is dead code. Odds are that you will decide to keep it because it would be too costly to refactor your application to remove all the calls to this method. In solution two, you just throw away the class because nobody should be calling it anymore. Composition makes the decoupling of the different modules of your application much easier. And if you think this is just about organizing your application in a better way, well, you may think again. This is about making your code easier to dispose of when you do not need it anymore, thus preventing dead code to stay there and to plague your application.
 
-```java
-interface Spliterator<E> {
-    boolean tryAdvance(Consumer action);
-
-    int characteristics();
-    // may return null
-    Spliterator<T> trySplit();
-
-    // may return Long.MAX_VALUE
-    long estimateSize();
-
-    // And some default methods
-}
-```
-
 One last word; it was written in the manual more than 30 years ago. The GoF was published in 1994, and even if it's always better to fully understand the rules you need to follow, sometimes it's more important to just follow them even if you do not fully understand them.
+</details>
+
+## 397. What is flattenning?
+<details>
+  <summary>Short Answer</summary>
+Flattening is about copying the content of an object instead of creating a reference to it.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Suppose you have an ArrayList of Integers, and inside this ArrayList there is an Array and this array contains references to Integer object. This is inefficient CPU wise and memory wise. CPU wise because every time you need to read the value of an element, you need to first follow the reference to this element which may lead to a cache miss and a big performance hit. Memory wise, because all you need is to store a 32-bit int but because it is wrapped in an Integer object, you end up storing a reference, then an object with a header and possibly some bytes to preserve alignment in memory. That may represent
+128 bits in the memory of your application. Flattening is about storing this Integer as a value, getting rid of the reference and the object.
+
+One last word; it may look simple, but it is actually really really complex and this is what Valhalla is doing. Valhalla create this notion of value objects, that is objects that are just carrying a value, and that can be flattened. There are some very strong constraints on flattening but that will be for another time.
 </details>
