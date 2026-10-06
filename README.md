@@ -10321,3 +10321,34 @@ Suppose you have an ArrayList of Integers, and inside this ArrayList there is an
 
 One last word; it may look simple, but it is actually really really complex and this is what Valhalla is doing. Valhalla create this notion of value objects, that is objects that are just carrying a value, and that can be flattened. There are some very strong constraints on flattening but that will be for another time.
 </details>
+
+## 398. How can you generate predictable Random numbers?
+<details>
+  <summary>Short Answer</summary>
+The series of random numbers is always repeatable.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+When you create an instance of the random class, you initialize the series of random numbers that you can get one at a time with the various methods of the class: `nextInt()`, `nextDouble()`, and the like. You can give a seed when you create this instance, and for a given seed, you will always get the same series. This may be very useful when you want to write tests, for instance. If you do not provide any seed, then the seed is generated from `System.nanoTime()`.
+
+```java
+var random = new Random();
+var rands = rand.ints(5, // # of rands
+        0, 10) // bounds
+        .boxed().toList();
+// hard to reproduce!
+// > [9, 5, 3, 7, 3]
+```
+
+```java
+var random = new Random(314L);
+var rands = rand.ints(5, // # of rands
+        0, 10) // bounds
+        .boxed().toList();
+// always the same series!
+// > [1, 5, 3, 0, 2]
+```
+
+One last word; predictability is a different topic. Having non-predictable random series is harder than it seems. You can use the `SecureRandom` class instead of Random, which is the preferred random generator for cryptographic and security applications. The series generated still depend on the seed, but it's harder to predict.
+</details>
