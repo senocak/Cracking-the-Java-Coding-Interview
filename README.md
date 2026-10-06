@@ -10120,3 +10120,22 @@ IO.println(ints);
 
 One last word; this method returns true if the element to be replaced was found in the list, which does not mean that your list was modified because you could have asked to replace it with the same element. Why would you do that? I don't know, but the API designers thought about it.
 </details>
+
+## 390. Why should you favor immutability?
+<details>
+  <summary>Short Answer</summary>
+For many good reasons.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+Okay, let me go through some of them. When your object are non-modifiable, you don't need to bother about the state they carry. It is the state you created them with. So, debugging is much simpler because you do not need to track when the state was modified. And it is simpler also in concurrent environment. Non-modifiability comes with built-in thread safety. A race condition can only occur when you have a write operation. And here, the only write operation you have is the creation of your object. So, if you are using records or classes with final instance fields, then the creation of your object is protected against race conditions. So, non-modifiability makes your job much easier when it comes to bug hunting in your applications.
+
+```bash
+1. It's easier to track the state of your objects
+2. Non-modifiability comes with built-in thread safety
+3. Final fields are visible when you exit the contructor
+```
+
+One last word; immutability will even bring better performance when Valhalla delivers value classes. And stop making fun of Valhalla not coming anytime soon because it is coming sooner than you expect.
+</details>
