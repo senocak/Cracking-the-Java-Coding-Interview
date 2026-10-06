@@ -10352,3 +10352,37 @@ var rands = rand.ints(5, // # of rands
 
 One last word; predictability is a different topic. Having non-predictable random series is harder than it seems. You can use the `SecureRandom` class instead of Random, which is the preferred random generator for cryptographic and security applications. The series generated still depend on the seed, but it's harder to predict.
 </details>
+
+## 399. What are the components of a Collector?
+<details>
+  <summary>Short Answer</summary>
+An initializer, an accumulator, a combiner, and an optional finisher.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+That makes three mandatory components and one that is optional. In a nutshell, a Collector collects elements in a mutable container and can optionally transform it before returning it. So, you need an operation to create this mutable container. That's the initializer and it's modeled by a Supplier. Then, you need a way to add the elements that are pushed to this Collector, to this container. That's the accumulator and it's a `BiConsumer`. It modifies the container. In case this accumulation is performed in parallel, you may have one instance of your container per Thread. And at the end of the day, you need to combine them. That's the job of the combiner, which is a `BinaryOperator`. It may or may not modify the containers it gets. And the last element maps the final modifiable container to something else and that's a job for a `Function`. There are cases where this function is the identity function.
+
+```java
+var collector = Collector.<String, ArrayList<String>, ArrayList<String>>of(
+        () -> new ArrayList<>(),
+        (list1, e) -> list1.add(e),
+        (list1, list2) -> {
+            list1.addAll(list2);
+            return list1;
+        },
+        list -> list
+);
+```
+
+```java
+var collector = Collector.<String, StringBuilder, String>of(
+        () -> new StringBuilder<>(),
+        (sb, s) -> sb.append(e),
+        (sb1, sb2) -> sb1.append(sb2),
+        sb -> sb.toString()
+);
+```
+
+One last word; the Collector interface does not depend on the stream API. It is completely independent. So, you can use a Collector to collect your data as you see fit. And by the way, that's also the case for the `Gatherer` interface. But, that will be for another time.
+</details>
