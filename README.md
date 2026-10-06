@@ -10170,3 +10170,26 @@ IO.println(ints);
 
 One last word, using `Collections.reversed()` may be costly as it needs to process all your list to reverse it. Creating a view is a lightweight process because what you get is a wrapper that operates lazily on your List.
 </details>
+
+## 392. What are the characteristics of a Collector?
+<details>
+  <summary>Short Answer</summary>
+There are three of them. 
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+They are defined in a `Collector.Characteristics` enumeration and are used by the Stream API implementation to use your Collector properly. The first one is `CONCURRENT` and it says that this collector supports concurrency. For the stream API, it means that the parallel stream can use your Collector normally. The second one is `UNORDERED`. It means that you're collecting your data in a container that does not care about the order in which it receives elements. That is the case for the `Collectors.toSet()` collector, for instance. This property can be used to relax some constraints for the computation of parallel streams, for instance. And the last one is `IDENTITY_FINISH`. It means that the finisher of your collector is the identity function. So, the implementation does not need to call it. That's the case for `Collectors.toList()` or `Collectors.toSet()`, but it is not the case for the `Collectors.joining()` for instance.
+
+```java
+interface Collector {
+    enum Characteristics {
+        CONCURRENT,
+        UNORDERED,
+        IDENTITY_FINISH
+    }
+}
+```
+
+One last word; Unfortunately, setting the `CONCURRENT` characteristics to true does not magically make your collector concurrent, providing a thread safe implementation is your responsibility.
+</details>
