@@ -10193,3 +10193,43 @@ interface Collector {
 
 One last word; Unfortunately, setting the `CONCURRENT` characteristics to true does not magically make your collector concurrent, providing a thread safe implementation is your responsibility.
 </details>
+
+## 393. How does ScopedValue inheritance work?
+<details>
+  <summary>Short Answer</summary>
+I don't see a short answer to this one.
+</details>
+<details>
+  <summary>Less Short Answer</summary>
+
+This inheritance term comes from `ThreadLocal` variables, but `ScopedValue` work in a different way. First, you bind a ScopedValue to a value, and then you call a method that sees this binding. Now, the question is if this method creates new threads, can these threads see the ScopedValue bindings that you defined? And the default answer is no, but there is one important exception. If this method creates a `Structured TaskScope`, then the bindings are seen from the virtual threads created by this Structured TaskScope. The reason is that none of these virtual threads can escape the scope of the original method call, so the bindings cannot escape this scope neither.
+
+```java
+var LICENCE_KEY = ScopedValue.newInstance();
+String result = ScopedValue.where(LICENCE_KEY, "Key").call(() -> process());
+
+String process() {
+    // the binding is seen there
+    executorService.submit(
+            () -> {
+                // but not there
+            }
+    );
+}
+```
+
+```java
+var LICENCE_KEY = ScopedValue.newInstance();
+String result = ScopedValue.where(LICENCE_KEY, "Key").call(() -> process());
+
+String process() {
+    try(var scope = StructuredTaskScope.open()) {
+        scope.fork(() -> {
+            // and is seen there
+        });
+    }
+}
+```
+
+One last word; ScopedValue are a great replacement for ThreadLocal variables that you should now use. They do not work in the same way, and because you can control their lifecycle when you bind them, they are much safer for your application.
+</details>
